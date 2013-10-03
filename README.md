@@ -17,12 +17,12 @@ The following code snippet solves the SAT problem for the following CNF: (a | b)
     var c = {};
     var d = {};
     var e = {};
-    cnf.openClause(a).or(b).close().openClauseNot(b).or(c).orNot(d).close().openClause(d).orNot(e).close();
+    cnf.openClause(a).or(b).close()
+       .openClauseNot(b).or(c).orNot(d).close()
+       .openClause(d).orNot(e).close();
     var dpll = new DPLL(cnf);
     var solution = dpll.solve().solution();
-    console.log(solution.getSolution(a);
-
-
+    console.log(solution.getSolution(a));
 
 ## License (MIT)
 
