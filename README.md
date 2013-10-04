@@ -32,12 +32,11 @@ present in any other clause of the formula, then `x` is optimized away and there
 irrelevant - i.e. it could be `true` or `false`.
 
 Two variable selection modes are available for the *splitting rule*:
-- random selection amongst unassigned variables; enabled by default or by calling #randomVariableSelection,
-- variable with highest occurrence amongst the unassigned variables; enabled by calling #highestOccurrenceVariableSelection.
+- random selection amongst unassigned variables; enabled by default or by calling #randomVariableSelection
+- variable with highest occurrence amongst the unassigned variables; enabled by calling #highestOccurrenceVariableSelection
 
     var dpll = new DPLL(formula);
     var solution = dpll.highestOccurrenceVariableSelection().solve();
-
 
 ## License (MIT)
 
