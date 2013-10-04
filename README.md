@@ -37,6 +37,7 @@ Two mode for selecting variables in order to apply the *splitting rule* are avai
 
 2. variable with highest occurrence amongst the unassigned variables; enabled by calling #highestOccurrenceVariableSelection
 
+
     var dpll = new DPLL(formula);
     var solution = dpll.highestOccurrenceVariableSelection().solve();
 
