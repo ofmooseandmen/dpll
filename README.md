@@ -31,7 +31,7 @@ been optimized away. For instance if the formula contains the clause `(x | -x | 
 present in any other clause of the formula, then `x` is optimized away and therefore its value is 
 irrelevant - i.e. it could be `true` or `false`.
 
-Two variable selection modes are available for the *splitting rule*:
+Two mode for selecting variables in order to apply the *splitting rule* are available.
 
 1. random selection amongst unassigned variables; enabled by default or by calling #randomVariableSelection
 
