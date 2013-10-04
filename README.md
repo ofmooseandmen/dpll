@@ -5,7 +5,7 @@ solving the CNF-SAT problem.
 
 A CNF is a propositional logic formulae in conjunctive normal form - i.e. an ANDs of ORs
 
-see [http://en.wikipedia.org/wiki/DPLL_algorithm]
+see <http://en.wikipedia.org/wiki/DPLL_algorithm>
 
 ## Usage
 The following code snippet solves the SAT problem for the following CNF formula: 
