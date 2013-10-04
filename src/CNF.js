@@ -74,8 +74,7 @@ function CNF() {'use strict';
 
     // FIXME: UT!!!!
     this.pureLiteralAssign = function(valuation) {
-        // FIXME: implement iterator on Set?
-        var unassigned = valuation.unassigned().toArray();
+        var unassigned = valuation.unassigned();
         var length = unassigned.length;
         for (var index = 0; index < length; index++) {
             var variable = unassigned[index];

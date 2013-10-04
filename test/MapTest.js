@@ -1,5 +1,5 @@
-var assert = require("assert");
-var Map = require("../src/Map.js");
+var assert = require('assert');
+var Map = require('../src/Map.js');
 
 describe('Map', function() {
 
@@ -149,7 +149,7 @@ describe('Map', function() {
             var value = {
                 name : 'firstValue'
             };
-            assert.equal(map.isEmpty(), true, "expected value is true");
+            assert.equal(map.isEmpty(), true, 'expected value is true');
             map.put(key, value);
             map.remove(key);
             assert.equal(true, map.isEmpty());
@@ -181,6 +181,24 @@ describe('Map', function() {
             assert.equal(2, keyArray.length);
             assert.equal(true, a === keyArray[0]);
             assert.equal(true, b === keyArray[1]);
+        });
+    });
+
+    describe('#entries()', function() {
+        it('should return an array with 2 elements.', function() {
+            var map = new Map();
+            var key1 = {};
+            var key2 = {};
+            var val1 = {};
+            var val2 = {};
+            map.put(key1, val1);
+            map.put(key2, val2);
+            var entries = map.entries();
+            assert.equal(2, entries.length);
+            assert.equal(true, key1 === entries[0].key);
+            assert.equal(true, val1 === entries[0].value);
+            assert.equal(true, key2 === entries[1].key);
+            assert.equal(true, val2 === entries[1].value);
         });
     });
 

@@ -16,7 +16,7 @@ local.properties
 # External tool builders
 .externalToolBuilders/
 
-# Locally stored "Eclipse launch configurations"
+# Locally stored 'Eclipse launch configurations'
 *.launch
 
 # CDT-specific

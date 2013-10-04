@@ -102,23 +102,46 @@ function Map() {
     this.isEmpty = function() {
         return keys.length === 0;
     };
-    
+
     /**
      * Returns the number of key-value mappings in this map.
-     * 
+     *
      * @return {int} the number of key-value mappings in this map
      */
     this.size = function() {
-    	return keys.length;
+        return keys.length;
     };
-    
+
     /**
      * Returns an array of the keys contained in this map.
-     * 
+     *
      * @return an array of the keys contained in this map
      */
     this.keyArray = function() {
-    	return keys.slice(0);
+        return keys.slice(0);
+    };
+
+    /**
+     * Returns an array of {Object}s containing all the entries of this map.
+     * Each object has 2 properties:
+     * <ul>
+     * <li>key: the entry key
+     * <li>value: the entry value
+     * </ul>
+     *
+     * @return {Array} of {Object}s containing all the entries of this map
+     */
+    this.entries = function() {
+        var result = [];
+        var keysLength = keys.length;
+        for (var index = 0; index < keysLength; index++) {
+        	var entry = {
+        		key : keys[index],
+        		value: values[index]
+        	};
+        	result.push(entry);
+        }
+        return result;
     };
 
     function indexOfKey(key) {

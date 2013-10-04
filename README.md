@@ -5,7 +5,7 @@ solving the CNF-SAT problem.
 
 A CNF is a propositional logic formulae in conjunctive normal form - i.e. an ANDs of ORs
 
-see http://en.wikipedia.org/wiki/DPLL_algorithm
+see [http://en.wikipedia.org/wiki/DPLL_algorithm]
 
 ## Usage
 The following code snippet solves the SAT problem for the following CNF formula: 
@@ -13,16 +13,16 @@ The following code snippet solves the SAT problem for the following CNF formula:
     
     var CNF = require('src/CNF.js');
     var DPLL = require('src/DPLL.js');
-    var cnf = new CNF();
+    var formula = new CNF();
     var a = {};
     var b = {};
     var c = {};
     var d = {};
     var e = {};
-    cnf.openClause(a).or(b).close()
+    formula.openClause(a).or(b).close()
        .openClauseNot(b).or(c).orNot(d).close()
        .openClause(d).orNot(e).close();
-    var dpll = new DPLL(cnf);
+    var dpll = new DPLL(formula);
     var solution = dpll.solve();
     console.log(solution.get(a));
     
@@ -31,6 +31,13 @@ been optimized away. For instance if the formula contains the clause `(x | -x | 
 present in any other clause of the formula, then `x` is optimized away and therefore its value is 
 irrelevant - i.e. it could be `true` or `false`.
 
+Two variable selection modes are available for the *splitting rule*:
+- random selection amongst unassigned variables; enabled by default or by calling #randomVariableSelection,
+- variable with highest occurrence amongst the unassigned variables; enabled by calling #highestOccurrenceVariableSelection.
+
+    var dpll = new DPLL(formula);
+    var solution = dpll.highestOccurrenceVariableSelection().solve();
+
 
 ## License (MIT)
 
@@ -38,7 +45,7 @@ irrelevant - i.e. it could be `true` or `false`.
 
  Permission is hereby granted, free of charge, to any person obtaining 
  a copy of this software and associated documentation files (the 
- "Software"), to deal in the Software without restriction, including 
+ 'Software'), to deal in the Software without restriction, including 
  without limitation the rights to use, copy, modify, merge, publish,
  distribute, sublicense, and/or sell copies of the Software, and to
  permit persons to whom the Software is furnished to do so, subject 
@@ -47,7 +54,7 @@ irrelevant - i.e. it could be `true` or `false`.
  The above copyright notice and this permission notice shall be
  included in all copies or substantial portions of the Software.
 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE

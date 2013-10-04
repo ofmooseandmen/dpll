@@ -1,5 +1,5 @@
-var assert = require("assert");
-var Literal = require("../src/Literal.js");
+var assert = require('assert');
+var Literal = require('../src/Literal.js');
 
 describe('Literal', function() {
     describe('isNegative', function() {

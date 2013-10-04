@@ -1,5 +1,5 @@
-var assert = require("assert");
-var Set = require("../src/Set.js");
+var assert = require('assert');
+var Set = require('../src/Set.js');
 
 describe('Set', function() {
 

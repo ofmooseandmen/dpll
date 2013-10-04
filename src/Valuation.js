@@ -1,13 +1,10 @@
 var Set = require('./Set.js');
 var Map = require('./Map.js');
 
-function Valuation(variables) {
-	
-	'use strict';
+function Valuation(variables) {'use strict';
 
-    /** @private contains all the unassigned variables. */
-    var unassigned = new Set();
-    unassigned.addAll(variables.keyArray());
+    /** @private contains all the unassigned variables - initialized with whole the variables. */
+    var unassigned = variables;
 
     /** @private a map whose key is a variable and value is either true or false. */
     var solution = new Map();
@@ -28,7 +25,7 @@ function Valuation(variables) {
     };
 
     this.unassigned = function() {
-        return unassigned;
+        return unassigned.keyArray();
     };
 
     this.solution = function() {
@@ -36,9 +33,24 @@ function Valuation(variables) {
     };
 
     this.randomUnassignedVariable = function() {
-    	var unassignedArr = unassigned.toArray();
+        var unassignedArr = unassigned.keyArray();
         var random = Math.floor(Math.random() * (unassignedArr.length));
         return unassignedArr[random];
+    };
+
+    this.highestOccurrenceVariable = function() {
+        var entries = unassigned.entries();
+        var entriesLength = entries.length;
+        var maxOcc = 0;
+        var result = undefined;
+        for (var index = 0; index < entriesLength; index++) {
+			var entry = entries[index];
+			if (entry.value > maxOcc) {
+				maxOcc = entry.value;
+				result = entry.key;
+			}
+        }
+        return result;
     };
 
 }
