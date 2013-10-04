@@ -111,6 +111,15 @@ function Map() {
     this.size = function() {
     	return keys.length;
     };
+    
+    /**
+     * Returns an array of the keys contained in this map.
+     * 
+     * @return an array of the keys contained in this map
+     */
+    this.keyArray = function() {
+    	return keys.slice(0);
+    };
 
     function indexOfKey(key) {
         var result = -1;

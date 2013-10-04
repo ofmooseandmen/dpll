@@ -7,7 +7,7 @@ function Valuation(variables) {
 
     /** @private contains all the unassigned variables. */
     var unassigned = new Set();
-    unassigned.addAll(variables);
+    unassigned.addAll(variables.keyArray());
 
     /** @private a map whose key is a variable and value is either true or false. */
     var solution = new Map();

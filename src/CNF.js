@@ -6,11 +6,25 @@ function CNF() {'use strict';
 
     var clauses = [];
 
-    var variables = new Set();
+    /* @private a map whose keys are variables and value the number of occurences in the formula. */
+    var variables = new Map();
 
     var positiveLiterals = new Map();
 
     var negativeLiterals = new Map();
+
+    function addVariables(someVars) {
+        var length = someVars.length;
+        for (var index = 0; index < length; index++) {
+            var someVar = someVars[index];
+            var occ = variables.get(someVar);
+            if (occ === undefined) {
+                variables.put(someVar, 1);
+            } else {
+                variables.put(someVar, occ + 1);
+            }
+        }
+    };
 
     this.openClause = function(variable) {
         return new Clause(variable, false, this);
@@ -20,13 +34,13 @@ function CNF() {'use strict';
         return new Clause(variable, true, this);
     };
 
-    this.addClause = function(clause) {
+    this.addClause = function(clause, vars, literals, irrelevant) {
         clauses.push(clause);
-        variables.addAll(clause.variables());
-        var literals = clause.literals();
-        var length = literals.length;
+        addVariables(vars.toArray());
+        var literalsArr = literals.toArray();
+        var length = literalsArr.length;
         for (var index = 0; index < length; index++) {
-            var l = literals[index];
+            var l = literalsArr[index];
             if (l.isPositive()) {
                 positiveLiterals.put(l.variable(), l);
             } else {

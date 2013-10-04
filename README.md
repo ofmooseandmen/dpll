@@ -1,13 +1,15 @@
 # DPLL.js
 
-An implementation of the Davis–Putnam–Logemann–Loveland (DPLL) algorithm for solving for solving the CNF-SAT problem.
+An implementation of the Davis–Putnam–Logemann–Loveland (DPLL) algorithm for solving for 
+solving the CNF-SAT problem.
 
 A CNF is a propositional logic formulae in conjunctive normal form - i.e. an ANDs of ORs
 
 see http://en.wikipedia.org/wiki/DPLL_algorithm
 
 ## Usage
-The following code snippet solves the SAT problem for the following CNF: (a | b) & (-b | c | -d) & (d | -e)
+The following code snippet solves the SAT problem for the following CNF formula: 
+`(a | b) & (-b | c | -d) & (d | -e)`
     
     var CNF = require('src/CNF.js');
     var DPLL = require('src/DPLL.js');
@@ -21,8 +23,14 @@ The following code snippet solves the SAT problem for the following CNF: (a | b)
        .openClauseNot(b).or(c).orNot(d).close()
        .openClause(d).orNot(e).close();
     var dpll = new DPLL(cnf);
-    var solution = dpll.solve().solution();
-    console.log(solution.getSolution(a));
+    var solution = dpll.solve();
+    console.log(solution.get(a));
+    
+if the CNF formula has been solved the result will <b>NOT</b> contain the variables that have
+been optimized away. For instance if the formula contains the clause `(x | -x | y)` and `x` is not 
+present in any other clause of the formula, then `x` is optimized away and therefore its value is 
+irrelevant - i.e. it could be `true` or `false`.
+
 
 ## License (MIT)
 

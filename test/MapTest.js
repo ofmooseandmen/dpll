@@ -141,7 +141,7 @@ describe('Map', function() {
     });
 
     describe('#isEmpty()', function() {
-        it('should return true before any call to push or after one push/remove.', function() {
+        it('should return true before any call to put or after one push/remove.', function() {
             var map = new Map();
             var key = {
                 name : 'first'
@@ -156,7 +156,7 @@ describe('Map', function() {
             assert.equal(0, map.size());
         });
 
-        it('should return false after call to push.', function() {
+        it('should return false after call to put.', function() {
             var map = new Map();
             var key = {
                 name : 'first'
@@ -167,6 +167,20 @@ describe('Map', function() {
             map.put(key, value);
             assert.equal(false, map.isEmpty());
             assert.equal(1, map.size());
+        });
+    });
+
+    describe('#keyArray()', function() {
+        it('should return an array with 2 elements.', function() {
+            var map = new Map();
+            var a = {};
+            var b = {};
+            map.put(a, {});
+            map.put(b, {});
+            var keyArray = map.keyArray();
+            assert.equal(2, keyArray.length);
+            assert.equal(true, a === keyArray[0]);
+            assert.equal(true, b === keyArray[1]);
         });
     });
 

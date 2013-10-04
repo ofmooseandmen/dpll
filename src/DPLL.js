@@ -1,41 +1,58 @@
 var Map = require('./Map.js');
 var Valuation = require('./Valuation.js');
 
-// @see http://www.mpi-inf.mpg.de/~sofronie/lecture-ar-09/slides/lecture-14-may.pdf
 /**
- * boolean DPLL(clause set N, partial valuation A) {
- *     if (all clauses in N are true under A) return true;
- *     elsif (some clause in N is false under A) return false;
- *     elsif (N contains unit clause P) return DPLL(N, A U { P -> 1 });
- *     elsif (N contains unit clause !P) return DPLL(N, A U { P -> 0 });
- *     elsif (N contains pure literal P) return DPLL(N, A U { P -> 1 });
- *     elsif (N contains pure literal !P) return DPLL(N, A U { P -> 0 });
- *     else {
- *         let P be some undefined variable in N;
- *          if (DPLL(N, A { P -> 0 })) return true;
- *          else return DPLL(N, A { P -> 1 });
- *     }
- * }
+ * Implementation of the Davis–Putnam–Logemann–Loveland (DPLL) algorithm
+ * for solving for solving the CNF-SAT problem.
+ * <p>
+ * A CNF is a propositional logic formulae in conjunctive normal form - i.e. an ANDs of ORs
+ *
+ * see http://en.wikipedia.org/wiki/DPLL_algorithm
+ * 
+ * @constructor
+ * @param {CNF} the formula in conjunctive normal form to be solved
  */
-function DPLL(aCnf) {
+function DPLL(aFormula) {
 
-    var cnf = aCnf;
+    var formula = aFormula;
 
-    
-    
+    /**
+     * Solves the CNF formula of this {DPLL} and returns either
+     * <ul>
+     * <li>a map whose keys are the variables of the CNF and values
+     * are either <code>true</code> or <false>
+     * <li>or <code>undefined</code> if the CNF could not be solved
+     * </ul>
+     * <p>
+     * if the CNF formula has been solved the result will <b>NOT</b>
+     * contain the variables that have been optimized away. For instance
+     * if the formula contains the clause (x | -x | y) and x is not present
+     * in any other clause of the formula, then x is optimized away and therefore
+     * its value is irrelevant - i.e. it could be <code>true</code> or <code>false</code>.
+     *
+     * @return {Map} a map whose keys are the variables of the CNF
+     *               and values are either <code>true</code> or <false>
+     *               or <code>undefined</code> if the CNF could not be solved
+     */
     this.solve = function() {
-    	var valuation = new Valuation(cnf.variables().toArray());
-    	return run(valuation);
+        var valuation = new Valuation(formula.variables());
+        return run(valuation);
     };
 
+    /**
+     * Internal run recursively called.
+     * 
+     * @param {Valuation} valuation object holding the solution being computed
+     * @return {Map} the solution or <code>undefined</code>
+     */
     function run(valuation) {
-        var cnfEval = cnf.evaluate(valuation);
-        if (cnfEval === undefined) {
-            cnf.unitPropagate(valuation);
-            cnf.pureLiteralAssign(valuation);
-            var afterOptimEval = cnf.evaluate(valuation);
+        var formulaEval = formula.evaluate(valuation);
+        if (formulaEval === undefined) {
+            formula.unitPropagate(valuation);
+            formula.pureLiteralAssign(valuation);
+            var afterOptimEval = formula.evaluate(valuation);
             if (true === afterOptimEval) {
-                return valuation;
+                return valuation.solution();
             } else if (false === afterOptimEval) {
                 return undefined;
             } else {
@@ -45,23 +62,23 @@ function DPLL(aCnf) {
 
                 // evaluate with truth value = true.
                 valuation.putSolution(random, true);
-                var afterRandomTrueEval = cnf.evaluate(valuation);
+                var afterRandomTrueEval = formula.evaluate(valuation);
                 if (true === afterRandomTrueEval) {
                     // solution found.
-                    return valuation;
+                    return valuation.solution();
                 } else {
                     // set truth value to false and rerun.
                     valuation.putSolution(random, false);
                     return run(valuation);
                 }
             }
-        } else if (cnfEval) {
-            return valuation;
+        } else if (formulaEval) {
+            return valuation.solution();
         } else {
             return undefined;
         }
     };
-    
+
 };
 
 module.exports = DPLL;

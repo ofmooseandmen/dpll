@@ -1,13 +1,25 @@
 var Set = require('./Set.js');
 var Literal = require('./Literal.js');
 
-function Clause(variable, negation, aCNF) {'use strict';
+/**
+ * @constructor
+ */
+function Clause(variable, negation, aFormula) {'use strict';
 
+    /** @private the set of variables - holds variable that have not been optimized away. */
     var vars = new Set();
+    
+    /** @private the set of literals corresponding to the variables. */
     var literals = new Set();
     vars.add(variable);
     literals.add(new Literal(variable, negation));
-    var CNF = aCNF;
+    var formula = aFormula;
+    
+    /** 
+     * @private the set of variables that have been optimized away 
+     * - will be set to undefined as soon as the clause is added to the CNF formula. 
+     */
+    var irrelevant = new Set();
 
     function add(variable, literal) {
         if (vars.contains(variable) && !literals.contains(literal)) {
@@ -21,8 +33,9 @@ function Clause(variable, negation, aCNF) {'use strict';
             // remove it
             var wasNegated = literal.isPositive();
             literals.remove(new Literal(variable, wasNegated));
+            irrelevant.add(variable);
         } else {
-        	// since Set are used adding x | x will have no effect - only one x is kept.
+            // since Set are used adding x | x will have no effect - only one x is kept.
             vars.add(variable);
             literals.add(literal);
         }
@@ -41,19 +54,9 @@ function Clause(variable, negation, aCNF) {'use strict';
     };
 
     this.close = function() {
-        return CNF.addClause(this);
+        return formula.addClause(this, vars, literals, irrelevant);
     };
 
-    this.variables = function() {
-        return vars.toArray();
-    };
-
-    this.literals = function() {
-        return literals.toArray();
-    };
-
-    // valuation is a map variable / boolean - variables not assigned are not present.
-    // return true/false/undefined
     this.evaluate = function(valuation) {
         var size = literals.size();
         var result;

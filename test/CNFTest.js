@@ -3,6 +3,24 @@ var CNF = require('../src/CNF.js');
 var Valuation = require('../src/Valuation.js');
 
 describe('CNF', function() {
+    describe('#variables', function() {
+        it('should return a map whose keys are variables and value the number of occurences in the formula', function() {
+            var cnf = new CNF();
+            var a = {};
+            var b = {};
+            var c = {};
+            var d = {};
+            var e = {};
+            cnf.openClause(a).or(b).close().openClauseNot(b).or(c).orNot(d).close().openClause(d).orNot(e).close();
+            var vars = cnf.variables();
+            assert.equal(1, vars.get(a));
+            assert.equal(2, vars.get(b));
+        	assert.equal(1, vars.get(c));
+        	assert.equal(2, vars.get(d));
+        	assert.equal(1, vars.get(e));
+        });
+    });
+
     describe('#evaluate', function() {
         it('should return undefined if at least one variable has not been assigned with a truth value', function() {
             var cnf = new CNF();

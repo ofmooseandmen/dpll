@@ -1,5 +1,6 @@
 var assert = require('assert');
 var Clause = require('../src/Clause.js');
+var Map = require('../src/Map.js');
 var Set = require('../src/Set.js');
 var Valuation = require('../src/Valuation.js');
 
@@ -9,7 +10,7 @@ describe('Clause', function() {
             var v1 = {};
             var c = new Clause(v1, false, undefined);
             // we don't need the whole set of variables here.
-            var valuation = new Valuation([]);
+            var valuation = new Valuation(new Map());
             assert.equal(undefined, c.evaluate(valuation));
         });
 
@@ -20,7 +21,7 @@ describe('Clause', function() {
             var c = new Clause(v1, true, undefined);
             c.or(v2).or(v3);
             // we don't need the whole set of variables here.
-            var valuation = new Valuation([]);
+            var valuation = new Valuation(new Map());
             // in the clause it is not(v1)
             valuation.putSolution(v1, false);
             valuation.putSolution(v2, false);
@@ -36,7 +37,7 @@ describe('Clause', function() {
             var c = new Clause(v1, false, undefined);
             c.or(v2).or(v3);
             // we don't need the whole set of variables here.
-            var valuation = new Valuation([]);
+            var valuation = new Valuation(new Map());
             valuation.putSolution(v1, false);
             valuation.putSolution(v2, false);
             valuation.putSolution(v3, false);
@@ -52,7 +53,7 @@ describe('Clause', function() {
             var c = new Clause(v1, true, undefined);
             c.or(v2).or(v3);
             // we don't need the whole set of variables here.
-            var valuation = new Valuation([]);
+            var valuation = new Valuation(new Map());
             valuation.putSolution(v2, false);
             valuation.putSolution(v3, false);
             assert.equal(undefined, c.evaluate(valuation));
@@ -68,13 +69,6 @@ describe('Clause', function() {
             var c = new Clause(x, false, undefined).orNot(x);
             assert.equal(true, c.evaluate(undefined));
         });
-        it('should ignore silently subsequent occurrence of same literal (x | x), i.e. only keep one variable and one literal', function() {
-            var x = {};
-            var c = new Clause(x, true, undefined).orNot(x);
-            assert.equal(1, c.variables().length);
-            assert.equal(1, c.literals().length);
-        });
-
     });
 
 });
