@@ -33,9 +33,9 @@ irrelevant - i.e. it could be `true` or `false`.
 
 Two mode for selecting variables in order to apply the *splitting rule* are available.
 
-1. random selection amongst unassigned variables; enabled by default or by calling #randomVariableSelection
+- random selection amongst unassigned variables; enabled by default or by calling #randomVariableSelection
 
-2. variable with highest occurrence amongst the unassigned variables; enabled by calling #highestOccurrenceVariableSelection
+- variable with highest occurrence amongst the unassigned variables; enabled by calling #highestOccurrenceVariableSelection
 
 
     var dpll = new DPLL(formula);
