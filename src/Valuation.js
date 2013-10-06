@@ -1,7 +1,11 @@
-var Set = require('./Set.js');
-var Map = require('./Map.js');
 
-function Valuation(variables) {'use strict';
+function Valuation(variables) {
+    
+    'use strict';
+
+    var Set = require('./Set');
+
+    var Map = require('./Map');
 
     /** @private contains all the unassigned variables - initialized with whole the variables. */
     var unassigned = variables;

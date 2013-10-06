@@ -1,11 +1,11 @@
 var assert = require('assert');
-var CNF = require('../src/CNF.js');
-var DPLL = require('../src/DPLL.js');
+var CnfFormula = require('../src/CnfFormula');
+var Solver = require('../src/Solver');
 
-describe('DPLL', function() {
+describe('Solver', function() {
     describe('#solve', function() {
         it('should return a Map which is the solution (random selection)', function() {
-            var formula = new CNF();
+            var formula = new CnfFormula();
             var a = {};
             var b = {};
             var c = {};
@@ -13,13 +13,13 @@ describe('DPLL', function() {
             var e = {};
             // (a | b) & (-b | c | -d) & (d | -e)
             formula.openClause(a).or(b).close().openClauseNot(b).or(c).orNot(d).close().openClause(d).orNot(e).close();
-            var dpll = new DPLL(formula);
-            var solution = dpll.solve();
+            var solver = new Solver(formula);
+            var solution = solver.solve();
             assert.equal(5, solution.size());
         });
         
         it('should return a Map which is the solution (highest occurrence selection)', function() {
-            var formula = new CNF();
+            var formula = new CnfFormula();
             var a = {};
             var b = {};
             var c = {};
@@ -27,13 +27,13 @@ describe('DPLL', function() {
             var e = {};
             // (a | b) & (-b | c | -d) & (d | -e)
             formula.openClause(a).or(b).close().openClauseNot(b).or(c).orNot(d).close().openClause(d).orNot(e).close();
-            var dpll = new DPLL(formula);
-            var solution = dpll.highestOccurrenceVariableSelection().solve();
+            var solver = new Solver(formula);
+            var solution = solver.highestOccurrenceVariableSelection().solve();
             assert.equal(5, solution.size());
         });
 
         it('should return a Map which is the solution but provide no value for x', function() {
-            var formula = new CNF();
+            var formula = new CnfFormula();
             var a = {};
             var b = {};
             var c = {};
@@ -43,8 +43,8 @@ describe('DPLL', function() {
             // will be optimized away
             // (a | b | x | -x) & (-b | c | -d) & (d | -e)
             formula.openClause(a).or(b).or(x).orNot(x).close().openClauseNot(b).or(c).orNot(d).close().openClause(d).orNot(e).close();
-            var dpll = new DPLL(formula);
-            var solution = dpll.solve();
+            var solver = new Solver(formula);
+            var solution = solver.solve();
             assert.equal(5, solution.size());
             assert.equal(undefined, solution.get(x));
         });

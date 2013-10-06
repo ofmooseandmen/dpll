@@ -1,6 +1,6 @@
 var assert = require('assert');
-var Map = require('../src/Map.js');
-var Valuation = require('../src/Valuation.js');
+var Map = require('../src/Map');
+var Valuation = require('../src/Valuation');
 
 describe('Valuation', function() {
     describe('#randomUnassignedVariable()', function() {

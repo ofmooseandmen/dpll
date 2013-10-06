@@ -1,9 +1,5 @@
-var Map = require('./Map.js');
-var Valuation = require('./Valuation.js');
-
 /**
- * Implementation of the Davis–Putnam–Logemann–Loveland (DPLL) algorithm
- * for solving for solving the CNF-SAT problem.
+ * A CNF-SAT problem solver based on the Davis-Putnam-Logemann-Loveland (DPLL) algorithm.
  * <p>
  * A CNF is a propositional logic formulae in conjunctive normal form - i.e. an ANDs of ORs
  * <p>
@@ -18,11 +14,17 @@ var Valuation = require('./Valuation.js');
  * see http://en.wikipedia.org/wiki/DPLL_algorithm
  *
  * @constructor
- * @param {CNF} the formula in conjunctive normal form to be solved
+ * @param {CnfFormula} the formula in conjunctive normal form to be solved
  */
-function DPLL(aFormula) {
+function Solver(aFormula) {
 
-    /** @private the formula to be solved in CNF. */
+    'use strict'
+
+    var Map = require('./Map');
+    
+    var Valuation = require('./Valuation');
+
+    /** @private the formula to be solved in CnfFormula. */
     var formula = aFormula;
 
     /** @private <code>true</code> for random variable selection, <code>false</false> for highest occurrence variable
@@ -119,5 +121,5 @@ function DPLL(aFormula) {
 
 };
 
-module.exports = DPLL;
+module.exports = Solver;
 

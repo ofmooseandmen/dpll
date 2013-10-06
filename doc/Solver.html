@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Solver.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="page">
+
+      <div class="header">
+        
+          <h1>Solver.js</h1>
+        
+
+        
+          <div class="toc">
+            <h3>Table of Contents</h3>
+            <ol>
+              
+                
+                <li>
+                  <a class="source" href="Clause.html">
+                    Clause.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="CnfFormula.html">
+                    CnfFormula.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Literal.html">
+                    Literal.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Map.html">
+                    Map.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Set.html">
+                    Set.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Solver.html">
+                    Solver.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Valuation.html">
+                    Valuation.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="dpll.html">
+                    dpll.js
+                  </a>
+                </li>
+              
+            </ol>
+          </div>
+        
+      </div>
+
+      
+        
+        
+        
+          <div class='highlight'><pre><span class="comment">/**
+ * A CNF-SAT problem solver based on the Davis-Putnam-Logemann-Loveland (DPLL) algorithm.
+ * &lt;p&gt;
+ * A CNF is a propositional logic formulae in conjunctive normal form - i.e. an ANDs of ORs
+ * &lt;p&gt;
+ * Two variable selection modes are available for the &lt;i&gt;splitting rule&lt;/i&gt;
+ * &lt;ul&gt;
+ * &lt;li&gt;random selection amongst unassigned variables; enabled by default or by calling #randomVariableSelection,
+ * &lt;li&gt;variable with highest occurrence amongst the unassigned variables; enabled by calling
+ * #highestOccurrenceVariableSelection.
+ * &lt;/ul&gt;
+ *
+ * &lt;p&gt;
+ * see http://en.wikipedia.org/wiki/DPLL_algorithm
+ *
+ * @constructor
+ * @param {CnfFormula} the formula in conjunctive normal form to be solved
+ */</span>
+<span class="function"><span class="keyword">function</span> <span class="title">Solver</span><span class="params">(aFormula)</span> {</span>
+
+    <span class="string">'use strict'</span>
+
+    <span class="keyword">var</span> Map = require(<span class="string">'./Map'</span>);
+    
+    <span class="keyword">var</span> Valuation = require(<span class="string">'./Valuation'</span>);
+
+    <span class="comment">/** @private the formula to be solved in CnfFormula. */</span>
+    <span class="keyword">var</span> formula = aFormula;
+
+    <span class="comment">/** @private &lt;code&gt;true&lt;/code&gt; for random variable selection, &lt;code&gt;false&lt;/false&gt; for highest occurrence variable
+     * selection. */</span>
+    <span class="keyword">var</span> useRandomSelection = <span class="literal">true</span>;
+
+    <span class="comment">/**
+     * Set the variable selection alogrithm to random selection mode.
+     *
+     * @return {DPLL} this
+     */</span>
+    <span class="keyword">this</span>.randomVariableSelection = <span class="keyword">function</span>() {
+        useRandomSelection = <span class="literal">true</span>;
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+    };
+
+    <span class="comment">/**
+     * Set the variable selection alogrithm to highest occurrence selection mode.
+     *
+     * @return {DPLL} this
+     */</span>
+    <span class="keyword">this</span>.highestOccurrenceVariableSelection = <span class="keyword">function</span>() {
+        useRandomSelection = <span class="literal">false</span>;
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+    };
+
+    <span class="comment">/**
+     * Solves the CNF formula of this {DPLL} and returns either
+     * &lt;ul&gt;
+     * &lt;li&gt;a map whose keys are the variables of the CNF and values
+     * are either &lt;code&gt;true&lt;/code&gt; or &lt;false&gt;
+     * &lt;li&gt;or &lt;code&gt;undefined&lt;/code&gt; if the CNF could not be solved
+     * &lt;/ul&gt;
+     * &lt;p&gt;
+     * if the CNF formula has been solved the result will &lt;b&gt;NOT&lt;/b&gt;
+     * contain the variables that have been optimized away. For instance
+     * if the formula contains the clause (x | -x | y) and x is not present
+     * in any other clause of the formula, then x is optimized away and therefore
+     * its value is irrelevant - i.e. it could be &lt;code&gt;true&lt;/code&gt; or &lt;code&gt;false&lt;/code&gt;.
+     *
+     * @return {Map} a map whose keys are the variables of the CNF
+     *               and values are either &lt;code&gt;true&lt;/code&gt; or &lt;false&gt;
+     *               or &lt;code&gt;undefined&lt;/code&gt; if the CNF could not be solved
+     */</span>
+    <span class="keyword">this</span>.solve = <span class="keyword">function</span>() {
+        <span class="keyword">var</span> valuation = <span class="keyword">new</span> Valuation(formula.variables());
+        <span class="keyword">return</span> run(valuation);
+    };
+
+    <span class="comment">/**
+     * Internal run recursively called.
+     *
+     * @param {Valuation} valuation object holding the solution being computed
+     * @return {Map} the solution or &lt;code&gt;undefined&lt;/code&gt;
+     */</span>
+    <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">(valuation)</span> {</span>
+        <span class="keyword">var</span> formulaEval = formula.evaluate(valuation);
+        <span class="keyword">if</span> (formulaEval === <span class="literal">undefined</span>) {
+            formula.unitPropagate(valuation);
+            formula.pureLiteralAssign(valuation);
+            <span class="keyword">var</span> afterOptimEval = formula.evaluate(valuation);
+            <span class="keyword">if</span> (<span class="literal">true</span> === afterOptimEval) {
+                <span class="keyword">return</span> valuation.solution();
+            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="literal">false</span> === afterOptimEval) {
+                <span class="keyword">return</span> <span class="literal">undefined</span>;
+            } <span class="keyword">else</span> {</pre></div>
+        
+      
+        
+        <p>select variable to assign</p>
+
+        
+          <div class='highlight'><pre>                <span class="keyword">var</span> newVar;
+                <span class="keyword">if</span> (useRandomSelection) {
+                    newVar = valuation.randomUnassignedVariable();
+                } <span class="keyword">else</span> {
+                    newVar = valuation.highestOccurrenceVariable();
+                }</pre></div>
+        
+      
+        
+        <p>evaluate with truth value = true.</p>
+
+        
+          <div class='highlight'><pre>                valuation.putSolution(newVar, <span class="literal">true</span>);
+                <span class="keyword">var</span> afterNewVarTrueEval = formula.evaluate(valuation);
+                <span class="keyword">if</span> (<span class="literal">true</span> === afterNewVarTrueEval) {</pre></div>
+        
+      
+        
+        <p>solution found.</p>
+
+        
+          <div class='highlight'><pre>                    <span class="keyword">return</span> valuation.solution();
+                } <span class="keyword">else</span> {</pre></div>
+        
+      
+        
+        <p>set truth value to false and rerun.</p>
+
+        
+          <div class='highlight'><pre>                    valuation.putSolution(newVar, <span class="literal">false</span>);
+                    <span class="keyword">return</span> run(valuation);
+                }
+            }
+        } <span class="keyword">else</span> <span class="keyword">if</span> (formulaEval) {
+            <span class="keyword">return</span> valuation.solution();
+        } <span class="keyword">else</span> {
+            <span class="keyword">return</span> <span class="literal">undefined</span>;
+        }
+    };
+
+};
+
+module.exports = Solver;</pre></div>
+        
+      
+      <div class="fleur">h</div>
+    </div>
+  </div>
+</body>
+</html>

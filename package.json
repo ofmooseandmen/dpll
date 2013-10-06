@@ -1,0 +1,33 @@
+{
+  "name": "dpll",
+  "version": "0.0.1",
+  "description": "CNF-SAT solver using the Davis-Putnam-Logemann-Loveland (DPLL) algorithm",
+  "main": "./src/dpll.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ofmooseandmen/DPLL.js.git"
+  },
+  "keywords": [
+    "DPLL",
+    "CNF-SAT",
+    "Boolean",
+    "satisfiability",
+    "problem"
+  ],
+  "author": "Cedric Liegeois",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ofmooseandmen/DPLL.js/issues"
+  }
+  "dependencies: {},
+  "devDependencies: {
+    "mocha": "1.13.0",
+    "docco": "0.6.2"
+  }
+}

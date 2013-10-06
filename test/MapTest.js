@@ -1,5 +1,5 @@
 var assert = require('assert');
-var Map = require('../src/Map.js');
+var Map = require('../src/Map');
 
 describe('Map', function() {
 

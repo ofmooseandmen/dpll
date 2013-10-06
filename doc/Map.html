@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Map.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="page">
+
+      <div class="header">
+        
+          <h1>Map.js</h1>
+        
+
+        
+          <div class="toc">
+            <h3>Table of Contents</h3>
+            <ol>
+              
+                
+                <li>
+                  <a class="source" href="Clause.html">
+                    Clause.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="CnfFormula.html">
+                    CnfFormula.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Literal.html">
+                    Literal.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Map.html">
+                    Map.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Set.html">
+                    Set.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Solver.html">
+                    Solver.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Valuation.html">
+                    Valuation.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="dpll.html">
+                    dpll.js
+                  </a>
+                </li>
+              
+            </ol>
+          </div>
+        
+      </div>
+
+      
+        
+        <p>An object that maps keys to values.
+A map cannot contain duplicate keys; each key can map to at most one value.</p>
+<p>API is based on java Map interface.</p>
+<p>This is <b>NOT</b> a HashMap since the determination of whether the map contains
+a specified key relies:</p>
+<ul>
+<li><code>key.equals(otherKey)</code> if key implements the equal function</li>
+<li><code>key === otherKey</code> otherwise</li>
+</ul>
+<p>The methods <code>put</code>, <code>get</code>, <code>containsKey</code> and <code>remove</code> rely on this logic.</p>
+
+        
+          <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Map</span><span class="params">()</span> {</span></pre></div>
+        
+      
+        
+        <p>the array in which all keys are stored.</p>
+
+        
+          <div class='highlight'><pre>    <span class="keyword">var</span> keys = [];</pre></div>
+        
+      
+        
+        <p>the array in which all values are stored.</p>
+
+        
+          <div class='highlight'><pre>    <span class="keyword">var</span> values = [];</pre></div>
+        
+      
+        
+        <p>Returns the index of the specified <code>key</code> in the <code>array</code> of keys of this <code>map</code> or
+<code>-1</code> if this <code>map</code> does not contain the specified <code>key</code>.</p>
+
+        
+          <div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">indexOfKey</span><span class="params">(key)</span> {</span>
+        <span class="keyword">var</span> result = -<span class="number">1</span>;
+        <span class="keyword">if</span> ( <span class="keyword">typeof</span> key.equals === <span class="string">'function'</span>) {
+            <span class="keyword">var</span> keysLength = keys.length;
+            <span class="keyword">for</span> (<span class="keyword">var</span> index = <span class="number">0</span>; index &lt; keysLength &amp;&amp; result == -<span class="number">1</span>; index++) {
+                <span class="keyword">if</span> (key.equals(keys[index])) {
+                    result = index;
+                }
+            }
+        } <span class="keyword">else</span> {
+            result = keys.indexOf(key);
+        }
+        <span class="keyword">return</span> result;
+    }</pre></div>
+        
+      
+        
+        <p>Associates the specified <code>value</code> with the specified <code>key</code> in this <code>map</code>. If the map previously
+contained a mapping for the key, the old value is replaced by the specified value.
+Returns the previous <code>value</code> associated with key, or <code>undefined</code> if there was no mapping for key.</p>
+
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.put = <span class="keyword">function</span>(key, value) {
+        <span class="keyword">var</span> keyIndex = indexOfKey(key);
+        <span class="keyword">var</span> result = <span class="literal">undefined</span>;
+        <span class="keyword">if</span> (keyIndex === -<span class="number">1</span>) {
+            keys.push(key);
+            values.push(value);
+        } <span class="keyword">else</span> {
+            result = values[keyIndex];
+            values[keyIndex] = value;
+        }
+        <span class="keyword">return</span> result;
+    };</pre></div>
+        
+      
+        
+        <p>Returns the value to which the specified <code>key</code> is mapped, or <code>undefined</code> if this <code>map</code>
+contains no mapping for the key.</p>
+
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.get = <span class="keyword">function</span>(key) {
+        <span class="keyword">var</span> keyIndex = indexOfKey(key);
+        <span class="keyword">var</span> result = <span class="literal">undefined</span>;
+        <span class="keyword">if</span> (keyIndex !== -<span class="number">1</span>) {
+            result = values[keyIndex];
+        }
+        <span class="keyword">return</span> result;
+    };</pre></div>
+        
+      
+        
+        <p>Returns <code>true</code> if this <code>map</code> contains the specified <code>key</code>.</p>
+
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.containsKey = <span class="keyword">function</span>(key) {
+        <span class="keyword">return</span> indexOfKey(key) !== -<span class="number">1</span>;
+    };</pre></div>
+        
+      
+        
+        <p>Removes the mapping for the specified <code>key</code> from this <code>map</code> if it is present.
+Return the previous <code>value</code> value associated with the specified <code>key</code>, or <code>undefined</code> if there was no mapping for
+key</p>
+
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.remove = <span class="keyword">function</span>(key) {
+        <span class="keyword">var</span> keyIndex = indexOfKey(key);
+        <span class="keyword">var</span> result = <span class="literal">undefined</span>;
+        <span class="keyword">if</span> (keyIndex !== -<span class="number">1</span>) {
+            keys.splice(keyIndex, <span class="number">1</span>);
+            <span class="keyword">var</span> res = values.splice(keyIndex, <span class="number">1</span>);
+            result = res[<span class="number">0</span>];
+        }
+        <span class="keyword">return</span> result;
+    };</pre></div>
+        
+      
+        
+        <p>Returns <code>true</code> if this <code>map</code> contains no key-value mappings.</p>
+
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.isEmpty = <span class="keyword">function</span>() {
+        <span class="keyword">return</span> keys.length === <span class="number">0</span>;
+    };</pre></div>
+        
+      
+        
+        <p>Returns the number of key-value mappings in this <code>map</code>.</p>
+
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.size = <span class="keyword">function</span>() {
+        <span class="keyword">return</span> keys.length;
+    };</pre></div>
+        
+      
+        
+        <p>Returns an array of the keys contained in this <code>map</code>.</p>
+
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.keyArray = <span class="keyword">function</span>() {
+        <span class="keyword">return</span> keys.slice(<span class="number">0</span>);
+    };</pre></div>
+        
+      
+        
+        <p>Returns an array of <code>object</code> containing all the entries of this <code>map</code>.
+Each object has 2 properties:</p>
+<ul>
+<li>key: the entry key</li>
+<li>value: the entry value</li>
+</ul>
+
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.entries = <span class="keyword">function</span>() {
+        <span class="keyword">var</span> result = [];
+        <span class="keyword">var</span> keysLength = keys.length;
+        <span class="keyword">for</span> (<span class="keyword">var</span> index = <span class="number">0</span>; index &lt; keysLength; index++) {
+            <span class="keyword">var</span> entry = {
+                key : keys[index],
+                value : values[index]
+            };
+            result.push(entry);
+        }
+        <span class="keyword">return</span> result;
+    };
+
+}
+
+module.exports = Map;</pre></div>
+        
+      
+      <div class="fleur">h</div>
+    </div>
+  </div>
+</body>
+</html>

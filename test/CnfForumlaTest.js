@@ -1,11 +1,11 @@
 var assert = require('assert');
-var CNF = require('../src/CNF.js');
-var Valuation = require('../src/Valuation.js');
+var CnfFormula = require('../src/CnfFormula');
+var Valuation = require('../src/Valuation');
 
-describe('CNF', function() {
+describe('CnfFormula', function() {
     describe('#variables', function() {
         it('should return a map whose keys are variables and value the number of occurences in the formula', function() {
-            var cnf = new CNF();
+            var cnf = new CnfFormula();
             var a = {};
             var b = {};
             var c = {};
@@ -23,7 +23,7 @@ describe('CNF', function() {
 
     describe('#evaluate', function() {
         it('should return undefined if at least one variable has not been assigned with a truth value', function() {
-            var cnf = new CNF();
+            var cnf = new CnfFormula();
             var a = {};
             var b = {};
             var c = {};
@@ -39,7 +39,7 @@ describe('CNF', function() {
         });
 
         it('should return false if at least one clause evaluates to false', function() {
-            var cnf = new CNF();
+            var cnf = new CnfFormula();
             var a = {};
             var b = {};
             var c = {};
@@ -57,7 +57,7 @@ describe('CNF', function() {
         });
 
         it('should return true if all clauses evaluates to true', function() {
-            var cnf = new CNF();
+            var cnf = new CnfFormula();
             var a = {};
             var b = {};
             var c = {};

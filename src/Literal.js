@@ -1,4 +1,9 @@
-function Literal(aVariable, negation) {'use strict';
+//
+// A literal is either a variable, then called positive literal, or the negation of a variable, then called negative literal.
+//
+function Literal(aVariable, negation) {
+
+   'use strict';
 
     var variable = aVariable;
     var neg = negation;
@@ -28,7 +33,6 @@ function Literal(aVariable, negation) {'use strict';
         }
     };
 
-    // value is boolean
     this.evaluate = function(value) {
         if (negation) {
             return !value;

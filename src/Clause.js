@@ -1,24 +1,24 @@
-var Set = require('./Set.js');
-var Literal = require('./Literal.js');
+//
+// A clause is a disjunction of [literal](./Literal.html)s (or a single literal) - i.e. it is a OR of [literal](./Literal.html)s.
+//
+function Clause(variable, negation, aFormula) {
+	
+	'use strict';
 
-/**
- * @constructor
- */
-function Clause(variable, negation, aFormula) {'use strict';
+    var Set = require('./Set');
 
-    /** @private the set of variables - holds variable that have not been optimized away. */
+    var Literal = require('./Literal');
+
+    // the set of variables - holds variable that have not been optimized away.
     var vars = new Set();
-    
-    /** @private the set of literals corresponding to the variables. */
+
+    // the set of literals corresponding to the variables.
     var literals = new Set();
     vars.add(variable);
     literals.add(new Literal(variable, negation));
     var formula = aFormula;
-    
-    /** 
-     * @private the set of variables that have been optimized away 
-     * - will be set to undefined as soon as the clause is added to the CNF formula. 
-     */
+
+    // the set of variables that have been optimized away
     var irrelevant = new Set();
 
     function add(variable, literal) {

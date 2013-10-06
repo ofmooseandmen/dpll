@@ -1,8 +1,8 @@
 var assert = require('assert');
-var Clause = require('../src/Clause.js');
-var Map = require('../src/Map.js');
-var Set = require('../src/Set.js');
-var Valuation = require('../src/Valuation.js');
+var Clause = require('../src/Clause');
+var Map = require('../src/Map');
+var Set = require('../src/Set');
+var Valuation = require('../src/Valuation');
 
 describe('Clause', function() {
     describe('evaluate', function() {
