@@ -36,7 +36,9 @@ function Solver(aFormula) {
     // the formula to be solved in CnfFormula.
     var formula = aFormula;
 
-    // `true` for random variable selection, `false` for highest occurrence variable selection.
+	//
+	// `true` for selection of unassigned random variable, `false` for selection of unassigned variable with highest occurrence.
+	//
     var useRandomSelection = true;
 
     //
