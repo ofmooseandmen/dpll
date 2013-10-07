@@ -84,24 +84,54 @@
 
       
         
+        <p>The valuation of a <code>CnfFormula</code>. This holds the value of each assigned variable during the execution of the DPLL algorithm.</p>
+<p>Keeps track of:</p>
+<ul>
+<li><p>the currently <strong>unassigned</strong> variables and the number of occurrence of each of them in the formula,</p>
+</li>
+<li><p>the currently <strong>assigned</strong> variables and their value: <code>true</code> or <code>false</code>.</p>
+</li>
+</ul>
+<p>Also provides service to pick a variable:</p>
+<ul>
+<li><p>at random amongst the unassigned variables: <code>randomUnassignedVariable</code>,</p>
+</li>
+<li><p>with the highest number of occurrences in the formula: <code>highestOccurrenceVariable</code>.</p>
+</li>
+</ul>
+<p>More about...</p>
+<ul>
+<li>Maps: <a href="./Map.html">Map.js</a></li>
+</ul>
+<p>Constructor - takes <code>map</code> whose <code>keys</code> are the variable and <code>values</code> the number of occurrences in the formula.</p>
+
         
-        
-          <div class='highlight'><pre>
-<span class="function"><span class="keyword">function</span> <span class="title">Valuation</span><span class="params">(variables)</span> {</span>
+          <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Valuation</span><span class="params">(variables)</span> {</span>
     
     <span class="string">'use strict'</span>;
 
-    <span class="keyword">var</span> Set = require(<span class="string">'./Set'</span>);
+    <span class="keyword">var</span> Map = require(<span class="string">'./Map'</span>);</pre></div>
+        
+      
+        
+        <p>contains all the unassigned variables - initialized with whole the variables.</p>
 
-    <span class="keyword">var</span> Map = require(<span class="string">'./Map'</span>);
+        
+          <div class='highlight'><pre>    <span class="keyword">var</span> unassigned = variables;</pre></div>
+        
+      
+        
+        <p>a map whose key is a variable and value is either true or false.</p>
 
-    <span class="comment">/** @private contains all the unassigned variables - initialized with whole the variables. */</span>
-    <span class="keyword">var</span> unassigned = variables;
+        
+          <div class='highlight'><pre>    <span class="keyword">var</span> solution = <span class="keyword">new</span> Map();</pre></div>
+        
+      
+        
+        <p>Assign the specified <code>variable</code> to the specified <code>boolean</code> value.</p>
 
-    <span class="comment">/** @private a map whose key is a variable and value is either true or false. */</span>
-    <span class="keyword">var</span> solution = <span class="keyword">new</span> Map();
-
-    <span class="keyword">this</span>.putSolution = <span class="keyword">function</span>(variable, value) {</pre></div>
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.putSolution = <span class="keyword">function</span>(variable, value) {</pre></div>
         
       
         
@@ -116,31 +146,63 @@
 
         
           <div class='highlight'><pre>        unassigned.remove(variable);
-    };
+    };</pre></div>
+        
+      
+        
+        <p>Returns the current value of the specified <code>variable</code>: <code>true</code>, <code>false</code> or <code>undefined</code>.</p>
 
-    <span class="keyword">this</span>.getSolution = <span class="keyword">function</span>(variable) {
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.getSolution = <span class="keyword">function</span>(variable) {
         <span class="keyword">return</span> solution.get(variable);
-    };
+    };</pre></div>
+        
+      
+        
+        <p>Returns <code>true</code> if the specified <code>variable</code> is currently assigned to <code>true</code>.</p>
 
-    <span class="keyword">this</span>.isAssigned = <span class="keyword">function</span>(variable) {
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.isAssigned = <span class="keyword">function</span>(variable) {
         <span class="keyword">return</span> solution.containsKey(variable);
-    };
+    };</pre></div>
+        
+      
+        
+        <p>Returns an <code>array</code> containing all the variables currently <code>unassigned</code>.</p>
 
-    <span class="keyword">this</span>.unassigned = <span class="keyword">function</span>() {
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.unassigned = <span class="keyword">function</span>() {
         <span class="keyword">return</span> unassigned.keyArray();
-    };
+    };</pre></div>
+        
+      
+        
+        <p>Returns the <code>map</code> of solutions: <code>key</code> is variable, value is <code>true</code> or <code>false</code>.
+Variables that have been optimized away are not assigned with a truth value.
+See <a href="./CnfFormula.html">CnfFormula.js</a></p>
 
-    <span class="keyword">this</span>.solution = <span class="keyword">function</span>() {
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.solution = <span class="keyword">function</span>() {
         <span class="keyword">return</span> solution;
-    };
+    };</pre></div>
+        
+      
+        
+        <p>Returns a <code>variable</code> at random amongst the currently unassigned variables.</p>
 
-    <span class="keyword">this</span>.randomUnassignedVariable = <span class="keyword">function</span>() {
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.randomUnassignedVariable = <span class="keyword">function</span>() {
         <span class="keyword">var</span> unassignedArr = unassigned.keyArray();
         <span class="keyword">var</span> random = Math.floor(Math.random() * (unassignedArr.length));
         <span class="keyword">return</span> unassignedArr[random];
-    };
+    };</pre></div>
+        
+      
+        
+        <p>Returns the <code>variable</code> with highest occurrence in the formula amongst the currently unassigned variables.</p>
 
-    <span class="keyword">this</span>.highestOccurrenceVariable = <span class="keyword">function</span>() {
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.highestOccurrenceVariable = <span class="keyword">function</span>() {
         <span class="keyword">var</span> entries = unassigned.entries();
         <span class="keyword">var</span> entriesLength = entries.length;
         <span class="keyword">var</span> maxOcc = <span class="number">0</span>;
@@ -155,9 +217,14 @@
         <span class="keyword">return</span> result;
     };
 
-}
+}</pre></div>
+        
+      
+        
+        <p>expose API to Node.js</p>
 
-module.exports = Valuation;</pre></div>
+        
+          <div class='highlight'><pre>module.exports = Valuation;</pre></div>
         
       
       <div class="fleur">h</div>

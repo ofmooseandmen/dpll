@@ -12,10 +12,37 @@
 //        .openClauseNot(x1).or(x2).or(x3).close()
 //        .openClauseNot(x1).close();
 //
+// Each chunk of *or* between *()* is called a clause.
+//
+// `x1`, `x2` and `x3` are called variables. Their instances is irrevelant to the algorithm.
+//
+// `x1` and `-x1` are called literals. A literal is either:
+//
+// - just a variable - such as `x1`, it is then called a *positive literal*,
+// - the negation of a variable - such as `-x1`, it is then called a *negative literal*
+//
 // Once built a `CnfFormula` is never modified. Therefore `unitPropagate` nor `pureLiteralAssign` modify this formula
 // and hence it can be re-used as many time as needed in order to find a `valuation' that solves it.
 //
-function CnfFormula() {'use strict';
+// This implementation makes use of maps and sets to keep tracks of the clauses, variables and literals of this formula.
+// If a variable implements the `equals` function it will be used instead of the `===` operator to determine variable
+// equality.
+//
+// More about...
+//
+// - Clauses: [Clause.js](./Clause.html)
+//
+// - Literals: [Literal.js](./Literal.html)
+//
+// - Maps: [Map.js](./Map.html)
+//
+// - Sets: [Set.js](./Set.html)
+//
+// Constructor - no argument.
+//
+function CnfFormula() {
+	
+	'use strict';
 
     var Map = require('./Map');
 
@@ -23,16 +50,16 @@ function CnfFormula() {'use strict';
 
     var Clause = require('./Clause');
 
-    // the `array` of [clause](./Clause.html)s of this formula.
+    // the `array` of Clauses of this formula.
     var clauses = [];
 
-    // a [map](./Map.html) whose keys are variables and value the number of occurences in the formula.
+    // a `map` whose keys are variables and value the number of occurences in the formula.
     var variables = new Map();
 
-    // a [map](./Map.html) whose keys are variables and values are associated positive [literal](./Literal.html).
+    // a `map` whose keys are variables and values are associated positive [literal](./Literal.html).
     var positiveLiterals = new Map();
 
-    // a [map](./Map.html) whose keys are variables and values are associated negative [literal](./Literal.html).
+    // a `map` whose keys are variables and values are associated negative [literal](./Literal.html).
     var negativeLiterals = new Map();
 
     //
@@ -52,18 +79,15 @@ function CnfFormula() {'use strict';
     };
 
     //
-    // Returns a new [clause](./Clause.html) with specified `variable` as first [literal](./Literal.html). This literal
-    // will
-    // be positive.
+    // Returns a new `clause` with specified `variable` as first `literal`. This `literal` will be positive.
     //
     this.openClause = function(variable) {
         return new Clause(variable, false, this);
     };
 
     //
-    // Returns a new [clause](./Clause.html) with specified `variable` as first [literal](./Literal.html). This literal
-    // will
-    // be negative (negation of variable).
+    // Returns a new `clause` with specified `variable` as first `literal`. This `literal` will be negative (negation of
+    // variable).
     //
     this.openClauseNot = function(variable) {
         return new Clause(variable, true, this);
@@ -94,7 +118,7 @@ function CnfFormula() {'use strict';
     };
 
     //
-    // Evaluate this formula against the specified [valuation](./Valuation.html) and returns
+    // Evaluate this formula against the specified `valuation` and returns
     //
     // - `true` if this formula is satisfied under the specified `valudation`
     // - `false` if this formula is not satisfied under the specified `valudation`
@@ -102,7 +126,6 @@ function CnfFormula() {'use strict';
     // still unassigned
     //
     // This method just loop through all the clauses of this formula calling in turn `Clause#evaluate`.
-    //
     //
     this.evaluate = function(valuation) {
         var result = true;
@@ -122,7 +145,6 @@ function CnfFormula() {'use strict';
     // The specified `valuation` will be filled with compute variable truth assignment upon return.
     //
     // This method just loop through all the clauses of this formula calling in turn `Clause#evaluate`.
-    //
     //
     this.unitPropagate = function(valuation) {
         var length = clauses.length;
@@ -156,4 +178,5 @@ function CnfFormula() {'use strict';
 
 }
 
+// expose API to Node.js
 module.exports = CnfFormula;

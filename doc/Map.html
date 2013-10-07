@@ -86,17 +86,21 @@
         
         <p>An object that maps keys to values.
 A map cannot contain duplicate keys; each key can map to at most one value.</p>
-<p>API is based on java Map interface.</p>
-<p>This is <b>NOT</b> a HashMap since the determination of whether the map contains
+<p>API is based on java Map interface and most of the documentation actually
+comes from the <code>Map.java</code> javadoc.</p>
+<p>This is <strong>NOT</strong> a HashMap since the determination of whether the map contains
 a specified key relies:</p>
 <ul>
 <li><code>key.equals(otherKey)</code> if key implements the equal function</li>
 <li><code>key === otherKey</code> otherwise</li>
 </ul>
 <p>The methods <code>put</code>, <code>get</code>, <code>containsKey</code> and <code>remove</code> rely on this logic.</p>
+<p>Constructor - no argument.</p>
 
         
-          <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Map</span><span class="params">()</span> {</span></pre></div>
+          <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Map</span><span class="params">()</span> {</span>
+	
+	<span class="string">'use strict'</span>;</pre></div>
         
       
         
@@ -245,9 +249,14 @@ Each object has 2 properties:</p>
         <span class="keyword">return</span> result;
     };
 
-}
+}</pre></div>
+        
+      
+        
+        <p>expose API to Node.js</p>
 
-module.exports = Map;</pre></div>
+        
+          <div class='highlight'><pre>module.exports = Map;</pre></div>
         
       
       <div class="fleur">h</div>

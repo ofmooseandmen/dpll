@@ -1,6 +1,8 @@
 //
 // A literal is either a variable, then called positive literal, or the negation of a variable, then called negative literal.
 //
+// Constructor - takes a `variable` and a `boolean` as input.
+//
 function Literal(aVariable, negation) {
 
    'use strict';
@@ -42,4 +44,5 @@ function Literal(aVariable, negation) {
     };
 }
 
+// expose API to Node.js
 module.exports = Literal; 

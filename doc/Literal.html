@@ -85,6 +85,7 @@
       
         
         <p>A literal is either a variable, then called positive literal, or the negation of a variable, then called negative literal.</p>
+<p>Constructor - takes a <code>variable</code> and a <code>boolean</code> as input.</p>
 
         
           <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Literal</span><span class="params">(aVariable, negation)</span> {</span>
@@ -126,9 +127,14 @@
             <span class="keyword">return</span> value;
         }
     };
-}
+}</pre></div>
+        
+      
+        
+        <p>expose API to Node.js</p>
 
-module.exports = Literal;</pre></div>
+        
+          <div class='highlight'><pre>module.exports = Literal;</pre></div>
         
       
       <div class="fleur">h</div>

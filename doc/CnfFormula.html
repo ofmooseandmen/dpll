@@ -94,11 +94,35 @@ var x3 = {};
 cnf.openClause(x1).orNot(x2).close()
    .openClauseNot(x1).or(x2).or(x3).close()
    .openClauseNot(x1).close();</code></pre>
+<p>Each chunk of <em>or</em> between <em>()</em> is called a clause.</p>
+<p><code>x1</code>, <code>x2</code> and <code>x3</code> are called variables. Their instances is irrevelant to the algorithm.</p>
+<p><code>x1</code> and <code>-x1</code> are called literals. A literal is either:</p>
+<ul>
+<li>just a variable - such as <code>x1</code>, it is then called a <em>positive literal</em>,</li>
+<li>the negation of a variable - such as <code>-x1</code>, it is then called a <em>negative literal</em></li>
+</ul>
 <p>Once built a <code>CnfFormula</code> is never modified. Therefore <code>unitPropagate</code> nor <code>pureLiteralAssign</code> modify this formula
 and hence it can be re-used as many time as needed in order to find a `valuation&#39; that solves it.</p>
+<p>This implementation makes use of maps and sets to keep tracks of the clauses, variables and literals of this formula.
+If a variable implements the <code>equals</code> function it will be used instead of the <code>===</code> operator to determine variable
+equality.</p>
+<p>More about...</p>
+<ul>
+<li><p>Clauses: <a href="./Clause.html">Clause.js</a></p>
+</li>
+<li><p>Literals: <a href="./Literal.html">Literal.js</a></p>
+</li>
+<li><p>Maps: <a href="./Map.html">Map.js</a></p>
+</li>
+<li><p>Sets: <a href="./Set.html">Set.js</a></p>
+</li>
+</ul>
+<p>Constructor - no argument.</p>
 
         
-          <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">CnfFormula</span><span class="params">()</span> {</span><span class="string">'use strict'</span>;
+          <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">CnfFormula</span><span class="params">()</span> {</span>
+	
+	<span class="string">'use strict'</span>;
 
     <span class="keyword">var</span> Map = require(<span class="string">'./Map'</span>);
 
@@ -108,28 +132,28 @@ and hence it can be re-used as many time as needed in order to find a `valuation
         
       
         
-        <p>the <code>array</code> of <a href="./Clause.html">clause</a>s of this formula.</p>
+        <p>the <code>array</code> of Clauses of this formula.</p>
 
         
           <div class='highlight'><pre>    <span class="keyword">var</span> clauses = [];</pre></div>
         
       
         
-        <p>a <a href="./Map.html">map</a> whose keys are variables and value the number of occurences in the formula.</p>
+        <p>a <code>map</code> whose keys are variables and value the number of occurences in the formula.</p>
 
         
           <div class='highlight'><pre>    <span class="keyword">var</span> variables = <span class="keyword">new</span> Map();</pre></div>
         
       
         
-        <p>a <a href="./Map.html">map</a> whose keys are variables and values are associated positive <a href="./Literal.html">literal</a>.</p>
+        <p>a <code>map</code> whose keys are variables and values are associated positive <a href="./Literal.html">literal</a>.</p>
 
         
           <div class='highlight'><pre>    <span class="keyword">var</span> positiveLiterals = <span class="keyword">new</span> Map();</pre></div>
         
       
         
-        <p>a <a href="./Map.html">map</a> whose keys are variables and values are associated negative <a href="./Literal.html">literal</a>.</p>
+        <p>a <code>map</code> whose keys are variables and values are associated negative <a href="./Literal.html">literal</a>.</p>
 
         
           <div class='highlight'><pre>    <span class="keyword">var</span> negativeLiterals = <span class="keyword">new</span> Map();</pre></div>
@@ -154,9 +178,7 @@ and hence it can be re-used as many time as needed in order to find a `valuation
         
       
         
-        <p>Returns a new <a href="./Clause.html">clause</a> with specified <code>variable</code> as first <a href="./Literal.html">literal</a>. This literal
-will
-be positive.</p>
+        <p>Returns a new <code>clause</code> with specified <code>variable</code> as first <code>literal</code>. This <code>literal</code> will be positive.</p>
 
         
           <div class='highlight'><pre>    <span class="keyword">this</span>.openClause = <span class="keyword">function</span>(variable) {
@@ -165,9 +187,8 @@ be positive.</p>
         
       
         
-        <p>Returns a new <a href="./Clause.html">clause</a> with specified <code>variable</code> as first <a href="./Literal.html">literal</a>. This literal
-will
-be negative (negation of variable).</p>
+        <p>Returns a new <code>clause</code> with specified <code>variable</code> as first <code>literal</code>. This <code>literal</code> will be negative (negation of
+variable).</p>
 
         
           <div class='highlight'><pre>    <span class="keyword">this</span>.openClauseNot = <span class="keyword">function</span>(variable) {
@@ -206,7 +227,7 @@ be negative (negation of variable).</p>
         
       
         
-        <p>Evaluate this formula against the specified <a href="./Valuation.html">valuation</a> and returns</p>
+        <p>Evaluate this formula against the specified <code>valuation</code> and returns</p>
 <ul>
 <li><code>true</code> if this formula is satisfied under the specified <code>valudation</code></li>
 <li><code>false</code> if this formula is not satisfied under the specified <code>valudation</code></li>
@@ -271,9 +292,14 @@ Thus, these clauses do not constrain the search anymore and can be deleted.</p>
         }
     };
 
-}
+}</pre></div>
+        
+      
+        
+        <p>expose API to Node.js</p>
 
-module.exports = CnfFormula;</pre></div>
+        
+          <div class='highlight'><pre>module.exports = CnfFormula;</pre></div>
         
       
       <div class="fleur">h</div>

@@ -1,5 +1,19 @@
 //
-// A clause is a disjunction of [literal](./Literal.html)s (or a single literal) - i.e. it is a OR of [literal](./Literal.html)s.
+// A clause is a disjunction of [literal](./Literal.html)s (or a single literal) - i.e. it is a OR of literals.
+// 
+// ## Optimizations
+// 1. If a clause contains the same literal more than once, only one instance of this literal will be kept.
+// 2. If a clause contains both a positve literal and a negative literal of the same variable they are optimized away - i.e. removed
+// ...from the clause, since the value of this variable is irrelevant; ` (true | false) ` is always `true`
+//
+// More about...
+//
+// - Literals: [Literal.js](./Literal.html)
+//
+// - Sets: [Set.js](./Set.html)
+//
+// Constructor - takes the first `variable`, its negation (a `boolean`) and the enclosing `CnfFormula` as input.
+// It is not intented to be used anywhere but `CnfFormula#openClause# and `CnfFormula#openClauseNot`.
 //
 function Clause(variable, negation, aFormula) {
 	
@@ -107,4 +121,5 @@ function Clause(variable, negation, aFormula) {
 
 };
 
+// expose API to Node.js
 module.exports = Clause;

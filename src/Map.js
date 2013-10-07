@@ -2,9 +2,10 @@
 // An object that maps keys to values.
 // A map cannot contain duplicate keys; each key can map to at most one value.
 //
-// API is based on java Map interface.
+// API is based on java Map interface and most of the documentation actually
+// comes from the `Map.java` javadoc.
 //
-// This is <b>NOT</b> a HashMap since the determination of whether the map contains
+// This is **NOT** a HashMap since the determination of whether the map contains
 // a specified key relies:
 //
 // - `key.equals(otherKey)` if key implements the equal function
@@ -12,7 +13,11 @@
 //
 // The methods `put`, `get`, `containsKey` and `remove` rely on this logic.
 //
+// Constructor - no argument.
+//
 function Map() {
+	
+	'use strict';
 
     // the array in which all keys are stored.
     var keys = [];
@@ -134,4 +139,5 @@ function Map() {
 
 }
 
+// expose API to Node.js
 module.exports = Map;

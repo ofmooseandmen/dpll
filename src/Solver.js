@@ -1,85 +1,77 @@
-/**
- * A CNF-SAT problem solver based on the Davis-Putnam-Logemann-Loveland (DPLL) algorithm.
- * <p>
- * A CNF is a propositional logic formulae in conjunctive normal form - i.e. an ANDs of ORs
- * <p>
- * Two variable selection modes are available for the <i>splitting rule</i>
- * <ul>
- * <li>random selection amongst unassigned variables; enabled by default or by calling #randomVariableSelection,
- * <li>variable with highest occurrence amongst the unassigned variables; enabled by calling
- * #highestOccurrenceVariableSelection.
- * </ul>
- *
- * <p>
- * see http://en.wikipedia.org/wiki/DPLL_algorithm
- *
- * @constructor
- * @param {CnfFormula} the formula in conjunctive normal form to be solved
- */
-function Solver(aFormula) {
+//
+// Implementation of the Davis-Putnam-Logemann-Loveland (DPLL) algorithm.
+//
+// Everytime the `solve` method is called a new `Valuation` is created and passed to the successive steps of the
+// algorithm.
+//
+// - Evalutate the CNF formula with the current valuation: `CnfFormula#evaluate(Valuation).
+// - Return the solution of the valuation (a map) if evaluation is `true`
+// - Run the *unit propagate* step of the algorithm: `CnfFormula#unitPropagate(Valuation)`
+// - Run the *pure literal assign* step of the algorithm: `CnfFormula#pureLiteralAssign(Valuation)`
+// - re-evaluate the CNF formula with the current valuation.
+// - Return the solution of the valuation (a map) if evaluation is `true`
+// - Return `undefined` if the evaluation is `false`
+// - Pick a variable according to the selection mode and assign it to `true`
+// - Return the solution of the valuation (a map) if evaluation is `true`
+// - Re-run the algorithm with the variable assigned to `false` instead
+//
+// The algorithm will eventually converge to either a solution or `undefined`...
 
-    'use strict'
+// More about...
+//
+// - Valuation: [Valuation.js](./Valuation.html)
+//
+// - CNF formula: [CnfFormula.js](./CnfFormula.html)
+//
+// - Maps: [Map.js](./Map.html)
+//
+// Constructor - takes a `CnfFormula` as input.
+//
+function Solver(aFormula) {'use strict';
 
-    var Map = require('./Map');
-    
     var Valuation = require('./Valuation');
 
-    /** @private the formula to be solved in CnfFormula. */
+    // the formula to be solved in CnfFormula.
     var formula = aFormula;
 
-    /** @private <code>true</code> for random variable selection, <code>false</false> for highest occurrence variable
-     * selection. */
+    // `true` for random variable selection, <code>false</false> for highest occurrence variable selection.
     var useRandomSelection = true;
 
-    /**
-     * Set the variable selection alogrithm to random selection mode.
-     *
-     * @return {DPLL} this
-     */
+    //
+    // Sets the variable selection alogrithm to random selection mode and return `this`.
+    //
     this.randomVariableSelection = function() {
         useRandomSelection = true;
         return this;
     };
 
-    /**
-     * Set the variable selection alogrithm to highest occurrence selection mode.
-     *
-     * @return {DPLL} this
-     */
+    //
+    // Sets the variable selection alogrithm to highest occurrence selection mode and return `this`.
+    //
     this.highestOccurrenceVariableSelection = function() {
         useRandomSelection = false;
         return this;
     };
 
-    /**
-     * Solves the CNF formula of this {DPLL} and returns either
-     * <ul>
-     * <li>a map whose keys are the variables of the CNF and values
-     * are either <code>true</code> or <false>
-     * <li>or <code>undefined</code> if the CNF could not be solved
-     * </ul>
-     * <p>
-     * if the CNF formula has been solved the result will <b>NOT</b>
-     * contain the variables that have been optimized away. For instance
-     * if the formula contains the clause (x | -x | y) and x is not present
-     * in any other clause of the formula, then x is optimized away and therefore
-     * its value is irrelevant - i.e. it could be <code>true</code> or <code>false</code>.
-     *
-     * @return {Map} a map whose keys are the variables of the CNF
-     *               and values are either <code>true</code> or <false>
-     *               or <code>undefined</code> if the CNF could not be solved
-     */
+    //
+    // Tries and solves the CNF. Returns either a `map` whose `keys` are the variables and `values` are
+    // either `true` or `false`.
+    //
+    // if the CNF formula has been solved the result will **NOT**
+    // contain the variables that have been optimized away. For instance
+    // if the formula contains the clause ` (x | -x | y) ` and `x` is not present
+    // in any other clause of the formula, then `x` is optimized away and therefore
+    // its value is irrelevant - i.e. it can be `true` or `false`.
+    //
     this.solve = function() {
         var valuation = new Valuation(formula.variables());
         return run(valuation);
     };
 
-    /**
-     * Internal run recursively called.
-     *
-     * @param {Valuation} valuation object holding the solution being computed
-     * @return {Map} the solution or <code>undefined</code>
-     */
+    //
+    // Runs all steps of the algorithm eventually calling itself back if need be. Fills the specified
+    // `valuation` along the way.
+    //
     function run(valuation) {
         var formulaEval = formula.evaluate(valuation);
         if (formulaEval === undefined) {
@@ -121,5 +113,6 @@ function Solver(aFormula) {
 
 };
 
+// expose API to Node.js
 module.exports = Solver;
 

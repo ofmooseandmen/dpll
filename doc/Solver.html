@@ -84,91 +84,95 @@
 
       
         
+        <p>Implementation of the Davis-Putnam-Logemann-Loveland (DPLL) algorithm.</p>
+<p>Everytime the <code>solve</code> method is called a new <code>Valuation</code> is created and passed to the successive steps of the
+algorithm.</p>
+<ul>
+<li>Evalutate the CNF formula with the current valuation: `CnfFormula#evaluate(Valuation).</li>
+<li>Return the solution of the valuation (a map) if evaluation is <code>true</code></li>
+<li>Run the <em>unit propagate</em> step of the algorithm: <code>CnfFormula#unitPropagate(Valuation)</code></li>
+<li>Run the <em>pure literal assign</em> step of the algorithm: <code>CnfFormula#pureLiteralAssign(Valuation)</code></li>
+<li>re-evaluate the CNF formula with the current valuation.</li>
+<li>Return the solution of the valuation (a map) if evaluation is <code>true</code></li>
+<li>Return <code>undefined</code> if the evaluation is <code>false</code></li>
+<li>Pick a variable according to the selection mode and assign it to <code>true</code></li>
+<li>Return the solution of the valuation (a map) if evaluation is <code>true</code></li>
+<li>Re-run the algorithm with the variable assigned to <code>false</code> instead</li>
+</ul>
+<p>The algorithm will eventually converge to either a solution or <code>undefined</code>...</p>
+<p>More about...</p>
+<ul>
+<li><p>Valuation: <a href="./Valuation.html">Valuation.js</a></p>
+</li>
+<li><p>CNF formula: <a href="./CnfFormula.html">CnfFormula.js</a></p>
+</li>
+<li><p>Maps: <a href="./Map.html">Map.js</a></p>
+</li>
+</ul>
+<p>Constructor - takes a <code>CnfFormula</code> as input.</p>
+
         
+          <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Solver</span><span class="params">(aFormula)</span> {</span><span class="string">'use strict'</span>;
+
+    <span class="keyword">var</span> Valuation = require(<span class="string">'./Valuation'</span>);</pre></div>
         
-          <div class='highlight'><pre><span class="comment">/**
- * A CNF-SAT problem solver based on the Davis-Putnam-Logemann-Loveland (DPLL) algorithm.
- * &lt;p&gt;
- * A CNF is a propositional logic formulae in conjunctive normal form - i.e. an ANDs of ORs
- * &lt;p&gt;
- * Two variable selection modes are available for the &lt;i&gt;splitting rule&lt;/i&gt;
- * &lt;ul&gt;
- * &lt;li&gt;random selection amongst unassigned variables; enabled by default or by calling #randomVariableSelection,
- * &lt;li&gt;variable with highest occurrence amongst the unassigned variables; enabled by calling
- * #highestOccurrenceVariableSelection.
- * &lt;/ul&gt;
- *
- * &lt;p&gt;
- * see http://en.wikipedia.org/wiki/DPLL_algorithm
- *
- * @constructor
- * @param {CnfFormula} the formula in conjunctive normal form to be solved
- */</span>
-<span class="function"><span class="keyword">function</span> <span class="title">Solver</span><span class="params">(aFormula)</span> {</span>
+      
+        
+        <p>the formula to be solved in CnfFormula.</p>
 
-    <span class="string">'use strict'</span>
+        
+          <div class='highlight'><pre>    <span class="keyword">var</span> formula = aFormula;</pre></div>
+        
+      
+        
+        <p><code>true</code> for random variable selection, <code>false</false> for highest occurrence variable selection.</p>
 
-    <span class="keyword">var</span> Map = require(<span class="string">'./Map'</span>);
-    
-    <span class="keyword">var</span> Valuation = require(<span class="string">'./Valuation'</span>);
+        
+          <div class='highlight'><pre>    <span class="keyword">var</span> useRandomSelection = <span class="literal">true</span>;</pre></div>
+        
+      
+        
+        <p>Sets the variable selection alogrithm to random selection mode and return <code>this</code>.</p>
 
-    <span class="comment">/** @private the formula to be solved in CnfFormula. */</span>
-    <span class="keyword">var</span> formula = aFormula;
-
-    <span class="comment">/** @private &lt;code&gt;true&lt;/code&gt; for random variable selection, &lt;code&gt;false&lt;/false&gt; for highest occurrence variable
-     * selection. */</span>
-    <span class="keyword">var</span> useRandomSelection = <span class="literal">true</span>;
-
-    <span class="comment">/**
-     * Set the variable selection alogrithm to random selection mode.
-     *
-     * @return {DPLL} this
-     */</span>
-    <span class="keyword">this</span>.randomVariableSelection = <span class="keyword">function</span>() {
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.randomVariableSelection = <span class="keyword">function</span>() {
         useRandomSelection = <span class="literal">true</span>;
         <span class="keyword">return</span> <span class="keyword">this</span>;
-    };
+    };</pre></div>
+        
+      
+        
+        <p>Sets the variable selection alogrithm to highest occurrence selection mode and return <code>this</code>.</p>
 
-    <span class="comment">/**
-     * Set the variable selection alogrithm to highest occurrence selection mode.
-     *
-     * @return {DPLL} this
-     */</span>
-    <span class="keyword">this</span>.highestOccurrenceVariableSelection = <span class="keyword">function</span>() {
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.highestOccurrenceVariableSelection = <span class="keyword">function</span>() {
         useRandomSelection = <span class="literal">false</span>;
         <span class="keyword">return</span> <span class="keyword">this</span>;
-    };
+    };</pre></div>
+        
+      
+        
+        <p>Tries and solves the CNF. Returns either a <code>map</code> whose <code>keys</code> are the variables and <code>values</code> are
+either <code>true</code> or <code>false</code>.</p>
+<p>if the CNF formula has been solved the result will <strong>NOT</strong>
+contain the variables that have been optimized away. For instance
+if the formula contains the clause <code>(x | -x | y)</code> and <code>x</code> is not present
+in any other clause of the formula, then <code>x</code> is optimized away and therefore
+its value is irrelevant - i.e. it can be <code>true</code> or <code>false</code>.</p>
 
-    <span class="comment">/**
-     * Solves the CNF formula of this {DPLL} and returns either
-     * &lt;ul&gt;
-     * &lt;li&gt;a map whose keys are the variables of the CNF and values
-     * are either &lt;code&gt;true&lt;/code&gt; or &lt;false&gt;
-     * &lt;li&gt;or &lt;code&gt;undefined&lt;/code&gt; if the CNF could not be solved
-     * &lt;/ul&gt;
-     * &lt;p&gt;
-     * if the CNF formula has been solved the result will &lt;b&gt;NOT&lt;/b&gt;
-     * contain the variables that have been optimized away. For instance
-     * if the formula contains the clause (x | -x | y) and x is not present
-     * in any other clause of the formula, then x is optimized away and therefore
-     * its value is irrelevant - i.e. it could be &lt;code&gt;true&lt;/code&gt; or &lt;code&gt;false&lt;/code&gt;.
-     *
-     * @return {Map} a map whose keys are the variables of the CNF
-     *               and values are either &lt;code&gt;true&lt;/code&gt; or &lt;false&gt;
-     *               or &lt;code&gt;undefined&lt;/code&gt; if the CNF could not be solved
-     */</span>
-    <span class="keyword">this</span>.solve = <span class="keyword">function</span>() {
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.solve = <span class="keyword">function</span>() {
         <span class="keyword">var</span> valuation = <span class="keyword">new</span> Valuation(formula.variables());
         <span class="keyword">return</span> run(valuation);
-    };
+    };</pre></div>
+        
+      
+        
+        <p>Runs all steps of the algorithm eventually calling itself back if need be. Fills the specified
+<code>valuation</code> along the way.</p>
 
-    <span class="comment">/**
-     * Internal run recursively called.
-     *
-     * @param {Valuation} valuation object holding the solution being computed
-     * @return {Map} the solution or &lt;code&gt;undefined&lt;/code&gt;
-     */</span>
-    <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">(valuation)</span> {</span>
+        
+          <div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">(valuation)</span> {</span>
         <span class="keyword">var</span> formulaEval = formula.evaluate(valuation);
         <span class="keyword">if</span> (formulaEval === <span class="literal">undefined</span>) {
             formula.unitPropagate(valuation);
@@ -225,9 +229,14 @@
         }
     };
 
-};
+};</pre></div>
+        
+      
+        
+        <p>expose API to Node.js</p>
 
-module.exports = Solver;</pre></div>
+        
+          <div class='highlight'><pre>module.exports = Solver;</pre></div>
         
       
       <div class="fleur">h</div>

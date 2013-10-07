@@ -84,7 +84,22 @@
 
       
         
-        <p>A clause is a disjunction of <a href="./Literal.html">literal</a>s (or a single literal) - i.e. it is a OR of <a href="./Literal.html">literal</a>s.</p>
+        <p>A clause is a disjunction of <a href="./Literal.html">literal</a>s (or a single literal) - i.e. it is a OR of literals.</p>
+<h2>Optimizations</h2>
+<ol>
+<li>If a clause contains the same literal more than once, only one instance of this literal will be kept.</li>
+<li>If a clause contains both a positve literal and a negative literal of the same variable they are optimized away - i.e. removed
+...from the clause, since the value of this variable is irrelevant; <code>(true | false)</code> is always <code>true</code></li>
+</ol>
+<p>More about...</p>
+<ul>
+<li><p>Literals: <a href="./Literal.html">Literal.js</a></p>
+</li>
+<li><p>Sets: <a href="./Set.html">Set.js</a></p>
+</li>
+</ul>
+<p>Constructor - takes the first <code>variable</code>, its negation (a <code>boolean</code>) and the enclosing <code>CnfFormula</code> as input.
+It is not intented to be used anywhere but <code>CnfFormula#openClause# and</code>CnfFormula#openClauseNot`.</p>
 
         
           <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Clause</span><span class="params">(variable, negation, aFormula)</span> {</span>
@@ -238,9 +253,14 @@ remove it</p>
         }
     };
 
-};
+};</pre></div>
+        
+      
+        
+        <p>expose API to Node.js</p>
 
-module.exports = Clause;</pre></div>
+        
+          <div class='highlight'><pre>module.exports = Clause;</pre></div>
         
       
       <div class="fleur">h</div>

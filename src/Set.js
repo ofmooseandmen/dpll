@@ -1,9 +1,10 @@
 //
 // A collection that contain no duplicate element
 //
-// API is based on java Set interface.
+// API is based on java Set interface and most of the documentation actually
+// comes from the `Set.java` javadoc.
 //
-// This is <b>NOT</b> a HashSet since the determination of whether the map contains
+// This is **NOT** a HashSet since the determination of whether the map contains
 // a specified key relies:
 //
 // - `key.equals(otherKey)` if key implements the equal function
@@ -11,7 +12,11 @@
 //
 // The methods `add`, `addAll`, `contains` and `remove` rely on this logic.
 //
-function Set() {'use strict';
+// Constructor - no argument.
+//
+function Set() {
+	
+	'use strict';
 
     // the array in which all elements are stored.
     var values = [];
@@ -102,7 +107,7 @@ function Set() {'use strict';
     };
 
     //
-    // Returns an array containing all of the elements in this set.
+    // Returns an array containing all of the elements in this `set`.
     //
     this.toArray = function() {
         return values.slice(0);
@@ -110,4 +115,5 @@ function Set() {'use strict';
 
 };
 
+// expose API to Node.js
 module.exports = Set;

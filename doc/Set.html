@@ -85,17 +85,21 @@
       
         
         <p>A collection that contain no duplicate element</p>
-<p>API is based on java Set interface.</p>
-<p>This is <b>NOT</b> a HashSet since the determination of whether the map contains
+<p>API is based on java Set interface and most of the documentation actually
+comes from the <code>Set.java</code> javadoc.</p>
+<p>This is <strong>NOT</strong> a HashSet since the determination of whether the map contains
 a specified key relies:</p>
 <ul>
 <li><code>key.equals(otherKey)</code> if key implements the equal function</li>
 <li><code>key === otherKey</code> otherwise</li>
 </ul>
 <p>The methods <code>add</code>, <code>addAll</code>, <code>contains</code> and <code>remove</code> rely on this logic.</p>
+<p>Constructor - no argument.</p>
 
         
-          <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Set</span><span class="params">()</span> {</span><span class="string">'use strict'</span>;</pre></div>
+          <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Set</span><span class="params">()</span> {</span>
+	
+	<span class="string">'use strict'</span>;</pre></div>
         
       
         
@@ -208,16 +212,21 @@ Returns <code>true</code> if this <code>set</code> contained the specified eleme
         
       
         
-        <p>Returns an array containing all of the elements in this set.</p>
+        <p>Returns an array containing all of the elements in this <code>set</code>.</p>
 
         
           <div class='highlight'><pre>    <span class="keyword">this</span>.toArray = <span class="keyword">function</span>() {
         <span class="keyword">return</span> values.slice(<span class="number">0</span>);
     };
 
-};
+};</pre></div>
+        
+      
+        
+        <p>expose API to Node.js</p>
 
-module.exports = Set;</pre></div>
+        
+          <div class='highlight'><pre>module.exports = Set;</pre></div>
         
       
       <div class="fleur">h</div>
