@@ -112,7 +112,9 @@ algorithm.</p>
 <p>Constructor - takes a <code>CnfFormula</code> as input.</p>
 
         
-          <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Solver</span><span class="params">(aFormula)</span> {</span><span class="string">'use strict'</span>;
+          <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Solver</span><span class="params">(aFormula)</span> {</span>
+	
+	<span class="string">'use strict'</span>;
 
     <span class="keyword">var</span> Valuation = require(<span class="string">'./Valuation'</span>);</pre></div>
         
@@ -125,7 +127,7 @@ algorithm.</p>
         
       
         
-        <p><code>true</code> for random variable selection, <code>false</false> for highest occurrence variable selection.</p>
+        <p><code>true</code> for random variable selection, <code>false</code> for highest occurrence variable selection.</p>
 
         
           <div class='highlight'><pre>    <span class="keyword">var</span> useRandomSelection = <span class="literal">true</span>;</pre></div>
