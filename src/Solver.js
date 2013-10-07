@@ -27,14 +27,16 @@
 //
 // Constructor - takes a `CnfFormula` as input.
 //
-function Solver(aFormula) {'use strict';
+function Solver(aFormula) {
+	
+	'use strict';
 
     var Valuation = require('./Valuation');
 
     // the formula to be solved in CnfFormula.
     var formula = aFormula;
 
-    // `true` for random variable selection, <code>false</false> for highest occurrence variable selection.
+    // `true` for random variable selection, `false` for highest occurrence variable selection.
     var useRandomSelection = true;
 
     //
