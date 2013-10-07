@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Valuation.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="page">
+
+      <div class="header">
+        
+          <h1>Valuation.js</h1>
+        
+
+        
+          <div class="toc">
+            <h3>Table of Contents</h3>
+            <ol>
+              
+                
+                <li>
+                  <a class="source" href="Clause.html">
+                    Clause.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="CnfFormula.html">
+                    CnfFormula.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Literal.html">
+                    Literal.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Map.html">
+                    Map.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Set.html">
+                    Set.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Solver.html">
+                    Solver.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Valuation.html">
+                    Valuation.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="dpll.html">
+                    dpll.js
+                  </a>
+                </li>
+              
+            </ol>
+          </div>
+        
+      </div>
+
+      
+        
+        
+        
+          <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Valuation</span><span class="params">(variables)</span> {</span>
+    
+    <span class="string">'use strict'</span>;
+
+    <span class="keyword">var</span> Set = require(<span class="string">'./Set'</span>);
+
+    <span class="keyword">var</span> Map = require(<span class="string">'./Map'</span>);
+
+    <span class="comment">/** @private contains all the unassigned variables - initialized with whole the variables. */</span>
+    <span class="keyword">var</span> unassigned = variables;
+
+    <span class="comment">/** @private a map whose key is a variable and value is either true or false. */</span>
+    <span class="keyword">var</span> solution = <span class="keyword">new</span> Map();
+
+    <span class="keyword">this</span>.putSolution = <span class="keyword">function</span>(variable, value) {</pre></div>
+        
+      
+        
+        <p>new solution</p>
+
+        
+          <div class='highlight'><pre>        solution.put(variable, value);</pre></div>
+        
+      
+        
+        <p>remove variable from unassigned</p>
+
+        
+          <div class='highlight'><pre>        unassigned.remove(variable);
+    };
+
+    <span class="keyword">this</span>.getSolution = <span class="keyword">function</span>(variable) {
+        <span class="keyword">return</span> solution.get(variable);
+    };
+
+    <span class="keyword">this</span>.isAssigned = <span class="keyword">function</span>(variable) {
+        <span class="keyword">return</span> solution.containsKey(variable);
+    };
+
+    <span class="keyword">this</span>.unassigned = <span class="keyword">function</span>() {
+        <span class="keyword">return</span> unassigned.keyArray();
+    };
+
+    <span class="keyword">this</span>.solution = <span class="keyword">function</span>() {
+        <span class="keyword">return</span> solution;
+    };
+
+    <span class="keyword">this</span>.randomUnassignedVariable = <span class="keyword">function</span>() {
+        <span class="keyword">var</span> unassignedArr = unassigned.keyArray();
+        <span class="keyword">var</span> random = Math.floor(Math.random() * (unassignedArr.length));
+        <span class="keyword">return</span> unassignedArr[random];
+    };
+
+    <span class="keyword">this</span>.highestOccurrenceVariable = <span class="keyword">function</span>() {
+        <span class="keyword">var</span> entries = unassigned.entries();
+        <span class="keyword">var</span> entriesLength = entries.length;
+        <span class="keyword">var</span> maxOcc = <span class="number">0</span>;
+        <span class="keyword">var</span> result = <span class="literal">undefined</span>;
+        <span class="keyword">for</span> (<span class="keyword">var</span> index = <span class="number">0</span>; index &lt; entriesLength; index++) {
+			<span class="keyword">var</span> entry = entries[index];
+			<span class="keyword">if</span> (entry.value &gt; maxOcc) {
+				maxOcc = entry.value;
+				result = entry.key;
+			}
+        }
+        <span class="keyword">return</span> result;
+    };
+
+}
+
+module.exports = Valuation;</pre></div>
+        
+      
+      <div class="fleur">h</div>
+    </div>
+  </div>
+</body>
+</html>

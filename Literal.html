@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Literal.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="page">
+
+      <div class="header">
+        
+          <h1>Literal.js</h1>
+        
+
+        
+          <div class="toc">
+            <h3>Table of Contents</h3>
+            <ol>
+              
+                
+                <li>
+                  <a class="source" href="Clause.html">
+                    Clause.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="CnfFormula.html">
+                    CnfFormula.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Literal.html">
+                    Literal.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Map.html">
+                    Map.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Set.html">
+                    Set.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Solver.html">
+                    Solver.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Valuation.html">
+                    Valuation.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="dpll.html">
+                    dpll.js
+                  </a>
+                </li>
+              
+            </ol>
+          </div>
+        
+      </div>
+
+      
+        
+        <p>A literal is either a variable, then called positive literal, or the negation of a variable, then called negative literal.</p>
+<p>Constructor - takes a <code>variable</code> and a <code>boolean</code> as input.</p>
+
+        
+          <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Literal</span><span class="params">(aVariable, negation)</span> {</span>
+
+   <span class="string">'use strict'</span>;
+
+    <span class="keyword">var</span> variable = aVariable;
+    <span class="keyword">var</span> neg = negation;
+    <span class="keyword">var</span> hasEquals = <span class="keyword">typeof</span> variable.equals === <span class="string">'function'</span>;
+
+    <span class="keyword">this</span>.isNegative = <span class="keyword">function</span>() {
+        <span class="keyword">return</span> neg;
+    };
+
+    <span class="keyword">this</span>.isPositive = <span class="keyword">function</span>() {
+        <span class="keyword">return</span> !<span class="keyword">this</span>.isNegative();
+    };
+
+    <span class="keyword">this</span>.variable = <span class="keyword">function</span>() {
+        <span class="keyword">return</span> variable;
+    };
+
+    <span class="keyword">this</span>.equals = <span class="keyword">function</span>(o) {
+        <span class="keyword">if</span> (<span class="keyword">this</span>.isNegative() === o.isNegative()) {
+            <span class="keyword">if</span> (hasEquals) {
+                <span class="keyword">return</span> variable.equals(o.variable());
+            } <span class="keyword">else</span> {
+                <span class="keyword">return</span> variable === o.variable();
+            }
+        } <span class="keyword">else</span> {
+            <span class="keyword">return</span> <span class="literal">false</span>;
+        }
+    };
+
+    <span class="keyword">this</span>.evaluate = <span class="keyword">function</span>(value) {
+        <span class="keyword">if</span> (negation) {
+            <span class="keyword">return</span> !value;
+        } <span class="keyword">else</span> {
+            <span class="keyword">return</span> value;
+        }
+    };
+}</pre></div>
+        
+      
+        
+        <p>expose API to Node.js</p>
+
+        
+          <div class='highlight'><pre>module.exports = Literal;</pre></div>
+        
+      
+      <div class="fleur">h</div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Set.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="page">
+
+      <div class="header">
+        
+          <h1>Set.js</h1>
+        
+
+        
+          <div class="toc">
+            <h3>Table of Contents</h3>
+            <ol>
+              
+                
+                <li>
+                  <a class="source" href="Clause.html">
+                    Clause.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="CnfFormula.html">
+                    CnfFormula.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Literal.html">
+                    Literal.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Map.html">
+                    Map.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Set.html">
+                    Set.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Solver.html">
+                    Solver.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Valuation.html">
+                    Valuation.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="dpll.html">
+                    dpll.js
+                  </a>
+                </li>
+              
+            </ol>
+          </div>
+        
+      </div>
+
+      
+        
+        <p>A collection that contain no duplicate element</p>
+<p>API is based on java Set interface and most of the documentation actually
+comes from the <code>Set.java</code> javadoc.</p>
+<p>This is <b>NOT</b> a HashSet since the determination of whether the map contains
+a specified key relies:</p>
+<ul>
+<li><code>key.equals(otherKey)</code> if key implements the equal function</li>
+<li><code>key === otherKey</code> otherwise</li>
+</ul>
+<p>The methods <code>add</code>, <code>addAll</code>, <code>contains</code> and <code>remove</code> rely on this logic.</p>
+<p>Constructor - no argument.</p>
+
+        
+          <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Set</span><span class="params">()</span> {</span>
+	
+	<span class="string">'use strict'</span>;</pre></div>
+        
+      
+        
+        <p>the array in which all elements are stored.</p>
+
+        
+          <div class='highlight'><pre>    <span class="keyword">var</span> values = [];</pre></div>
+        
+      
+        
+        <p>Returns the index of the specified <code>element</code> in the <code>array</code> of elements <code>set</code> or
+<code>-1</code> if this <code>set</code> does not contain the specified <code>element</code>.</p>
+
+        
+          <div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">indexOf</span><span class="params">(e)</span> {</span>
+        <span class="keyword">var</span> result = -<span class="number">1</span>;
+        <span class="keyword">if</span> ( <span class="keyword">typeof</span> e.equals === <span class="string">'function'</span>) {
+            <span class="keyword">var</span> length = values.length;
+            <span class="keyword">for</span> (<span class="keyword">var</span> index = <span class="number">0</span>; index &lt; length &amp;&amp; result == -<span class="number">1</span>; index++) {
+                <span class="keyword">if</span> (e.equals(values[index])) {
+                    result = index;
+                }
+            }
+        } <span class="keyword">else</span> {
+            result = values.indexOf(e);
+        }
+        <span class="keyword">return</span> result;
+    };</pre></div>
+        
+      
+        
+        <p>Adds the specified <code>element</code> to this <code>set</code> if it is not already present.
+Returns <code>true</code> if this <code>set</code> did not already contain the specified <code>element</code>.</p>
+
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.add = <span class="keyword">function</span>(e) {
+        <span class="keyword">if</span> (!<span class="keyword">this</span>.contains(e)) {
+            values.push(e);
+            <span class="keyword">return</span> <span class="literal">true</span>;
+        }
+        <span class="keyword">return</span> <span class="literal">false</span>;
+    };</pre></div>
+        
+      
+        
+        <p>Adds all of the elements in the specified <code>array</code> to this <code>set</code> if they&#39;re not already present.
+Return <code>true</code> if this <code>set</code> changed as a result of the call.</p>
+
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.addAll = <span class="keyword">function</span>(a) {
+        <span class="keyword">var</span> result = <span class="literal">false</span>;
+        <span class="keyword">var</span> length = a.length;
+        <span class="keyword">for</span> (<span class="keyword">var</span> index = <span class="number">0</span>; index &lt; length; index++) {
+            <span class="keyword">var</span> added = <span class="keyword">this</span>.add(a[index]);
+            result = result || added;
+        }
+        <span class="keyword">return</span> result;
+    };</pre></div>
+        
+      
+        
+        <p>Removes all of the elements from this <code>set</code>.</p>
+
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.clear = <span class="keyword">function</span>(e) {
+        values = [];
+    };</pre></div>
+        
+      
+        
+        <p>Returns <code>true</code> if this <code>set</code> contains the specified <code>element</code>.</p>
+
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.contains = <span class="keyword">function</span>(e) {
+        <span class="keyword">return</span> indexOf(e) !== -<span class="number">1</span>;
+    };</pre></div>
+        
+      
+        
+        <p>Returns <code>true</code> if this set contains no elements.</p>
+
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.isEmpty = <span class="keyword">function</span>() {
+        <span class="keyword">return</span> <span class="keyword">this</span>.size() === <span class="number">0</span>;
+    };</pre></div>
+        
+      
+        
+        <p>Removes the specified <code>element</code> from this <code>set</code> if it is present.
+Returns <code>true</code> if this <code>set</code> contained the specified element.</p>
+
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.remove = <span class="keyword">function</span>(e) {
+        <span class="keyword">var</span> index = indexOf(e);
+        <span class="keyword">if</span> (index !== <span class="number">1</span>) {
+            values.splice(index, <span class="number">1</span>);
+            <span class="keyword">return</span> <span class="literal">true</span>;
+        }
+        <span class="keyword">return</span> <span class="literal">false</span>;
+    };</pre></div>
+        
+      
+        
+        <p>Returns the number of elements in this <code>set</code>.</p>
+
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.size = <span class="keyword">function</span>() {
+        <span class="keyword">return</span> values.length;
+    };</pre></div>
+        
+      
+        
+        <p>Returns an array containing all of the elements in this <code>set</code>.</p>
+
+        
+          <div class='highlight'><pre>    <span class="keyword">this</span>.toArray = <span class="keyword">function</span>() {
+        <span class="keyword">return</span> values.slice(<span class="number">0</span>);
+    };
+
+};</pre></div>
+        
+      
+        
+        <p>expose API to Node.js</p>
+
+        
+          <div class='highlight'><pre>module.exports = Set;</pre></div>
+        
+      
+      <div class="fleur">h</div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>DPLL.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="page">
+
+      <div class="header">
+        
+          
+          <h1>DPLL.js</h1>
+<p>An implementation of the Davis-Putnam-Logemann-Loveland (<a href="http://en.wikipedia.org/wiki/DPLL_algorithm">DPLL</a>) algorithm 
+for solving the <a href="http://en.wikipedia.org/wiki/Boolean_satisfiability_problem">CNF-SAT</a> problem.</p>
+<p>This algorithm decides the satisfiability of propositional logic formulae in conjunctive normal form (<a href="http://en.wikipedia.org/wiki/Conjunctive_normal_form">CNF</a>) - i.e. an ANDs of ORs.</p>
+<p>The <a href="https://github.com/ofmooseandmen/DPLL.js">DPPL.js source</a> is available on GitHub, and is released under the MIT license.</p>
+<p>Most of this documentation actually comes from <a href="http://en.wikipedia.org">wikipedia</a></p>
+<h2>Disclaimer</h2>
+<p>This implementation is most definitively not as efficient as those entering the <a href="http://www.satcompetition.org/">SAT competition</a>. </p>
+<h2>Why JavaScript?</h2>
+<p><a href="http://www.codinghorror.com/blog/2007/07/the-principle-of-least-power.html">Atwood&#39;s Law</a>!</p>
+<blockquote>
+<p>Any application that can be written in JavaScript, will eventually be written in JavaScript. </p>
+</blockquote>
+<h2>Tests</h2>
+<p>This library comes with its unit test written with <a href="http://visionmedia.github.io/mocha">mocha</a>. To run them simple head to the <code>test</code> 
+directory and execute <code>mocha *Test.js</code></p>
+<h2>Usage</h2>
+<p>Let&#39;s say you want to solve the following formula: <code>(a | b) &amp; (-b | c | -d) &amp; (d | -e)</code>. In other world you&#39;d like to know
+the value of <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code> and <code>e</code> that would make this formula <code>true</code>. All you need to do is:</p>
+<pre><code>var dpll = require(&#39;./src/dpll.js&#39;);
+// create a new CNF formula
+var formula = new dpll.CnfFormula();
+var a = {};
+var b = {};
+var c = {};
+var d = {};
+var e = {};
+// build the formula
+formula.openClause(a).or(b).close()
+       .openClauseNot(b).or(c).orNot(d).close()
+       .openClause(d).orNot(e).close();
+
+// create a new solver for this formula
+var solver = new dpll.Solver(formula);
+
+// Et voila!
+var solution = solver.solve();
+console.log(solution.get(a));</code></pre>
+<p>if the CNF formula has been solved the result will <b>NOT</b> contain the variables that have
+been optimized away. For instance if the formula contains the clause <code>(x | -x | y)</code> and <code>x</code> is not 
+present in any other clause of the formula, then <code>x</code> is optimized away and therefore its value is 
+irrelevant - i.e. it could be <code>true</code> or <code>false</code>.</p>
+<p>Two mode for selecting variables in order to apply the <em>splitting rule</em> are available.</p>
+<ul>
+<li><p>random selection amongst unassigned variables; enabled by default or by calling <code>Solver#randomVariableSelection</code></p>
+</li>
+<li><p>variable with highest occurrence amongst the unassigned variables; enabled by calling <code>Solver#highestOccurrenceVariableSelection</code></p>
+</li>
+</ul>
+<p>The following code snippet enables selection of unassigned variable with highest occurrence:</p>
+<pre><code>var dpll = require(&#39;./src/dpll.js&#39;);
+[...]
+var solver = new dpll.Solver(formula);
+var solution = solver.highestOccurrenceVariableSelection().solve();</code></pre>
+<p>More about...</p>
+<ul>
+<li><p>the DPLL algorithm itself: <a href="./Solver.html">Solver.js</a></p>
+</li>
+<li><p>the CNF Formula: <a href="./CnfFormula.html">CnfFormula.js</a></p>
+</li>
+</ul>
+<p>make <code>CnfFormula</code> available</p>
+
+          
+            <div class='highlight'><pre>exports.CnfFormula = require(<span class="string">'./CnfFormula'</span>);</pre></div>
+          
+        
+
+        
+          <div class="toc">
+            <h3>Table of Contents</h3>
+            <ol>
+              
+                
+                <li>
+                  <a class="source" href="Clause.html">
+                    Clause.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="CnfFormula.html">
+                    CnfFormula.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Literal.html">
+                    Literal.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Map.html">
+                    Map.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Set.html">
+                    Set.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Solver.html">
+                    Solver.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Valuation.html">
+                    Valuation.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="dpll.html">
+                    dpll.js
+                  </a>
+                </li>
+              
+            </ol>
+          </div>
+        
+      </div>
+
+      
+        
+        <p>make <code>Solver</code> available</p>
+
+        
+          <div class='highlight'><pre>exports.Solver = require(<span class="string">'./Solver'</span>);</pre></div>
+        
+      
+      <div class="fleur">h</div>
+    </div>
+  </div>
+</body>
+</html>
