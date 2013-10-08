@@ -84,8 +84,12 @@
 
       
         
-        <p>A propositional logic formula in conjunctive normal form (CNF) - an AND of ORs.</p>
-<p>Let&#39;s build the following CNF: ` (x1 | -x2) &amp; (-x1 | x2 | x3) &amp; -x1</p>
+        <p>A propositional logic formula in conjunctive normal form (CNF) - or more simply put:</p>
+<blockquote>
+<p>an <em>AND</em> of <em>OR</em>s.</p>
+</blockquote>
+<p>Let&#39;s build the following CNF formula:</p>
+<p><em>(x1 &or; &not;x2) &and; (&not;x1 &or; x2 &or; x3) &and; (&not;x1)</em></p>
 <pre><code>var CnfFormula = require(&#39;./CnfFormula&#39;);
 var cnf = new CnfFormula();
 var x1 = {};
@@ -94,19 +98,20 @@ var x3 = {};
 cnf.openClause(x1).orNot(x2).close()
    .openClauseNot(x1).or(x2).or(x3).close()
    .openClauseNot(x1).close();</code></pre>
+<h2>Definitions</h2>
 <p>Each chunk of <em>or</em> between <em>()</em> is called a clause.</p>
-<p><code>x1</code>, <code>x2</code> and <code>x3</code> are called variables. Their instances is irrevelant to the algorithm.</p>
+<p><code>x1</code>, <code>x2</code> and <code>x3</code> are called variables. Their instances are irrevelant to the algorithm.</p>
 <p><code>x1</code> and <code>-x1</code> are called literals. A literal is either:</p>
 <ul>
 <li>just a variable - such as <code>x1</code>, it is then called a <em>positive literal</em>,</li>
-<li>the negation of a variable - such as <code>-x1</code>, it is then called a <em>negative literal</em></li>
+<li>the negation of a variable - such as <code>-x1</code>, it is then called a <em>negative literal</em>.</li>
 </ul>
 <p>Once built a <code>CnfFormula</code> is never modified. Therefore <code>unitPropagate</code> nor <code>pureLiteralAssign</code> modify this formula
 and hence it can be re-used as many time as needed in order to find a `valuation&#39; that solves it.</p>
 <p>This implementation makes use of maps and sets to keep tracks of the clauses, variables and literals of this formula.
 If a variable implements the <code>equals</code> function it will be used instead of the <code>===</code> operator to determine variable
 equality.</p>
-<p>More about...</p>
+<h2>More about...</h2>
 <ul>
 <li><p>Clauses: <a href="./Clause.html">Clause.js</a></p>
 </li>
@@ -117,12 +122,13 @@ equality.</p>
 <li><p>Sets: <a href="./Set.html">Set.js</a></p>
 </li>
 </ul>
+<h2>Source code</h2>
 <p>Constructor - no argument.</p>
 
         
           <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">CnfFormula</span><span class="params">()</span> {</span>
 	
-	<span class="string">'use strict'</span>;
+    <span class="string">'use strict'</span>;
 
     <span class="keyword">var</span> Map = require(<span class="string">'./Map'</span>);
 
@@ -146,14 +152,14 @@ equality.</p>
         
       
         
-        <p>a <code>map</code> whose keys are variables and values are associated positive <a href="./Literal.html">literal</a>.</p>
+        <p>a <code>map</code> whose keys are variables and values are associated positive literal.</p>
 
         
           <div class='highlight'><pre>    <span class="keyword">var</span> positiveLiterals = <span class="keyword">new</span> Map();</pre></div>
         
       
         
-        <p>a <code>map</code> whose keys are variables and values are associated negative <a href="./Literal.html">literal</a>.</p>
+        <p>a <code>map</code> whose keys are variables and values are associated negative literal.</p>
 
         
           <div class='highlight'><pre>    <span class="keyword">var</span> negativeLiterals = <span class="keyword">new</span> Map();</pre></div>
@@ -248,11 +254,11 @@ still unassigned</li>
         
       
         
-        <p>Performs the <em>unit propagation</em>. If a clause is a unit clause, i.e. it contains only a single unassigned
+        <p>Performs the <em>unit propagation</em> step. If a clause is a unit clause, i.e. it contains only a single unassigned
 literal, this clause can only be satisfied by assigning the necessary value to make this literal true. Thus, no
 choice is necessary. In practice, this often leads to deterministic cascades of units, thus avoiding a large part
 of the naive search space.</p>
-<p>The specified <code>valuation</code> will be filled with compute variable truth assignment upon return.</p>
+<p>The specified <code>valuation</code> will be filled with computed variable truth assignments upon return.</p>
 <p>This method just loop through all the clauses of this formula calling in turn <code>Clause#evaluate</code>.</p>
 
         
@@ -265,10 +271,10 @@ of the naive search space.</p>
         
       
         
-        <p>Performs the <em>pure literal elimination</em>. If a propositional variable occurs with only one polarity in the formula,
+        <p>Performs the <em>pure literal elimination</em> step. If a propositional variable occurs with only one polarity in the formula,
 it is called pure. Pure literals can always be assigned in a way that makes all clauses containing them <code>true</code>.
 Thus, these clauses do not constrain the search anymore and can be deleted.</p>
-<p>The specified <code>valuation</code> will be filled with compute variable truth assignment upon return.</p>
+<p>The specified <code>valuation</code> will be filled with computed variable truth assignments upon return.</p>
 
         
           <div class='highlight'><pre>    <span class="keyword">this</span>.pureLiteralAssign = <span class="keyword">function</span>(valuation) {

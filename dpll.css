@@ -1,0 +1,19 @@
+.formula {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 2em;
+  font-style: italic;
+  text-align: center;
+}
+
+.dpll-doc {
+  text-align: center;
+  margin: 20px;
+  font-size: 1.5em;
+}
+
+.dpll-doc a {
+  text-decoration: none;
+  color: #30404f; 
+  padding: 10px;
+  border: 1px solid #ddd;
+}

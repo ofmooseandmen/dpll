@@ -84,8 +84,8 @@
 
       
         
-        <p>The valuation of a <code>CnfFormula</code>. This holds the value of each assigned variable during the execution of the DPLL algorithm.</p>
-<p>Keeps track of:</p>
+        <p>The valuation of a <code>CnfFormula</code>.</p>
+<p>It keeps tracks of the following attributes during the execution of the DPLL algorithm:</p>
 <ul>
 <li><p>the currently <strong>unassigned</strong> variables and the number of occurrence of each of them in the formula,</p>
 </li>
@@ -99,10 +99,11 @@
 <li><p>with the highest number of occurrences in the formula: <code>highestOccurrenceVariable</code>.</p>
 </li>
 </ul>
-<p>More about...</p>
+<h2>More about...</h2>
 <ul>
 <li>Maps: <a href="./Map.html">Map.js</a></li>
 </ul>
+<h2>Source code</h2>
 <p>Constructor - takes <code>map</code> whose <code>keys</code> are the variable and <code>values</code> the number of occurrences in the formula.</p>
 
         
@@ -142,7 +143,7 @@
         
       
         
-        <p>remove variable from unassigned</p>
+        <p>remove variable from <code>unassigned</code></p>
 
         
           <div class='highlight'><pre>        unassigned.remove(variable);
@@ -168,7 +169,7 @@
         
       
         
-        <p>Returns an <code>array</code> containing all the variables currently <code>unassigned</code>.</p>
+        <p>Returns an <code>array</code> containing all the variables currently unassigned.</p>
 
         
           <div class='highlight'><pre>    <span class="keyword">this</span>.unassigned = <span class="keyword">function</span>() {
@@ -199,7 +200,7 @@ See <a href="./CnfFormula.html">CnfFormula.js</a></p>
         
       
         
-        <p>Returns the <code>variable</code> with highest occurrence in the formula amongst the currently unassigned variables.</p>
+        <p>Returns the <code>variable</code> with highest occurrences in the formula amongst the currently unassigned variables.</p>
 
         
           <div class='highlight'><pre>    <span class="keyword">this</span>.highestOccurrenceVariable = <span class="keyword">function</span>() {
