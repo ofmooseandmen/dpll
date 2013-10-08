@@ -16,8 +16,16 @@ describe('Solver', function() {
             var solver = new Solver(formula);
             var solution = solver.solve();
             assert.equal(5, solution.size());
+            var aVal = solution.get(a);
+            var bVal = solution.get(b);
+            var cVal = solution.get(c);
+            var dVal = solution.get(d);
+            var eVal = solution.get(e);
+            var actual = (aVal || bVal) && (!bVal || cVal || !dVal) && (dVal || !eVal);
+            assert.equal(true, actual);
+
         });
-        
+
         it('should return a Map which is the solution (highest occurrence selection)', function() {
             var formula = new CnfFormula();
             var a = {};
@@ -30,6 +38,13 @@ describe('Solver', function() {
             var solver = new Solver(formula);
             var solution = solver.highestOccurrenceVariableSelection().solve();
             assert.equal(5, solution.size());
+            var aVal = solution.get(a);
+            var bVal = solution.get(b);
+            var cVal = solution.get(c);
+            var dVal = solution.get(d);
+            var eVal = solution.get(e);
+            var actual = (aVal || bVal) && (!bVal || cVal || !dVal) && (dVal || !eVal);
+            assert.equal(true, actual);
         });
 
         it('should return a Map which is the solution but provide no value for x', function() {
