@@ -12,11 +12,13 @@
 //
 // The methods `add`, `addAll`, `contains` and `remove` rely on this logic.
 //
+// ## Source code
+//
 // Constructor - no argument.
 //
 function Set() {
 	
-	'use strict';
+    'use strict';
 
     // the array in which all elements are stored.
     var values = [];

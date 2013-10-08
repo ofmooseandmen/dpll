@@ -1,7 +1,10 @@
 //
-// A propositional logic formula in conjunctive normal form (CNF) - an AND of ORs.
+// A propositional logic formula in conjunctive normal form (CNF) - or more simply put:
+// > an *AND* of *OR*s.
 //
-// Let's build the following CNF: ` (x1 | -x2) & (-x1 | x2 | x3) & -x1
+// Let's build the following CNF formula:
+//
+// *(x1 &or; &not;x2) &and; (&not;x1 &or; x2 &or; x3) &and; (&not;x1)*
 //
 //     var CnfFormula = require('./CnfFormula');
 //     var cnf = new CnfFormula();
@@ -12,14 +15,16 @@
 //        .openClauseNot(x1).or(x2).or(x3).close()
 //        .openClauseNot(x1).close();
 //
+// ## Definitions
+//
 // Each chunk of *or* between *()* is called a clause.
 //
-// `x1`, `x2` and `x3` are called variables. Their instances is irrevelant to the algorithm.
+// `x1`, `x2` and `x3` are called variables. Their instances are irrevelant to the algorithm.
 //
 // `x1` and `-x1` are called literals. A literal is either:
 //
 // - just a variable - such as `x1`, it is then called a *positive literal*,
-// - the negation of a variable - such as `-x1`, it is then called a *negative literal*
+// - the negation of a variable - such as `-x1`, it is then called a *negative literal*.
 //
 // Once built a `CnfFormula` is never modified. Therefore `unitPropagate` nor `pureLiteralAssign` modify this formula
 // and hence it can be re-used as many time as needed in order to find a `valuation' that solves it.
@@ -28,7 +33,7 @@
 // If a variable implements the `equals` function it will be used instead of the `===` operator to determine variable
 // equality.
 //
-// More about...
+// ## More about...
 //
 // - Clauses: [Clause.js](./Clause.html)
 //
@@ -38,11 +43,13 @@
 //
 // - Sets: [Set.js](./Set.html)
 //
+// ## Source code
+//
 // Constructor - no argument.
 //
 function CnfFormula() {
 	
-	'use strict';
+    'use strict';
 
     var Map = require('./Map');
 
@@ -56,10 +63,10 @@ function CnfFormula() {
     // a `map` whose keys are variables and value the number of occurences in the formula.
     var variables = new Map();
 
-    // a `map` whose keys are variables and values are associated positive [literal](./Literal.html).
+    // a `map` whose keys are variables and values are associated positive literal.
     var positiveLiterals = new Map();
 
-    // a `map` whose keys are variables and values are associated negative [literal](./Literal.html).
+    // a `map` whose keys are variables and values are associated negative literal.
     var negativeLiterals = new Map();
 
     //
@@ -137,12 +144,12 @@ function CnfFormula() {
     };
 
     //
-    // Performs the *unit propagation*. If a clause is a unit clause, i.e. it contains only a single unassigned
+    // Performs the *unit propagation* step. If a clause is a unit clause, i.e. it contains only a single unassigned
     // literal, this clause can only be satisfied by assigning the necessary value to make this literal true. Thus, no
     // choice is necessary. In practice, this often leads to deterministic cascades of units, thus avoiding a large part
     // of the naive search space.
     //
-    // The specified `valuation` will be filled with compute variable truth assignment upon return.
+    // The specified `valuation` will be filled with computed variable truth assignments upon return.
     //
     // This method just loop through all the clauses of this formula calling in turn `Clause#evaluate`.
     //
@@ -154,11 +161,11 @@ function CnfFormula() {
     };
 
     //
-    // Performs the *pure literal elimination*. If a propositional variable occurs with only one polarity in the formula,
+    // Performs the *pure literal elimination* step. If a propositional variable occurs with only one polarity in the formula,
     // it is called pure. Pure literals can always be assigned in a way that makes all clauses containing them `true`.
     // Thus, these clauses do not constrain the search anymore and can be deleted.
     //
-    // The specified `valuation` will be filled with compute variable truth assignment upon return.
+    // The specified `valuation` will be filled with computed variable truth assignments upon return.
     //
     this.pureLiteralAssign = function(valuation) {
         var unassigned = valuation.unassigned();

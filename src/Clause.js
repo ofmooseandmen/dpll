@@ -1,23 +1,27 @@
 //
-// A clause is a disjunction of [literal](./Literal.html)s (or a single literal) - i.e. it is a OR of literals.
-// 
+// A clause is a disjunction of [literal](./Literal.html)s (or a single literal) or more simply put:
+// > it is a *OR* of literals.
+//
 // ## Optimizations
 // 1. If a clause contains the same literal more than once, only one instance of this literal will be kept.
-// 2. If a clause contains both a positve literal and a negative literal of the same variable they are optimized away - i.e. removed
+// 2. If a clause contains both a positve literal and a negative literal of the same variable they are optimized away -
+// i.e. removed
 // ...from the clause, since the value of this variable is irrelevant; ` (true | false) ` is always `true`
 //
-// More about...
+// ## More about...
 //
 // - Literals: [Literal.js](./Literal.html)
 //
 // - Sets: [Set.js](./Set.html)
 //
+// ## Source code
+//
 // Constructor - takes the first `variable`, its negation (a `boolean`) and the enclosing `CnfFormula` as input.
-// It is not intented to be used anywhere but `CnfFormula#openClause# and `CnfFormula#openClauseNot`.
+// It is not intented to be used anywhere but `CnfFormula#openClause` and `CnfFormula#openClauseNot`.
 //
 function Clause(variable, negation, aFormula) {
 	
-	'use strict';
+    'use strict';
 
     var Set = require('./Set');
 
@@ -35,9 +39,12 @@ function Clause(variable, negation, aFormula) {
     // the set of variables that have been optimized away
     var irrelevant = new Set();
 
+    //
+    // Add the specified `variable` / `literal` to this clause.
+    //
     function add(variable, literal) {
         if (vars.contains(variable) && !literals.contains(literal)) {
-            // trying to add x || -x
+            // trying to add ` x | -x `
             // remove var and previous literal
             var succes = vars.remove(variable);
             if (!succes) {
@@ -49,28 +56,45 @@ function Clause(variable, negation, aFormula) {
             literals.remove(new Literal(variable, wasNegated));
             irrelevant.add(variable);
         } else {
-            // since Set are used adding x | x will have no effect - only one x is kept.
+            // since Set are used adding ` x | x ` will have no effect - only one `x` is kept.
             vars.add(variable);
             literals.add(literal);
         }
     };
 
+    //
+    // Add the specified `variable` as a positive literal to this clause and returns this instance.
+    //
     this.or = function(variable) {
         var literal = new Literal(variable, false);
         add(variable, literal);
         return this;
     };
 
+    //
+    // Add the specified `variable` as a negative literal to this clause and returns this instance.
+    //
     this.orNot = function(variable) {
         var literal = new Literal(variable, true);
         add(variable, literal);
         return this;
     };
 
+	//
+	// Terminates this clause, adds it to the enclosing `CnfFormula` and returns the enclosing `CnfFormula`.
+	//
     this.close = function() {
         return formula.addClause(this, vars, literals, irrelevant);
     };
 
+    //
+    // Evaluate this clause against the specified `valuation` and returns
+    //
+    // - `true` if this clause is satisfied under the specified `valudation`
+    // - `false` if this clause is not satisfied under the specified `valudation`
+    // - `undefined` if the specified `valudation` does not allow to evaluate this clause - i.e. some variables are
+    // still unassigned
+    //
     this.evaluate = function(valuation) {
         var size = literals.size();
         var result;
@@ -93,6 +117,14 @@ function Clause(variable, negation, aFormula) {
         return result;
     };
 
+    //
+    // Performs the *unit propagation* step. If a clause is a unit clause, i.e. it contains only a single unassigned
+    // literal, this clause can only be satisfied by assigning the necessary value to make this literal true. Thus, no
+    // choice is necessary. In practice, this often leads to deterministic cascades of units, thus avoiding a large part
+    // of the naive search space.
+    //
+    // The specified `valuation` will be filled with computed variable truth assignments upon return.
+    //
     this.unitPropagate = function(valuation) {
         var size = literals.size();
         if (size > 0) {

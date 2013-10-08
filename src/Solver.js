@@ -16,8 +16,8 @@
 // - Re-run the algorithm with the variable assigned to `false` instead
 //
 // The algorithm will eventually converge to either a solution or `undefined`...
-
-// More about...
+//
+// ## More about...
 //
 // - Valuation: [Valuation.js](./Valuation.html)
 //
@@ -25,11 +25,13 @@
 //
 // - Maps: [Map.js](./Map.html)
 //
+// ## Source code
+//
 // Constructor - takes a `CnfFormula` as input.
 //
 function Solver(aFormula) {
 	
-	'use strict';
+    'use strict';
 
     var Valuation = require('./Valuation');
 
@@ -88,7 +90,7 @@ function Solver(aFormula) {
                 return undefined;
             } else {
 
-                // select variable to assign
+                // select `variable` to assign
                 var newVar;
                 if (useRandomSelection) {
                     newVar = valuation.randomUnassignedVariable();
@@ -96,14 +98,14 @@ function Solver(aFormula) {
                     newVar = valuation.highestOccurrenceVariable();
                 }
 
-                // evaluate with truth value = true.
+                // evaluate with truth `value = true`.
                 valuation.putSolution(newVar, true);
                 var afterNewVarTrueEval = formula.evaluate(valuation);
                 if (true === afterNewVarTrueEval) {
                     // solution found.
                     return valuation.solution();
                 } else {
-                    // set truth value to false and rerun.
+                    // set truth value to `false` and rerun.
                     valuation.putSolution(newVar, false);
                     return run(valuation);
                 }

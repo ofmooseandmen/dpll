@@ -1,7 +1,7 @@
 //
-// The valuation of a `CnfFormula`. This holds the value of each assigned variable during the execution of the DPLL algorithm.
+// The valuation of a `CnfFormula`.
 //
-// Keeps track of:
+// It keeps tracks of the following attributes during the execution of the DPLL algorithm:
 //
 // - the currently **unassigned** variables and the number of occurrence of each of them in the formula,
 //
@@ -13,9 +13,11 @@
 //
 // - with the highest number of occurrences in the formula: `highestOccurrenceVariable`.
 //
-// More about...
+// ## More about...
 //
 // - Maps: [Map.js](./Map.html)
+//
+// ## Source code
 //
 // Constructor - takes `map` whose `keys` are the variable and `values` the number of occurrences in the formula.
 //
@@ -37,7 +39,7 @@ function Valuation(variables) {
     this.putSolution = function(variable, value) {
         // new solution
         solution.put(variable, value);
-        // remove variable from unassigned
+        // remove variable from `unassigned`
         unassigned.remove(variable);
     };
 
@@ -50,12 +52,13 @@ function Valuation(variables) {
 
 	//
 	// Returns `true` if the specified `variable` is currently assigned to `true`.
+	//
     this.isAssigned = function(variable) {
         return solution.containsKey(variable);
     };
 
 	//
-	// Returns an `array` containing all the variables currently `unassigned`.
+	// Returns an `array` containing all the variables currently unassigned.
 	//
     this.unassigned = function() {
         return unassigned.keyArray();
@@ -80,7 +83,7 @@ function Valuation(variables) {
     };
 
 	//
-	// Returns the `variable` with highest occurrence in the formula amongst the currently unassigned variables.
+	// Returns the `variable` with highest occurrences in the formula amongst the currently unassigned variables.
 	//
     this.highestOccurrenceVariable = function() {
         var entries = unassigned.entries();

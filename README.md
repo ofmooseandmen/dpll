@@ -5,4 +5,4 @@ solving the [CNF-SAT](http://en.wikipedia.org/wiki/Boolean_satisfiability_proble
 
 This algorithm decides the satisfiability of propositional logic formulae in conjunctive normal form ([CNF](http://en.wikipedia.org/wiki/Conjunctive_normal_form)) - i.e. an ANDs of ORs.
 
-## Documentation @ <http://ofmooseandmen.github.io/DPLL.js>
+### Documentation @ <http://ofmooseandmen.github.io/DPLL.js>

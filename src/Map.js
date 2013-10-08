@@ -13,11 +13,13 @@
 //
 // The methods `put`, `get`, `containsKey` and `remove` rely on this logic.
 //
+// ## Source code
+//
 // Constructor - no argument.
 //
 function Map() {
 	
-	'use strict';
+    'use strict';
 
     // the array in which all keys are stored.
     var keys = [];

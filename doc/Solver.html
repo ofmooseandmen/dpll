@@ -100,7 +100,7 @@ algorithm.</p>
 <li>Re-run the algorithm with the variable assigned to <code>false</code> instead</li>
 </ul>
 <p>The algorithm will eventually converge to either a solution or <code>undefined</code>...</p>
-<p>More about...</p>
+<h2>More about...</h2>
 <ul>
 <li><p>Valuation: <a href="./Valuation.html">Valuation.js</a></p>
 </li>
@@ -109,12 +109,13 @@ algorithm.</p>
 <li><p>Maps: <a href="./Map.html">Map.js</a></p>
 </li>
 </ul>
+<h2>Source code</h2>
 <p>Constructor - takes a <code>CnfFormula</code> as input.</p>
 
         
           <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Solver</span><span class="params">(aFormula)</span> {</span>
 	
-	<span class="string">'use strict'</span>;
+    <span class="string">'use strict'</span>;
 
     <span class="keyword">var</span> Valuation = require(<span class="string">'./Valuation'</span>);</pre></div>
         
@@ -188,7 +189,7 @@ its value is irrelevant - i.e. it can be <code>true</code> or <code>false</code>
         
       
         
-        <p>select variable to assign</p>
+        <p>select <code>variable</code> to assign</p>
 
         
           <div class='highlight'><pre>                <span class="keyword">var</span> newVar;
@@ -200,7 +201,7 @@ its value is irrelevant - i.e. it can be <code>true</code> or <code>false</code>
         
       
         
-        <p>evaluate with truth value = true.</p>
+        <p>evaluate with truth <code>value = true</code>.</p>
 
         
           <div class='highlight'><pre>                valuation.putSolution(newVar, <span class="literal">true</span>);
@@ -217,7 +218,7 @@ its value is irrelevant - i.e. it can be <code>true</code> or <code>false</code>
         
       
         
-        <p>set truth value to false and rerun.</p>
+        <p>set truth value to <code>false</code> and rerun.</p>
 
         
           <div class='highlight'><pre>                    valuation.putSolution(newVar, <span class="literal">false</span>);
