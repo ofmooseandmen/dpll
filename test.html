@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>test.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
+  <link rel="stylesheet" media="all" href="dpll.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="page">
+
+      <div class="header">
+        
+          <h1>test.js</h1>
+        
+
+        
+          <div class="toc">
+            <h3>Table of Contents</h3>
+            <ol>
+              
+                
+                <li>
+                  <a class="source" href="Clause.html">
+                    Clause.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="CnfFormula.html">
+                    CnfFormula.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Literal.html">
+                    Literal.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Map.html">
+                    Map.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Set.html">
+                    Set.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Solver.html">
+                    Solver.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="Valuation.html">
+                    Valuation.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="dpll.html">
+                    dpll.js
+                  </a>
+                </li>
+              
+                
+                <li>
+                  <a class="source" href="test.html">
+                    test.js
+                  </a>
+                </li>
+              
+            </ol>
+          </div>
+        
+      </div>
+
+      
+        
+        
+        
+          <div class='highlight'><pre><span class="keyword">var</span> dpll = require(<span class="string">'./dpll'</span>);</pre></div>
+        
+      
+        
+        <p>create a new CNF formula</p>
+
+        
+          <div class='highlight'><pre><span class="keyword">var</span> formula = <span class="keyword">new</span> dpll.CnfFormula();
+<span class="keyword">var</span> a = {};
+<span class="keyword">var</span> b = {};
+<span class="keyword">var</span> c = {};
+<span class="keyword">var</span> d = {};
+<span class="keyword">var</span> e = {};</pre></div>
+        
+      
+        
+        <p>build the formula</p>
+
+        
+          <div class='highlight'><pre>formula.openClause(a).or(b).close()
+       .openClauseNot(b).or(c).orNot(d).close()
+       .openClause(d).orNot(e).close();</pre></div>
+        
+      
+        
+        <p>create a new solver for this formula</p>
+
+        
+          <div class='highlight'><pre><span class="keyword">var</span> solver = <span class="keyword">new</span> dpll.Solver(formula);</pre></div>
+        
+      
+        
+        <p>Et voila!</p>
+
+        
+          <div class='highlight'><pre><span class="keyword">var</span> solution = solver.solve();
+console.log(solution.get(a));</pre></div>
+        
+      
+      <div class="fleur">h</div>
+    </div>
+  </div>
+</body>
+</html>
