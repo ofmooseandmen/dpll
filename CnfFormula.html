@@ -8,78 +8,21 @@
   <link rel="stylesheet" media="all" href="dpll.css" />
 </head>
 <body>
+
+  <a href="https://github.com/ofmooseandmen/DPPL.js">
+    <img style="position: absolute; top: 0; right: 0; border: 0;" 
+         src="public/images/forkme_right_orange_ff7600.png" 
+         alt="Fork me on GitHub">
+  </a>
   <div class="container">
     <div class="page">
 
       <div class="header">
+        <a class="dpll-logo" href="dpll.html">DPLL.js</a>
         
           <h1>CnfFormula.js</h1>
         
 
-        
-          <div class="toc">
-            <h3>Table of Contents</h3>
-            <ol>
-              
-                
-                <li>
-                  <a class="source" href="Clause.html">
-                    Clause.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="CnfFormula.html">
-                    CnfFormula.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="Literal.html">
-                    Literal.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="Map.html">
-                    Map.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="Set.html">
-                    Set.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="Solver.html">
-                    Solver.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="Valuation.html">
-                    Valuation.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="dpll.html">
-                    dpll.js
-                  </a>
-                </li>
-              
-            </ol>
-          </div>
-        
       </div>
 
       
@@ -99,15 +42,15 @@ cnf.openClause(x1).orNot(x2).close()
    .openClauseNot(x1).or(x2).or(x3).close()
    .openClauseNot(x1).close();</code></pre>
 <h2>Definitions</h2>
-<p>Each chunk of <em>or</em> between <em>()</em> is called a clause.</p>
+<p>Each chunk of <em>or</em> between <em>()</em> is called a <a href="./Clause.html">clause</a>.</p>
 <p><code>x1</code>, <code>x2</code> and <code>x3</code> are called variables. Their instances are irrevelant to the algorithm.</p>
-<p><code>x1</code> and <code>-x1</code> are called literals. A literal is either:</p>
+<p><code>x1</code> and <code>-x1</code> are called <a href="./Literal.html">literals</a>. A literal is either:</p>
 <ul>
 <li>just a variable - such as <code>x1</code>, it is then called a <em>positive literal</em>,</li>
 <li>the negation of a variable - such as <code>-x1</code>, it is then called a <em>negative literal</em>.</li>
 </ul>
 <p>Once built a <code>CnfFormula</code> is never modified. Therefore <code>unitPropagate</code> nor <code>pureLiteralAssign</code> modify this formula
-and hence it can be re-used as many time as needed in order to find a `valuation&#39; that solves it.</p>
+and hence it can be re-used as many time as needed in order to find a <code>valuation</code> that solves it.</p>
 <p>This implementation makes use of maps and sets to keep tracks of the clauses, variables and literals of this formula.
 If a variable implements the <code>equals</code> function it will be used instead of the <code>===</code> operator to determine variable
 equality.</p>
@@ -308,7 +251,6 @@ Thus, these clauses do not constrain the search anymore and can be deleted.</p>
           <div class='highlight'><pre>module.exports = CnfFormula;</pre></div>
         
       
-      <div class="fleur">h</div>
     </div>
   </div>
 </body>
