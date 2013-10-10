@@ -21,9 +21,9 @@
 }
 
 @font-face {
-	font-family: 'source-sans-pro-bold';
-	src: url('public/fonts/SourceSansPro-Bold.eot');
-	src: url('public/fonts/SourceSansPro-Bold.eot?#iefix') format('embedded-opentype'), url('public/fonts/SourceSansPro-Bold.otf.woff') format('otf'), url('public/fonts/SourceSansPro-Bold.ttf.woff') format('truetype');
+	font-family: 'source-sans-pro-regular';
+	src: url('public/fonts/SourceSansPro-Regular.eot');
+	src: url('public/fonts/SourceSansPro-Regular.eot?#iefix') format('embedded-opentype'), url('public/fonts/SourceSansPro-Regular.otf.woff') format('otf'), url('public/fonts/SourceSansPro-Regular.ttf.woff') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -32,11 +32,8 @@
 
 body {
 	font-family: "source-sans-pro-light";
-	/**
-	 background: url('public/images/gray.png') #fff;
-	 background-size: 322px;
-	 */
 	margin: 0;
+	background-color: white;
 }
 
 hr {
@@ -46,21 +43,19 @@ hr {
 }
 
 h1, h2, h3, h4, h5, h6 {
-	color: #112233;
+	color: #0090e5;
 	font-weight: normal;
-	font-family: "source-sans-pro-bold";
-	text-transform: uppercase;
-	line-height: 1em;
+	font-family: "source-sans-pro-regular";
+	line-height: 1.5;
 	margin-top: 50px;
 }
 
 h1 {
 	margin: 0;
-	text-align: center;
-	width: 100%;
-	padding-bottom: 20px;
-	margin-bottom: 10px;
-	border-bottom: 1px solid #ccc;
+	padding: 0;
+	text-align: left;
+	width: 800px;
+	line-height: 2;
 }
 
 h2 {
@@ -68,12 +63,14 @@ h2 {
 }
 
 a {
-	color: #000;
+	color: #ff3d00;
+	text-decoration: none;
+	font-family: "source-sans-pro-regular";
 }
 
 b, strong {
 	font-weight: normal;
-	font-family: "source-sans-pro-bold";
+	font-family: "source-sans-pro-regular";
 }
 
 blockquote {
@@ -82,9 +79,7 @@ blockquote {
 	padding: 1px 0 1px 1em;
 }
 .page blockquote p {
-	font-family: Menlo, Consolas, Monaco, monospace;
-	font-size: 14px;
-	line-height: 19px;
+	font-family: source-sans-pro-lightit;
 	color: #999;
 	margin: 10px 0 0;
 	white-space: pre-wrap;
@@ -92,17 +87,17 @@ blockquote {
 
 pre, tt, code {
 	font-family: Menlo, Consolas, Monaco, monospace;
-	font-size: 12px;
+	font-size: 18px;
 	display: inline-block;
-	border: 1px solid #EAEAEA;
-	background: #f8f8f8;
-	color: #555;
+	border: 1px solid #ccc;
+	color: #333;
 	padding: 0 5px;
-	line-height: 20px;
+	line-height: 28px;
+	background-color: #f8f8f8;
 }
 .page pre {
 	margin: 0;
-	width: 608px;
+	width: 800px;
 	padding: 10px 15px;
 	background: #fcfcfc;
 	overflow-x: auto;
@@ -111,10 +106,6 @@ pre, tt, code {
 	border: 0;
 	padding: 0;
 	background: transparent;
-}
-
-.fleur {
-	display: none;
 }
 
 /*--------------------- Layout ----------------------------*/
@@ -129,13 +120,21 @@ pre, tt, code {
 	width: 830px;
 	padding: 30px;
 	margin: 30px;
-	margin-top: 0;
+	margin-top: 0px;
 	background: #fff;
-	font-size: 20px;
-	line-height: 26px;
+	font-size: 24px;
+	line-height: 1.5;
+	text-align: justify;
 }
+
+.header {
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+	border-bottom: 1px solid #cccccc;	
+}
+
 .page p {
-	color: #30404f;
+	color: black;
 	margin: 26px 0;
 }
 
@@ -147,38 +146,6 @@ ul.sections {
 
 .page li p {
 	margin: 12px 0;
-}
-
-.toc {
-	max-height: 0;
-	overflow: hidden;
-	text-align: center;
-	font-size: 13px;
-	line-height: 20px;
-	-moz-transition: max-height 1s;
-	-webkit-transition: max-height 1s;
-	transition: max-height 1s;
-}
-
-.header:hover .toc {
-	max-height: 500px;
-	border-bottom: 1px solid #ccc;
-}
-
-.toc h3 {
-	margin-top: 20px;
-}
-.toc ol {
-	margin: 0 0 20px 0;
-	display: inline-block;
-	text-align: left;
-	list-style-type: upper-roman;
-}
-.toc li {
-	font-family: 'source-sans-pro-bold';
-}
-.toc li a {
-	font-family: 'source-sans-pro-light';
 }
 
 /*---------------------- Syntax Highlighting -----------------------------*/
@@ -201,7 +168,6 @@ pre code {
 	display: block;
 	padding: 0.5em;
 	color: #000;
-	background: #f8f8ff
 }
 
 pre .comment, pre .template_comment, pre .diff .header, pre .javadoc {
@@ -289,64 +255,14 @@ pre .tex .formula {
 	opacity: 0.5;
 }
 
-.dpll-title {
+.dpll-logo {
+	float: left;
 	display: block;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	margin-bottom: 20px;
-	width: 100%;
-	text-align: center;
-	font-size: 43px;
-	line-height: 55px;
+	background-image: url('public/images/logo.png');
+	width: 100px;
+	height: 100px;
 	color: white;
-	background-color: #7abf26;
-}
-
-.dpll-hero {
-	font-size: 24px;
-}
-
-.dpll-hero p {
-	color: #3B3631;
-	line-height: 40px;
-}
-
-.dpll-formula {
-	display: block;
+	line-height: 100px;
 	text-align: center;
-	font-family: "source-sans-pro-lightit";
-	font-size: 32px;
-	line-height: 33px;
-}
-
-.dpll-doc {
-	display: table;
-	width: 100%;
-	border-collapse: collapse;
-	border: none;
-}
-
-.dpll-doc ul {
-	display: table-row;
-}
-
-.dpll-doc .dpll-doc-filler {
-	padding: 0;
-	width: 10px;
-	border: none;
-}
-
-.dpll-doc li {
-	display: table-cell;
-	margin: 0;
-	border: 1px solid #de3d81;
-}
-
-.dpll-doc li a {
-	display: table-cell;
-	font-size: 36px;
-	line-height: 40px;
-	text-decoration: none;
-	color: #de3d81;
-	padding: 10px;
+	margin-right: 20px;
 }

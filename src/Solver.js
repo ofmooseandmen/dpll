@@ -1,19 +1,22 @@
 //
 // Implementation of the Davis-Putnam-Logemann-Loveland (DPLL) algorithm.
 //
-// Everytime the `solve` method is called a new `Valuation` is created and passed to the successive steps of the
+// Everytime the `solve` method is called a new [Valuation](./Valuation.html) is created and passed to the successive steps of the
 // algorithm.
 //
-// - Evalutate the CNF formula with the current valuation: `CnfFormula#evaluate(Valuation).
-// - Return the solution of the valuation (a map) if evaluation is `true`
-// - Run the *unit propagate* step of the algorithm: `CnfFormula#unitPropagate(Valuation)`
-// - Run the *pure literal assign* step of the algorithm: `CnfFormula#pureLiteralAssign(Valuation)`
-// - re-evaluate the CNF formula with the current valuation.
-// - Return the solution of the valuation (a map) if evaluation is `true`
-// - Return `undefined` if the evaluation is `false`
-// - Pick a variable according to the selection mode and assign it to `true`
-// - Return the solution of the valuation (a map) if evaluation is `true`
-// - Re-run the algorithm with the variable assigned to `false` instead
+// 1. Evalutate the CNF formula with the current valuation:
+//    `CnfFormula#evaluate(Valuation)`
+// 2. Return the solution of the valuation (a map) if evaluation is `true`
+// 3. Run the *unit propagate* step of the algorithm:
+//    `CnfFormula#unitPropagate(Valuation)`
+// 4. Run the *pure literal assign* step of the algorithm:
+//    `CnfFormula#pureLiteralAssign(Valuation)`
+// 5. re-evaluate the CNF formula with the current valuation.
+// 6. Return the solution of the valuation (a map) if evaluation is `true`
+// 7. Return `undefined` if the evaluation is `false`
+// 8. Pick a variable according to the selection mode and assign it to `true`
+// 9. Return the solution of the valuation (a map) if evaluation is `true`
+// 10. Re-run the algorithm with the variable assigned to `false` instead
 //
 // The algorithm will eventually converge to either a solution or `undefined`...
 //

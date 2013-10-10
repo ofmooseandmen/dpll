@@ -8,83 +8,26 @@
   <link rel="stylesheet" media="all" href="dpll.css" />
 </head>
 <body>
+
+  <a href="https://github.com/ofmooseandmen/DPPL.js">
+    <img style="position: absolute; top: 0; right: 0; border: 0;" 
+         src="public/images/forkme_right_orange_ff7600.png" 
+         alt="Fork me on GitHub">
+  </a>
   <div class="container">
     <div class="page">
 
       <div class="header">
+        <a class="dpll-logo" href="dpll.html">DPLL.js</a>
         
           <h1>Clause.js</h1>
         
 
-        
-          <div class="toc">
-            <h3>Table of Contents</h3>
-            <ol>
-              
-                
-                <li>
-                  <a class="source" href="Clause.html">
-                    Clause.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="CnfFormula.html">
-                    CnfFormula.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="Literal.html">
-                    Literal.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="Map.html">
-                    Map.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="Set.html">
-                    Set.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="Solver.html">
-                    Solver.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="Valuation.html">
-                    Valuation.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="dpll.html">
-                    dpll.js
-                  </a>
-                </li>
-              
-            </ol>
-          </div>
-        
       </div>
 
       
         
-        <p>A clause is a disjunction of <a href="./Literal.html">literal</a>s (or a single literal) or more simply put:</p>
+        <p>A clause is a disjunction of <a href="./Literal.html">literals</a> (or a single literal) or more simply put:</p>
 <blockquote>
 <p>it is a <em>OR</em> of literals.</p>
 </blockquote>
@@ -92,8 +35,7 @@
 <ol>
 <li>If a clause contains the same literal more than once, only one instance of this literal will be kept.</li>
 <li>If a clause contains both a positve literal and a negative literal of the same variable they are optimized away -
-i.e. removed
-...from the clause, since the value of this variable is irrelevant; <code>(true | false)</code> is always <code>true</code></li>
+i.e. removed from the clause, since the value of this variable is irrelevant; <code>(true | false)</code> is always <code>true</code></li>
 </ol>
 <h2>More about...</h2>
 <ul>
@@ -308,7 +250,6 @@ of the naive search space.</p>
           <div class='highlight'><pre>module.exports = Clause;</pre></div>
         
       
-      <div class="fleur">h</div>
     </div>
   </div>
 </body>

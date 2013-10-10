@@ -1,4 +1,5 @@
-// # DPLL.js
+// DPLL Algorithm in JavaScript.
+// =====
 //
 // An implementation of the Davis-Putnam-Logemann-Loveland ([DPLL](http://en.wikipedia.org/wiki/DPLL_algorithm))
 // algorithm
@@ -19,7 +20,7 @@
 // entering the [SAT competition](http://www.satcompetition.org/).
 //
 // ## Why JavaScript?
-// [Atwood's Law](http://www.codinghorror.com/blog/2007/07/the-principle-of-least-power.html)!
+// [Atwood's Law!](http://www.codinghorror.com/blog/2007/07/the-principle-of-least-power.html)
 // > Any application that can be written in JavaScript, will eventually be written in JavaScript.
 //
 // ## Tests
@@ -55,8 +56,8 @@
 //     var solution = solver.solve();
 //     console.log(solution.get(a));
 //
-// if the CNF formula has been solved the result will **NOT** contain the variables that have
-// been optimized away. For instance if the formula contains the clause ` (x | -x | y) ` and `x` is not
+// if the [CNF formula](./CnfFormula.html) has been solved the result will **NOT** contain the variables that have
+// been optimized away. For instance if the formula contains the [clause](./Clause.html) ` (x | -x | y) ` and `x` is not
 // present in any other clause of the formula, then `x` is optimized away and therefore its value is
 // irrelevant - i.e. it could be `true` or `false`.
 //

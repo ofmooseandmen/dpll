@@ -8,97 +8,43 @@
   <link rel="stylesheet" media="all" href="dpll.css" />
 </head>
 <body>
+
+  <a href="https://github.com/ofmooseandmen/DPPL.js">
+    <img style="position: absolute; top: 0; right: 0; border: 0;" 
+         src="public/images/forkme_right_orange_ff7600.png" 
+         alt="Fork me on GitHub">
+  </a>
   <div class="container">
     <div class="page">
 
       <div class="header">
+        <a class="dpll-logo" href="dpll.html">DPLL.js</a>
         
           <h1>Solver.js</h1>
         
 
-        
-          <div class="toc">
-            <h3>Table of Contents</h3>
-            <ol>
-              
-                
-                <li>
-                  <a class="source" href="Clause.html">
-                    Clause.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="CnfFormula.html">
-                    CnfFormula.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="Literal.html">
-                    Literal.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="Map.html">
-                    Map.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="Set.html">
-                    Set.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="Solver.html">
-                    Solver.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="Valuation.html">
-                    Valuation.js
-                  </a>
-                </li>
-              
-                
-                <li>
-                  <a class="source" href="dpll.html">
-                    dpll.js
-                  </a>
-                </li>
-              
-            </ol>
-          </div>
-        
       </div>
 
       
         
         <p>Implementation of the Davis-Putnam-Logemann-Loveland (DPLL) algorithm.</p>
-<p>Everytime the <code>solve</code> method is called a new <code>Valuation</code> is created and passed to the successive steps of the
+<p>Everytime the <code>solve</code> method is called a new <a href="./Valuation.html">Valuation</a> is created and passed to the successive steps of the
 algorithm.</p>
-<ul>
-<li>Evalutate the CNF formula with the current valuation: `CnfFormula#evaluate(Valuation).</li>
+<ol>
+<li>Evalutate the CNF formula with the current valuation:
+<code>CnfFormula#evaluate(Valuation)</code></li>
 <li>Return the solution of the valuation (a map) if evaluation is <code>true</code></li>
-<li>Run the <em>unit propagate</em> step of the algorithm: <code>CnfFormula#unitPropagate(Valuation)</code></li>
-<li>Run the <em>pure literal assign</em> step of the algorithm: <code>CnfFormula#pureLiteralAssign(Valuation)</code></li>
+<li>Run the <em>unit propagate</em> step of the algorithm:
+<code>CnfFormula#unitPropagate(Valuation)</code></li>
+<li>Run the <em>pure literal assign</em> step of the algorithm:
+<code>CnfFormula#pureLiteralAssign(Valuation)</code></li>
 <li>re-evaluate the CNF formula with the current valuation.</li>
 <li>Return the solution of the valuation (a map) if evaluation is <code>true</code></li>
 <li>Return <code>undefined</code> if the evaluation is <code>false</code></li>
 <li>Pick a variable according to the selection mode and assign it to <code>true</code></li>
 <li>Return the solution of the valuation (a map) if evaluation is <code>true</code></li>
 <li>Re-run the algorithm with the variable assigned to <code>false</code> instead</li>
-</ul>
+</ol>
 <p>The algorithm will eventually converge to either a solution or <code>undefined</code>...</p>
 <h2>More about...</h2>
 <ul>
@@ -242,7 +188,6 @@ its value is irrelevant - i.e. it can be <code>true</code> or <code>false</code>
           <div class='highlight'><pre>module.exports = Solver;</pre></div>
         
       
-      <div class="fleur">h</div>
     </div>
   </div>
 </body>

@@ -17,17 +17,17 @@
 //
 // ## Definitions
 //
-// Each chunk of *or* between *()* is called a clause.
+// Each chunk of *or* between *()* is called a [clause](./Clause.html).
 //
 // `x1`, `x2` and `x3` are called variables. Their instances are irrevelant to the algorithm.
 //
-// `x1` and `-x1` are called literals. A literal is either:
+// `x1` and `-x1` are called [literals](./Literal.html). A literal is either:
 //
 // - just a variable - such as `x1`, it is then called a *positive literal*,
 // - the negation of a variable - such as `-x1`, it is then called a *negative literal*.
 //
 // Once built a `CnfFormula` is never modified. Therefore `unitPropagate` nor `pureLiteralAssign` modify this formula
-// and hence it can be re-used as many time as needed in order to find a `valuation' that solves it.
+// and hence it can be re-used as many time as needed in order to find a `valuation` that solves it.
 //
 // This implementation makes use of maps and sets to keep tracks of the clauses, variables and literals of this formula.
 // If a variable implements the `equals` function it will be used instead of the `===` operator to determine variable

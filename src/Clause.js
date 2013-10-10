@@ -1,12 +1,11 @@
 //
-// A clause is a disjunction of [literal](./Literal.html)s (or a single literal) or more simply put:
+// A clause is a disjunction of [literals](./Literal.html) (or a single literal) or more simply put:
 // > it is a *OR* of literals.
 //
 // ## Optimizations
 // 1. If a clause contains the same literal more than once, only one instance of this literal will be kept.
 // 2. If a clause contains both a positve literal and a negative literal of the same variable they are optimized away -
-// i.e. removed
-// ...from the clause, since the value of this variable is irrelevant; ` (true | false) ` is always `true`
+// i.e. removed from the clause, since the value of this variable is irrelevant; ` (true | false) ` is always `true`
 //
 // ## More about...
 //
