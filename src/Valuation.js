@@ -9,9 +9,9 @@
 //
 // Also provides service to pick a variable:
 //
-// - at random amongst the unassigned variables: `randomUnassignedVariable`,
+// - at random amongst the unassigned variables: `#randomUnassignedVariable()`,
 //
-// - with the highest number of occurrences in the formula: `highestOccurrenceVariable`.
+// - with the highest number of occurrences in the formula: `#highestOccurrenceVariable()`.
 //
 // ## More about...
 //

@@ -5,7 +5,7 @@
 // ## Optimizations
 // 1. If a clause contains the same literal more than once, only one instance of this literal will be kept.
 // 2. If a clause contains both a positve literal and a negative literal of the same variable they are optimized away -
-// i.e. removed from the clause, since the value of this variable is irrelevant; ` (true | false) ` is always `true`
+// i.e. removed from the clause, since the value of this variable is irrelevant; *(true &or; false)* is always *true*
 //
 // ## More about...
 //

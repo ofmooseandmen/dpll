@@ -5,29 +5,30 @@
   <title>Valuation.js</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
-  <link rel="stylesheet" media="all" href="dpll.css" />
+  <link rel="stylesheet" media="all" href="style.css" />
 </head>
 <body>
 
-  <a href="https://github.com/ofmooseandmen/DPPL.js">
+  <a href="https://github.com/ofmooseandmen/dpll">
     <img style="position: absolute; top: 0; right: 0; border: 0;" 
-         src="public/images/forkme_right_orange_ff7600.png" 
+         src="public/images/forkme.png" 
          alt="Fork me on GitHub">
   </a>
   <div class="container">
     <div class="page">
 
       <div class="header">
-        <a class="dpll-logo" href="dpll.html">DPLL.js</a>
+        <a class="logo" href="index.html">dpll</a>
         
           <h1>Valuation.js</h1>
         
 
       </div>
-
       
+      <div class="content">
         
-        <p>The valuation of a <code>CnfFormula</code>.</p>
+          
+          <p>The valuation of a <code>CnfFormula</code>.</p>
 <p>It keeps tracks of the following attributes during the execution of the DPLL algorithm:</p>
 <ul>
 <li><p>the currently <strong>unassigned</strong> variables and the number of occurrence of each of them in the formula,</p>
@@ -37,9 +38,9 @@
 </ul>
 <p>Also provides service to pick a variable:</p>
 <ul>
-<li><p>at random amongst the unassigned variables: <code>randomUnassignedVariable</code>,</p>
+<li><p>at random amongst the unassigned variables: <code>#randomUnassignedVariable()</code>,</p>
 </li>
-<li><p>with the highest number of occurrences in the formula: <code>highestOccurrenceVariable</code>.</p>
+<li><p>with the highest number of occurrences in the formula: <code>#highestOccurrenceVariable()</code>.</p>
 </li>
 </ul>
 <h2>More about...</h2>
@@ -49,104 +50,104 @@
 <h2>Source code</h2>
 <p>Constructor - takes <code>map</code> whose <code>keys</code> are the variable and <code>values</code> the number of occurrences in the formula.</p>
 
-        
-          <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Valuation</span><span class="params">(variables)</span> {</span>
+          
+            <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Valuation</span><span class="params">(variables)</span> {</span>
     
     <span class="string">'use strict'</span>;
 
     <span class="keyword">var</span> Map = require(<span class="string">'./Map'</span>);</pre></div>
+          
         
-      
-        
-        <p>contains all the unassigned variables - initialized with whole the variables.</p>
+          
+          <p>contains all the unassigned variables - initialized with whole the variables.</p>
 
+          
+            <div class='highlight'><pre>    <span class="keyword">var</span> unassigned = variables;</pre></div>
+          
         
-          <div class='highlight'><pre>    <span class="keyword">var</span> unassigned = variables;</pre></div>
-        
-      
-        
-        <p>a map whose key is a variable and value is either true or false.</p>
+          
+          <p>a map whose key is a variable and value is either true or false.</p>
 
+          
+            <div class='highlight'><pre>    <span class="keyword">var</span> solution = <span class="keyword">new</span> Map();</pre></div>
+          
         
-          <div class='highlight'><pre>    <span class="keyword">var</span> solution = <span class="keyword">new</span> Map();</pre></div>
-        
-      
-        
-        <p>Assign the specified <code>variable</code> to the specified <code>boolean</code> value.</p>
+          
+          <p>Assign the specified <code>variable</code> to the specified <code>boolean</code> value.</p>
 
+          
+            <div class='highlight'><pre>    <span class="keyword">this</span>.putSolution = <span class="keyword">function</span>(variable, value) {</pre></div>
+          
         
-          <div class='highlight'><pre>    <span class="keyword">this</span>.putSolution = <span class="keyword">function</span>(variable, value) {</pre></div>
-        
-      
-        
-        <p>new solution</p>
+          
+          <p>new solution</p>
 
+          
+            <div class='highlight'><pre>        solution.put(variable, value);</pre></div>
+          
         
-          <div class='highlight'><pre>        solution.put(variable, value);</pre></div>
-        
-      
-        
-        <p>remove variable from <code>unassigned</code></p>
+          
+          <p>remove variable from <code>unassigned</code></p>
 
-        
-          <div class='highlight'><pre>        unassigned.remove(variable);
+          
+            <div class='highlight'><pre>        unassigned.remove(variable);
     };</pre></div>
+          
         
-      
-        
-        <p>Returns the current value of the specified <code>variable</code>: <code>true</code>, <code>false</code> or <code>undefined</code>.</p>
+          
+          <p>Returns the current value of the specified <code>variable</code>: <code>true</code>, <code>false</code> or <code>undefined</code>.</p>
 
-        
-          <div class='highlight'><pre>    <span class="keyword">this</span>.getSolution = <span class="keyword">function</span>(variable) {
+          
+            <div class='highlight'><pre>    <span class="keyword">this</span>.getSolution = <span class="keyword">function</span>(variable) {
         <span class="keyword">return</span> solution.get(variable);
     };</pre></div>
+          
         
-      
-        
-        <p>Returns <code>true</code> if the specified <code>variable</code> is currently assigned to <code>true</code>.</p>
+          
+          <p>Returns <code>true</code> if the specified <code>variable</code> is currently assigned to <code>true</code>.</p>
 
-        
-          <div class='highlight'><pre>    <span class="keyword">this</span>.isAssigned = <span class="keyword">function</span>(variable) {
+          
+            <div class='highlight'><pre>    <span class="keyword">this</span>.isAssigned = <span class="keyword">function</span>(variable) {
         <span class="keyword">return</span> solution.containsKey(variable);
     };</pre></div>
+          
         
-      
-        
-        <p>Returns an <code>array</code> containing all the variables currently unassigned.</p>
+          
+          <p>Returns an <code>array</code> containing all the variables currently unassigned.</p>
 
-        
-          <div class='highlight'><pre>    <span class="keyword">this</span>.unassigned = <span class="keyword">function</span>() {
+          
+            <div class='highlight'><pre>    <span class="keyword">this</span>.unassigned = <span class="keyword">function</span>() {
         <span class="keyword">return</span> unassigned.keyArray();
     };</pre></div>
+          
         
-      
-        
-        <p>Returns the <code>map</code> of solutions: <code>key</code> is variable, value is <code>true</code> or <code>false</code>.
+          
+          <p>Returns the <code>map</code> of solutions: <code>key</code> is variable, value is <code>true</code> or <code>false</code>.
 Variables that have been optimized away are not assigned with a truth value.
 See <a href="./CnfFormula.html">CnfFormula.js</a></p>
 
-        
-          <div class='highlight'><pre>    <span class="keyword">this</span>.solution = <span class="keyword">function</span>() {
+          
+            <div class='highlight'><pre>    <span class="keyword">this</span>.solution = <span class="keyword">function</span>() {
         <span class="keyword">return</span> solution;
     };</pre></div>
+          
         
-      
-        
-        <p>Returns a <code>variable</code> at random amongst the currently unassigned variables.</p>
+          
+          <p>Returns a <code>variable</code> at random amongst the currently unassigned variables.</p>
 
-        
-          <div class='highlight'><pre>    <span class="keyword">this</span>.randomUnassignedVariable = <span class="keyword">function</span>() {
+          
+            <div class='highlight'><pre>    <span class="keyword">this</span>.randomUnassignedVariable = <span class="keyword">function</span>() {
         <span class="keyword">var</span> unassignedArr = unassigned.keyArray();
         <span class="keyword">var</span> random = Math.floor(Math.random() * (unassignedArr.length));
         <span class="keyword">return</span> unassignedArr[random];
     };</pre></div>
+          
         
-      
-        
-        <p>Returns the <code>variable</code> with highest occurrences in the formula amongst the currently unassigned variables.</p>
+          
+          <p>Returns the <code>variable</code> with highest occurrences in the formula amongst the currently unassigned variables.</p>
 
-        
-          <div class='highlight'><pre>    <span class="keyword">this</span>.highestOccurrenceVariable = <span class="keyword">function</span>() {
+          
+            <div class='highlight'><pre>    <span class="keyword">this</span>.highestOccurrenceVariable = <span class="keyword">function</span>() {
         <span class="keyword">var</span> entries = unassigned.entries();
         <span class="keyword">var</span> entriesLength = entries.length;
         <span class="keyword">var</span> maxOcc = <span class="number">0</span>;
@@ -162,15 +163,16 @@ See <a href="./CnfFormula.html">CnfFormula.js</a></p>
     };
 
 }</pre></div>
+          
         
-      
-        
-        <p>expose API to Node.js</p>
+          
+          <p>expose API to Node.js</p>
 
+          
+            <div class='highlight'><pre>module.exports = Valuation;</pre></div>
+          
         
-          <div class='highlight'><pre>module.exports = Valuation;</pre></div>
-        
-      
+      </div>
     </div>
   </div>
 </body>

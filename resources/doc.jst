@@ -9,16 +9,16 @@
 </head>
 <body>
 
-  <a href="https://github.com/ofmooseandmen/DPPL.js">
+  <a href="https://github.com/ofmooseandmen/dpll">
     <img style="position: absolute; top: 0; right: 0; border: 0;" 
-         src="public/images/forkme_right_orange_ff7600.png" 
+         src="public/images/forkme.png" 
          alt="Fork me on GitHub">
   </a>
   <div class="container">
     <div class="page">
 
       <div class="header">
-        <a class="dpll-logo" href="dpll.html">DPLL.js</a>
+        <a class="logo" href="index.html">dpll</a>
         <% if (hasTitle) { %>
           <% var section = sections.shift(); %>
           <%= section.docsHtml %>
@@ -30,14 +30,16 @@
         <% } %>
 
       </div>
-
-      <% for (var i = 0, l = sections.length; i<l; i++) { %>
-        <% var section = sections[i]; %>
-        <%= section.docsHtml %>
-        <% if (!(/^\s*$/).test(section.codeText)) { %>
-          <%= section.codeHtml %>
+      
+      <div class="content">
+        <% for (var i = 0, l = sections.length; i<l; i++) { %>
+          <% var section = sections[i]; %>
+          <%= section.docsHtml %>
+          <% if (!(/^\s*$/).test(section.codeText)) { %>
+            <%= section.codeHtml %>
+          <% } %>
         <% } %>
-      <% } %>
+      </div>
     </div>
   </div>
 </body>

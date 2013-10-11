@@ -5,47 +5,57 @@
   <title>Solver.js</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
-  <link rel="stylesheet" media="all" href="dpll.css" />
+  <link rel="stylesheet" media="all" href="style.css" />
 </head>
 <body>
 
-  <a href="https://github.com/ofmooseandmen/DPPL.js">
+  <a href="https://github.com/ofmooseandmen/dpll">
     <img style="position: absolute; top: 0; right: 0; border: 0;" 
-         src="public/images/forkme_right_orange_ff7600.png" 
+         src="public/images/forkme.png" 
          alt="Fork me on GitHub">
   </a>
   <div class="container">
     <div class="page">
 
       <div class="header">
-        <a class="dpll-logo" href="dpll.html">DPLL.js</a>
+        <a class="logo" href="index.html">dpll</a>
         
           <h1>Solver.js</h1>
         
 
       </div>
-
       
+      <div class="content">
         
-        <p>Implementation of the Davis-Putnam-Logemann-Loveland (DPLL) algorithm.</p>
-<p>Everytime the <code>solve</code> method is called a new <a href="./Valuation.html">Valuation</a> is created and passed to the successive steps of the
+          
+          <p>Implementation of the Davis-Putnam-Logemann-Loveland (DPLL) algorithm.</p>
+<p>Everytime the <code>#solve()</code> method is called a new <a href="./Valuation.html">valuation</a> is created and passed to the successive steps of the
 algorithm.</p>
 <ol>
-<li>Evalutate the CNF formula with the current valuation:
-<code>CnfFormula#evaluate(Valuation)</code></li>
+<li>Evalutate the CNF formula with the current valuation by calling <code>CnfFormula#evaluate(Valuation)</code></li>
 <li>Return the solution of the valuation (a map) if evaluation is <code>true</code></li>
-<li>Run the <em>unit propagate</em> step of the algorithm:
-<code>CnfFormula#unitPropagate(Valuation)</code></li>
-<li>Run the <em>pure literal assign</em> step of the algorithm:
-<code>CnfFormula#pureLiteralAssign(Valuation)</code></li>
+<li>Run the <em>unit propagate</em> step of the algorithm by calling <code>CnfFormula#unitPropagate(Valuation)</code></li>
+<li>Run the <em>pure literal assign</em> step of the algorithm by calling <code>CnfFormula#pureLiteralAssign(Valuation)</code></li>
 <li>re-evaluate the CNF formula with the current valuation.</li>
 <li>Return the solution of the valuation (a map) if evaluation is <code>true</code></li>
 <li>Return <code>undefined</code> if the evaluation is <code>false</code></li>
-<li>Pick a variable according to the selection mode and assign it to <code>true</code></li>
+<li>Choose a variable and assign it to <code>true</code></li>
 <li>Return the solution of the valuation (a map) if evaluation is <code>true</code></li>
 <li>Re-run the algorithm with the variable assigned to <code>false</code> instead</li>
 </ol>
-<p>The algorithm will eventually converge to either a solution or <code>undefined</code>...</p>
+<p>The algorithm will eventually converge to either a solution or <code>undefined</code>.</p>
+<p>Step 8 is known as the <em>splitting rule</em>. Two selection modes are available:</p>
+<ul>
+<li><p>random selection amongst unassigned variables; enabled by default or by calling <code>#randomVariableSelection()</code></p>
+</li>
+<li><p>variable with highest occurrence amongst the unassigned variables; enabled by calling
+<code>#highestOccurrenceVariableSelection()</code></p>
+<p>  var dpll = require(&#39;./src/dpll.js&#39;);
+  [...]
+  var solver = new dpll.Solver(formula);
+  var solution = solver.highestOccurrenceVariableSelection().solve();</p>
+</li>
+</ul>
 <h2>More about...</h2>
 <ul>
 <li><p>Valuation: <a href="./Valuation.html">Valuation.js</a></p>
@@ -58,50 +68,50 @@ algorithm.</p>
 <h2>Source code</h2>
 <p>Constructor - takes a <code>CnfFormula</code> as input.</p>
 
-        
-          <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Solver</span><span class="params">(aFormula)</span> {</span>
+          
+            <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Solver</span><span class="params">(aFormula)</span> {</span>
 	
     <span class="string">'use strict'</span>;
 
     <span class="keyword">var</span> Valuation = require(<span class="string">'./Valuation'</span>);</pre></div>
+          
         
-      
-        
-        <p>the formula to be solved in CnfFormula.</p>
+          
+          <p>the formula to be solved in CnfFormula.</p>
 
+          
+            <div class='highlight'><pre>    <span class="keyword">var</span> formula = aFormula;</pre></div>
+          
         
-          <div class='highlight'><pre>    <span class="keyword">var</span> formula = aFormula;</pre></div>
-        
-      
-        
-        <p><code>true</code> for selection of unassigned random variable, <code>false</code> for selection of unassigned variable with highest occurrence.</p>
+          
+          <p><code>true</code> for selection of unassigned random variable, <code>false</code> for selection of unassigned variable with highest occurrence.</p>
 
+          
+            <div class='highlight'><pre>    <span class="keyword">var</span> useRandomSelection = <span class="literal">true</span>;</pre></div>
+          
         
-          <div class='highlight'><pre>    <span class="keyword">var</span> useRandomSelection = <span class="literal">true</span>;</pre></div>
-        
-      
-        
-        <p>Sets the variable selection alogrithm to random selection mode and return <code>this</code>.</p>
+          
+          <p>Sets the variable selection alogrithm to random selection mode and return <code>this</code>.</p>
 
-        
-          <div class='highlight'><pre>    <span class="keyword">this</span>.randomVariableSelection = <span class="keyword">function</span>() {
+          
+            <div class='highlight'><pre>    <span class="keyword">this</span>.randomVariableSelection = <span class="keyword">function</span>() {
         useRandomSelection = <span class="literal">true</span>;
         <span class="keyword">return</span> <span class="keyword">this</span>;
     };</pre></div>
+          
         
-      
-        
-        <p>Sets the variable selection alogrithm to highest occurrence selection mode and return <code>this</code>.</p>
+          
+          <p>Sets the variable selection alogrithm to highest occurrence selection mode and return <code>this</code>.</p>
 
-        
-          <div class='highlight'><pre>    <span class="keyword">this</span>.highestOccurrenceVariableSelection = <span class="keyword">function</span>() {
+          
+            <div class='highlight'><pre>    <span class="keyword">this</span>.highestOccurrenceVariableSelection = <span class="keyword">function</span>() {
         useRandomSelection = <span class="literal">false</span>;
         <span class="keyword">return</span> <span class="keyword">this</span>;
     };</pre></div>
+          
         
-      
-        
-        <p>Tries and solves the CNF. Returns either a <code>map</code> whose <code>keys</code> are the variables and <code>values</code> are
+          
+          <p>Tries and solves the CNF. Returns either a <code>map</code> whose <code>keys</code> are the variables and <code>values</code> are
 either <code>true</code> or <code>false</code>.</p>
 <p>if the CNF formula has been solved the result will <strong>NOT</strong>
 contain the variables that have been optimized away. For instance
@@ -109,19 +119,19 @@ if the formula contains the clause <code>(x | -x | y)</code> and <code>x</code> 
 in any other clause of the formula, then <code>x</code> is optimized away and therefore
 its value is irrelevant - i.e. it can be <code>true</code> or <code>false</code>.</p>
 
-        
-          <div class='highlight'><pre>    <span class="keyword">this</span>.solve = <span class="keyword">function</span>() {
+          
+            <div class='highlight'><pre>    <span class="keyword">this</span>.solve = <span class="keyword">function</span>() {
         <span class="keyword">var</span> valuation = <span class="keyword">new</span> Valuation(formula.variables());
         <span class="keyword">return</span> run(valuation);
     };</pre></div>
+          
         
-      
-        
-        <p>Runs all steps of the algorithm eventually calling itself back if need be. Fills the specified
+          
+          <p>Runs all steps of the algorithm eventually calling itself back if need be. Fills the specified
 <code>valuation</code> along the way.</p>
 
-        
-          <div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">(valuation)</span> {</span>
+          
+            <div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">(valuation)</span> {</span>
         <span class="keyword">var</span> formulaEval = formula.evaluate(valuation);
         <span class="keyword">if</span> (formulaEval === <span class="literal">undefined</span>) {
             formula.unitPropagate(valuation);
@@ -132,42 +142,42 @@ its value is irrelevant - i.e. it can be <code>true</code> or <code>false</code>
             } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="literal">false</span> === afterOptimEval) {
                 <span class="keyword">return</span> <span class="literal">undefined</span>;
             } <span class="keyword">else</span> {</pre></div>
+          
         
-      
-        
-        <p>select <code>variable</code> to assign</p>
+          
+          <p>select <code>variable</code> to assign</p>
 
-        
-          <div class='highlight'><pre>                <span class="keyword">var</span> newVar;
+          
+            <div class='highlight'><pre>                <span class="keyword">var</span> newVar;
                 <span class="keyword">if</span> (useRandomSelection) {
                     newVar = valuation.randomUnassignedVariable();
                 } <span class="keyword">else</span> {
                     newVar = valuation.highestOccurrenceVariable();
                 }</pre></div>
+          
         
-      
-        
-        <p>evaluate with truth <code>value = true</code>.</p>
+          
+          <p>evaluate with truth <code>value = true</code>.</p>
 
-        
-          <div class='highlight'><pre>                valuation.putSolution(newVar, <span class="literal">true</span>);
+          
+            <div class='highlight'><pre>                valuation.putSolution(newVar, <span class="literal">true</span>);
                 <span class="keyword">var</span> afterNewVarTrueEval = formula.evaluate(valuation);
                 <span class="keyword">if</span> (<span class="literal">true</span> === afterNewVarTrueEval) {</pre></div>
+          
         
-      
-        
-        <p>solution found.</p>
+          
+          <p>solution found.</p>
 
-        
-          <div class='highlight'><pre>                    <span class="keyword">return</span> valuation.solution();
+          
+            <div class='highlight'><pre>                    <span class="keyword">return</span> valuation.solution();
                 } <span class="keyword">else</span> {</pre></div>
+          
         
-      
-        
-        <p>set truth value to <code>false</code> and rerun.</p>
+          
+          <p>set truth value to <code>false</code> and rerun.</p>
 
-        
-          <div class='highlight'><pre>                    valuation.putSolution(newVar, <span class="literal">false</span>);
+          
+            <div class='highlight'><pre>                    valuation.putSolution(newVar, <span class="literal">false</span>);
                     <span class="keyword">return</span> run(valuation);
                 }
             }
@@ -179,15 +189,16 @@ its value is irrelevant - i.e. it can be <code>true</code> or <code>false</code>
     };
 
 };</pre></div>
+          
         
-      
-        
-        <p>expose API to Node.js</p>
+          
+          <p>expose API to Node.js</p>
 
+          
+            <div class='highlight'><pre>module.exports = Solver;</pre></div>
+          
         
-          <div class='highlight'><pre>module.exports = Solver;</pre></div>
-        
-      
+      </div>
     </div>
   </div>
 </body>

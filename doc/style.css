@@ -78,6 +78,11 @@ blockquote {
 	margin-left: 0;
 	padding: 1px 0 1px 1em;
 }
+
+li {
+	text-align: left;
+}
+
 .page blockquote p {
 	font-family: source-sans-pro-lightit;
 	color: #999;
@@ -90,19 +95,21 @@ pre, tt, code {
 	font-size: 18px;
 	display: inline-block;
 	border: 1px solid #ccc;
-	color: #333;
+	color: #555;
 	padding: 0 5px;
 	line-height: 28px;
 	background-color: #f8f8f8;
 }
 .page pre {
 	margin: 0;
-	width: 800px;
+	width: 770px;
 	padding: 10px 15px;
+	color: #555;
 	background: #fcfcfc;
 	overflow-x: auto;
 }
 .page pre code {
+	color: #555;
 	border: 0;
 	padding: 0;
 	background: transparent;
@@ -113,6 +120,7 @@ pre, tt, code {
 .container {
 	width: 950px;
 	margin: 0 auto;
+	padding: 0;
 	background: #fff;
 	overflow: hidden;
 }
@@ -121,16 +129,27 @@ pre, tt, code {
 	padding: 30px;
 	margin: 30px;
 	margin-top: 0px;
-	background: #fff;
+	background: white;
 	font-size: 24px;
 	line-height: 1.5;
 	text-align: justify;
 }
 
 .header {
-	margin-bottom: 20px;
+	position: fixed;
+	top: 0;
+	padding-top: 20px;
 	padding-bottom: 20px;
-	border-bottom: 1px solid #cccccc;	
+	border-bottom: 1px solid #cccccc;
+	background: white;
+	width: 830px;
+}
+
+.content {
+	float: left;
+	padding: 0 15px;
+	margin-top: 120px;
+	width: 800px;
 }
 
 .page p {
@@ -255,14 +274,23 @@ pre .tex .formula {
 	opacity: 0.5;
 }
 
-.dpll-logo {
+.logo {
 	float: left;
 	display: block;
-	background-image: url('public/images/logo.png');
+	background: #0090e5;
+	border-radius: 50px;
 	width: 100px;
 	height: 100px;
 	color: white;
+	font-size: 45px;
 	line-height: 100px;
 	text-align: center;
 	margin-right: 20px;
+	transition-property: background;
+	transition-duration: 0.5s;
+	transition-timing-function: ease-in-out;
+}
+
+.logo:hover {
+	background: #ff3d00;
 }

@@ -5,29 +5,30 @@
   <title>CnfFormula.js</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
-  <link rel="stylesheet" media="all" href="dpll.css" />
+  <link rel="stylesheet" media="all" href="style.css" />
 </head>
 <body>
 
-  <a href="https://github.com/ofmooseandmen/DPPL.js">
+  <a href="https://github.com/ofmooseandmen/dpll">
     <img style="position: absolute; top: 0; right: 0; border: 0;" 
-         src="public/images/forkme_right_orange_ff7600.png" 
+         src="public/images/forkme.png" 
          alt="Fork me on GitHub">
   </a>
   <div class="container">
     <div class="page">
 
       <div class="header">
-        <a class="dpll-logo" href="dpll.html">DPLL.js</a>
+        <a class="logo" href="index.html">dpll</a>
         
           <h1>CnfFormula.js</h1>
         
 
       </div>
-
       
+      <div class="content">
         
-        <p>A propositional logic formula in conjunctive normal form (CNF) - or more simply put:</p>
+          
+          <p>A propositional logic formula in conjunctive normal form (CNF) - or more simply put:</p>
 <blockquote>
 <p>an <em>AND</em> of <em>OR</em>s.</p>
 </blockquote>
@@ -43,14 +44,13 @@ cnf.openClause(x1).orNot(x2).close()
    .openClauseNot(x1).close();</code></pre>
 <h2>Definitions</h2>
 <p>Each chunk of <em>or</em> between <em>()</em> is called a <a href="./Clause.html">clause</a>.</p>
-<p><code>x1</code>, <code>x2</code> and <code>x3</code> are called variables. Their instances are irrevelant to the algorithm.</p>
-<p><code>x1</code> and <code>-x1</code> are called <a href="./Literal.html">literals</a>. A literal is either:</p>
+<p><em>x1</em>, <em>x2</em> and <em>x3</em> are called variables. Their instances are irrevelant to the algorithm.</p>
+<p><em>x1</em> and <em>&not;x1</em> are called <a href="./Literal.html">literals</a>. A literal is either:</p>
 <ul>
-<li>just a variable - such as <code>x1</code>, it is then called a <em>positive literal</em>,</li>
-<li>the negation of a variable - such as <code>-x1</code>, it is then called a <em>negative literal</em>.</li>
+<li>just a variable - such as <em>x1</em>, it is then called a <em>positive literal</em>,</li>
+<li>the negation of a variable - such as <em>&not;x1</em>, it is then called a <em>negative literal</em>.</li>
 </ul>
-<p>Once built a <code>CnfFormula</code> is never modified. Therefore <code>unitPropagate</code> nor <code>pureLiteralAssign</code> modify this formula
-and hence it can be re-used as many time as needed in order to find a <code>valuation</code> that solves it.</p>
+<p>Once built a <code>CNFFormula</code> is immutable and is therefore not modified by the execution of the DPLL algorithm.</p>
 <p>This implementation makes use of maps and sets to keep tracks of the clauses, variables and literals of this formula.
 If a variable implements the <code>equals</code> function it will be used instead of the <code>===</code> operator to determine variable
 equality.</p>
@@ -68,8 +68,8 @@ equality.</p>
 <h2>Source code</h2>
 <p>Constructor - no argument.</p>
 
-        
-          <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">CnfFormula</span><span class="params">()</span> {</span>
+          
+            <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">CnfFormula</span><span class="params">()</span> {</span>
 	
     <span class="string">'use strict'</span>;
 
@@ -78,41 +78,41 @@ equality.</p>
     <span class="keyword">var</span> Set = require(<span class="string">'./Set'</span>);
 
     <span class="keyword">var</span> Clause = require(<span class="string">'./Clause'</span>);</pre></div>
+          
         
-      
-        
-        <p>the <code>array</code> of Clauses of this formula.</p>
+          
+          <p>the <code>array</code> of Clauses of this formula.</p>
 
+          
+            <div class='highlight'><pre>    <span class="keyword">var</span> clauses = [];</pre></div>
+          
         
-          <div class='highlight'><pre>    <span class="keyword">var</span> clauses = [];</pre></div>
-        
-      
-        
-        <p>a <code>map</code> whose keys are variables and value the number of occurences in the formula.</p>
+          
+          <p>a <code>map</code> whose keys are variables and value the number of occurences in the formula.</p>
 
+          
+            <div class='highlight'><pre>    <span class="keyword">var</span> variables = <span class="keyword">new</span> Map();</pre></div>
+          
         
-          <div class='highlight'><pre>    <span class="keyword">var</span> variables = <span class="keyword">new</span> Map();</pre></div>
-        
-      
-        
-        <p>a <code>map</code> whose keys are variables and values are associated positive literal.</p>
+          
+          <p>a <code>map</code> whose keys are variables and values are associated positive literal.</p>
 
+          
+            <div class='highlight'><pre>    <span class="keyword">var</span> positiveLiterals = <span class="keyword">new</span> Map();</pre></div>
+          
         
-          <div class='highlight'><pre>    <span class="keyword">var</span> positiveLiterals = <span class="keyword">new</span> Map();</pre></div>
-        
-      
-        
-        <p>a <code>map</code> whose keys are variables and values are associated negative literal.</p>
+          
+          <p>a <code>map</code> whose keys are variables and values are associated negative literal.</p>
 
+          
+            <div class='highlight'><pre>    <span class="keyword">var</span> negativeLiterals = <span class="keyword">new</span> Map();</pre></div>
+          
         
-          <div class='highlight'><pre>    <span class="keyword">var</span> negativeLiterals = <span class="keyword">new</span> Map();</pre></div>
-        
-      
-        
-        <p>adds all the variables of the specified <code>array</code> to this formula. This fills the <code>variables</code> attribute.</p>
+          
+          <p>adds all the variables of the specified <code>array</code> to this formula. This fills the <code>variables</code> attribute.</p>
 
-        
-          <div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">addVariables</span><span class="params">(someVars)</span> {</span>
+          
+            <div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">addVariables</span><span class="params">(someVars)</span> {</span>
         <span class="keyword">var</span> length = someVars.length;
         <span class="keyword">for</span> (<span class="keyword">var</span> index = <span class="number">0</span>; index &lt; length; index++) {
             <span class="keyword">var</span> someVar = someVars[index];
@@ -124,32 +124,32 @@ equality.</p>
             }
         }
     };</pre></div>
+          
         
-      
-        
-        <p>Returns a new <code>clause</code> with specified <code>variable</code> as first <code>literal</code>. This <code>literal</code> will be positive.</p>
+          
+          <p>Returns a new <code>clause</code> with specified <code>variable</code> as first <code>literal</code>. This <code>literal</code> will be positive.</p>
 
-        
-          <div class='highlight'><pre>    <span class="keyword">this</span>.openClause = <span class="keyword">function</span>(variable) {
+          
+            <div class='highlight'><pre>    <span class="keyword">this</span>.openClause = <span class="keyword">function</span>(variable) {
         <span class="keyword">return</span> <span class="keyword">new</span> Clause(variable, <span class="literal">false</span>, <span class="keyword">this</span>);
     };</pre></div>
+          
         
-      
-        
-        <p>Returns a new <code>clause</code> with specified <code>variable</code> as first <code>literal</code>. This <code>literal</code> will be negative (negation of
+          
+          <p>Returns a new <code>clause</code> with specified <code>variable</code> as first <code>literal</code>. This <code>literal</code> will be negative (negation of
 variable).</p>
 
-        
-          <div class='highlight'><pre>    <span class="keyword">this</span>.openClauseNot = <span class="keyword">function</span>(variable) {
+          
+            <div class='highlight'><pre>    <span class="keyword">this</span>.openClauseNot = <span class="keyword">function</span>(variable) {
         <span class="keyword">return</span> <span class="keyword">new</span> Clause(variable, <span class="literal">true</span>, <span class="keyword">this</span>);
     };</pre></div>
+          
         
-      
-        
-        <p>Adds the specified <code>clause</code> to this formula.</p>
+          
+          <p>Adds the specified <code>clause</code> to this formula.</p>
 
-        
-          <div class='highlight'><pre>    <span class="keyword">this</span>.addClause = <span class="keyword">function</span>(clause, vars, literals, irrelevant) {
+          
+            <div class='highlight'><pre>    <span class="keyword">this</span>.addClause = <span class="keyword">function</span>(clause, vars, literals, irrelevant) {
         clauses.push(clause);
         addVariables(vars.toArray());
         <span class="keyword">var</span> literalsArr = literals.toArray();
@@ -164,19 +164,19 @@ variable).</p>
         }
         <span class="keyword">return</span> <span class="keyword">this</span>;
     };</pre></div>
+          
         
-      
-        
-        <p>returns the <code>variables</code> attribute.</p>
+          
+          <p>returns the <code>variables</code> attribute.</p>
 
-        
-          <div class='highlight'><pre>    <span class="keyword">this</span>.variables = <span class="keyword">function</span>() {
+          
+            <div class='highlight'><pre>    <span class="keyword">this</span>.variables = <span class="keyword">function</span>() {
         <span class="keyword">return</span> variables;
     };</pre></div>
+          
         
-      
-        
-        <p>Evaluate this formula against the specified <code>valuation</code> and returns</p>
+          
+          <p>Evaluate this formula against the specified <code>valuation</code> and returns</p>
 <ul>
 <li><code>true</code> if this formula is satisfied under the specified <code>valudation</code></li>
 <li><code>false</code> if this formula is not satisfied under the specified <code>valudation</code></li>
@@ -185,8 +185,8 @@ still unassigned</li>
 </ul>
 <p>This method just loop through all the clauses of this formula calling in turn <code>Clause#evaluate</code>.</p>
 
-        
-          <div class='highlight'><pre>    <span class="keyword">this</span>.evaluate = <span class="keyword">function</span>(valuation) {
+          
+            <div class='highlight'><pre>    <span class="keyword">this</span>.evaluate = <span class="keyword">function</span>(valuation) {
         <span class="keyword">var</span> result = <span class="literal">true</span>;
         <span class="keyword">var</span> length = clauses.length;
         <span class="keyword">for</span> (<span class="keyword">var</span> index = <span class="number">0</span>; index &lt; length &amp;&amp; result !== <span class="literal">undefined</span> &amp;&amp; result; index++) {
@@ -194,44 +194,44 @@ still unassigned</li>
         }
         <span class="keyword">return</span> result;
     };</pre></div>
+          
         
-      
-        
-        <p>Performs the <em>unit propagation</em> step. If a clause is a unit clause, i.e. it contains only a single unassigned
+          
+          <p>Performs the <em>unit propagation</em> step. If a clause is a unit clause, i.e. it contains only a single unassigned
 literal, this clause can only be satisfied by assigning the necessary value to make this literal true. Thus, no
 choice is necessary. In practice, this often leads to deterministic cascades of units, thus avoiding a large part
 of the naive search space.</p>
 <p>The specified <code>valuation</code> will be filled with computed variable truth assignments upon return.</p>
 <p>This method just loop through all the clauses of this formula calling in turn <code>Clause#evaluate</code>.</p>
 
-        
-          <div class='highlight'><pre>    <span class="keyword">this</span>.unitPropagate = <span class="keyword">function</span>(valuation) {
+          
+            <div class='highlight'><pre>    <span class="keyword">this</span>.unitPropagate = <span class="keyword">function</span>(valuation) {
         <span class="keyword">var</span> length = clauses.length;
         <span class="keyword">for</span> (<span class="keyword">var</span> index = <span class="number">0</span>; index &lt; length; index++) {
             clauses[index].unitPropagate(valuation);
         }
     };</pre></div>
+          
         
-      
-        
-        <p>Performs the <em>pure literal elimination</em> step. If a propositional variable occurs with only one polarity in the formula,
+          
+          <p>Performs the <em>pure literal elimination</em> step. If a propositional variable occurs with only one polarity in the formula,
 it is called pure. Pure literals can always be assigned in a way that makes all clauses containing them <code>true</code>.
 Thus, these clauses do not constrain the search anymore and can be deleted.</p>
 <p>The specified <code>valuation</code> will be filled with computed variable truth assignments upon return.</p>
 
-        
-          <div class='highlight'><pre>    <span class="keyword">this</span>.pureLiteralAssign = <span class="keyword">function</span>(valuation) {
+          
+            <div class='highlight'><pre>    <span class="keyword">this</span>.pureLiteralAssign = <span class="keyword">function</span>(valuation) {
         <span class="keyword">var</span> unassigned = valuation.unassigned();
         <span class="keyword">var</span> length = unassigned.length;
         <span class="keyword">for</span> (<span class="keyword">var</span> index = <span class="number">0</span>; index &lt; length; index++) {
             <span class="keyword">var</span> variable = unassigned[index];</pre></div>
+          
         
-      
-        
-        <p>variable not assign, check if pure literal.</p>
+          
+          <p>variable not assign, check if pure literal.</p>
 
-        
-          <div class='highlight'><pre>            <span class="keyword">var</span> pLiteral = positiveLiterals.containsKey(variable);
+          
+            <div class='highlight'><pre>            <span class="keyword">var</span> pLiteral = positiveLiterals.containsKey(variable);
             <span class="keyword">var</span> nLiteral = negativeLiterals.containsKey(variable);
             <span class="keyword">if</span> (pLiteral &amp;&amp; !nLiteral) {
                 valuation.putSolution(variable, <span class="literal">true</span>);
@@ -242,15 +242,16 @@ Thus, these clauses do not constrain the search anymore and can be deleted.</p>
     };
 
 }</pre></div>
+          
         
-      
-        
-        <p>expose API to Node.js</p>
+          
+          <p>expose API to Node.js</p>
 
+          
+            <div class='highlight'><pre>module.exports = CnfFormula;</pre></div>
+          
         
-          <div class='highlight'><pre>module.exports = CnfFormula;</pre></div>
-        
-      
+      </div>
     </div>
   </div>
 </body>
