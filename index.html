@@ -68,7 +68,7 @@ var e = {};
 formula.openClause(a).or(b).close()
        .openClauseNot(b).or(c).orNot(d).close()
        .openClause(d).orNot(e).close();</code></pre>
-<p>The we create a <a href="./Solver.html">solver</a> for this formula:</p>
+<p>Then we create a <a href="./Solver.html">solver</a> for this formula:</p>
 <pre><code>var solver = new dpll.Solver(formula);
 
 var solution = solver.solve();
