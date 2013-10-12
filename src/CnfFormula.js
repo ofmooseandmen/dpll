@@ -8,7 +8,7 @@
 //
 // Or in plain english:
 //
-// *(x1 or not x2) and (not x1 of x2 or x3) and (not x1)*
+// *(x1 or not x2) and (not x1 or x2 or x3) and (not x1)*
 //
 //     
 //     var CnfFormula = require('./CnfFormula');

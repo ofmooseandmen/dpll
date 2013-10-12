@@ -35,7 +35,7 @@
 <p>Let&#39;s build the following CNF formula:</p>
 <p><em>(x1 &or; &not;x2) &and; (&not;x1 &or; x2 &or; x3) &and; (&not;x1)</em></p>
 <p>Or in plain english:</p>
-<p><em>(x1 or not x2) and (not x1 of x2 or x3) and (not x1)</em></p>
+<p><em>(x1 or not x2) and (not x1 or x2 or x3) and (not x1)</em></p>
 <pre><code>var CnfFormula = require(&#39;./CnfFormula&#39;);
 var cnf = new CnfFormula();
 var x1 = {}, x2 = {}, x3 = {};
