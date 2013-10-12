@@ -6,11 +6,15 @@
 //
 // *(x1 &or; &not;x2) &and; (&not;x1 &or; x2 &or; x3) &and; (&not;x1)*
 //
+// Or in plain english:
+//
+// *(x1 or not x2) and (not x1 of x2 or x3) and (not x1)*
+//
+//     
 //     var CnfFormula = require('./CnfFormula');
 //     var cnf = new CnfFormula();
-//     var x1 = {};
-//     var x2 = {};
-//     var x3 = {};
+//     var x1 = {}, x2 = {}, x3 = {};
+//     
 //     cnf.openClause(x1).orNot(x2).close()
 //        .openClauseNot(x1).or(x2).or(x3).close()
 //        .openClauseNot(x1).close();
@@ -28,7 +32,7 @@
 //
 // Once built a `CNFFormula` is immutable and is therefore not modified by the execution of the DPLL algorithm.
 //
-// This implementation makes use of maps and sets to keep tracks of the clauses, variables and literals of this formula.
+// This implementation makes use of [maps](./Map.html) and [sets](./Set.html) to keep tracks of the clauses, variables and literals of this formula.
 // If a variable implements the `equals` function it will be used instead of the `===` operator to determine variable
 // equality.
 //

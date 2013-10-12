@@ -54,25 +54,24 @@ head to the <em>test</em> directory and execute <em>mocha *Test.js</em>.</p>
 <h2>Quick Start</h2>
 <p>Let&#39;s say we want to solve the following formula:</p>
 <p><em>(a &or; b) &and; (&not;b &or; c &or; &not;d) &and; (d &or; &not;e)</em></p>
+<p>Or in plain english:</p>
+<p><em>(a or b) and (not b or c or not d) and (d or not e)</em></p>
 <p>In other words we want to know the values of <em>a</em>, <em>b</em>, <em>c</em>, <em>d</em> and <em>e</em> that make this formula <strong>TRUE</strong>.</p>
-<p>First we create the <a href="./CnfFormula.html">CNF formula</a>:  </p>
+<p>First, create the <a href="./CnfFormula.html">CNF formula</a>:  </p>
 <pre><code>var dpll = require(&#39;*PATH_TO_DPLL.js*/dpll&#39;);
 
 var formula = new dpll.CnfFormula();
-var a = {};
-var b = {};
-var c = {};
-var d = {};
-var e = {};
+var a = {}, b = {}, c = {}, d = {} e = {};
 
 formula.openClause(a).or(b).close()
        .openClauseNot(b).or(c).orNot(d).close()
        .openClause(d).orNot(e).close();</code></pre>
-<p>The we create a <a href="./Solver.html">solver</a> for this formula:</p>
-<pre><code>var solver = new dpll.Solver(formula);
-
-var solution = solver.solve();
+<p>Then, create a <a href="./Solver.html">solver</a> for this formula:</p>
+<pre><code>var solver = new dpll.Solver(formula);</code></pre>
+<p>Finally, solve the formula and query the returned <a href="./Valuation.html">valuation</a> to get the thruth value of each variable:</p>
+<pre><code>var solution = solver.solve();
 console.log(solution.get(a));</code></pre>
+<p>If the formula could not be solved <code>Solver#solve()</code> will return <code>undefined</code>.</p>
 <p>If the formula has been solved the result will <strong>NOT</strong> contain the variables that have
 been optimized away. For instance if the formula contains the <a href="./Clause.html">clause</a> <em>(x &or; &not;x &or; y)</em> 
 and <em>x</em> appears nowhere in any other clause of the formula, then <em>x</em> is optimized away and therefore its value is
@@ -81,7 +80,11 @@ irrelevant - i.e. it could be <strong>TRUE</strong> or <strong>FALSE</strong>.</
 <ul>
 <li><p>the DPLL algorithm itself: <a href="./Solver.html">Solver.js</a></p>
 </li>
-<li><p>the CNF Formula: <a href="./CnfFormula.html">CnfFormula.js</a></p>
+<li><p>CNF Formulas: <a href="./CnfFormula.html">CnfFormula.js</a></p>
+</li>
+<li><p>Valuations: <a href="./Valuation.html">Valuation.js</a></p>
+</li>
+<li><p>Clauses: <a href="./Clause.html">Clause.js</a></p>
 </li>
 </ul>
 <h2>Public API</h2>

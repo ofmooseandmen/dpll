@@ -3,15 +3,15 @@
 //
 // It keeps tracks of the following attributes during the execution of the DPLL algorithm:
 //
-// - the currently **unassigned** variables and the number of occurrence of each of them in the formula,
+// - the currently **unassigned** variables and the number of occurrence of each of them in the formula
 //
-// - the currently **assigned** variables and their value: `true` or `false`.
+// - the currently **assigned** variables and their value: `true` or `false`
 //
 // Also provides service to pick a variable:
 //
-// - at random amongst the unassigned variables: `#randomUnassignedVariable()`,
+// - at random amongst the unassigned variables: `#randomUnassignedVariable()`
 //
-// - with the highest number of occurrences in the formula: `#highestOccurrenceVariable()`.
+// - with the highest number of occurrences in the formula: `#highestOccurrenceVariable()`
 //
 // ## More about...
 //

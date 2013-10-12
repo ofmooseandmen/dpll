@@ -34,11 +34,12 @@
 </blockquote>
 <p>Let&#39;s build the following CNF formula:</p>
 <p><em>(x1 &or; &not;x2) &and; (&not;x1 &or; x2 &or; x3) &and; (&not;x1)</em></p>
+<p>Or in plain english:</p>
+<p><em>(x1 or not x2) and (not x1 of x2 or x3) and (not x1)</em></p>
 <pre><code>var CnfFormula = require(&#39;./CnfFormula&#39;);
 var cnf = new CnfFormula();
-var x1 = {};
-var x2 = {};
-var x3 = {};
+var x1 = {}, x2 = {}, x3 = {};
+
 cnf.openClause(x1).orNot(x2).close()
    .openClauseNot(x1).or(x2).or(x3).close()
    .openClauseNot(x1).close();</code></pre>
@@ -51,7 +52,7 @@ cnf.openClause(x1).orNot(x2).close()
 <li>the negation of a variable - such as <em>&not;x1</em>, it is then called a <em>negative literal</em>.</li>
 </ul>
 <p>Once built a <code>CNFFormula</code> is immutable and is therefore not modified by the execution of the DPLL algorithm.</p>
-<p>This implementation makes use of maps and sets to keep tracks of the clauses, variables and literals of this formula.
+<p>This implementation makes use of <a href="./Map.html">maps</a> and <a href="./Set.html">sets</a> to keep tracks of the clauses, variables and literals of this formula.
 If a variable implements the <code>equals</code> function it will be used instead of the <code>===</code> operator to determine variable
 equality.</p>
 <h2>More about...</h2>

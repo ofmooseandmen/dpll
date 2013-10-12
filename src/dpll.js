@@ -31,31 +31,33 @@
 //
 // *(a &or; b) &and; (&not;b &or; c &or; &not;d) &and; (d &or; &not;e)*
 //
+// Or in plain english:
+//
+// *(a or b) and (not b or c or not d) and (d or not e)*
+//
 // In other words we want to know the values of *a*, *b*, *c*, *d* and *e* that make this formula **TRUE**.
 //
-// First we create the [CNF formula](./CnfFormula.html):  
+// First, create the [CNF formula](./CnfFormula.html):  
 //
 //     var dpll = require('*PATH_TO_DPLL.js*/dpll');
 //     
 //     var formula = new dpll.CnfFormula();
-//     var a = {};
-//     var b = {};
-//     var c = {};
-//     var d = {};
-//     var e = {};
+//     var a = {}, b = {}, c = {}, d = {} e = {};
 //
 //     formula.openClause(a).or(b).close()
 //            .openClauseNot(b).or(c).orNot(d).close()
 //            .openClause(d).orNot(e).close();
 //
-//
-//
-// Then we create a [solver](./Solver.html) for this formula:
+// Then, create a [solver](./Solver.html) for this formula:
 //     
 //     var solver = new dpll.Solver(formula);
 //
+// Finally, solve the formula and query the returned [valuation](./Valuation.html) to get the thruth value of each variable:
+//     
 //     var solution = solver.solve();
 //     console.log(solution.get(a));
+//
+// If the formula could not be solved `Solver#solve()` will return `undefined`.
 //
 // If the formula has been solved the result will **NOT** contain the variables that have
 // been optimized away. For instance if the formula contains the [clause](./Clause.html) *(x &or; &not;x &or; y)* 
@@ -66,7 +68,11 @@
 //
 // - the DPLL algorithm itself: [Solver.js](./Solver.html)
 //
-// - the CNF Formula: [CnfFormula.js](./CnfFormula.html)
+// - CNF Formulas: [CnfFormula.js](./CnfFormula.html)
+//
+// - Valuations: [Valuation.js](./Valuation.html)
+//
+// - Clauses: [Clause.js](./Clause.html)
 //
 // ## Public API
 //
