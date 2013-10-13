@@ -57,9 +57,9 @@
 //     var solution = solver.solve();
 //     console.log(solution.get(a));
 //
-// If the formula could not be solved `Solver#solve()` will return `undefined`.
+// `Solver#solve()` returns `undefined` if the formula can not be solved.
 //
-// If the formula has been solved the result will **NOT** contain the variables that have
+// If the formula is satisfiable, the returned valuation will **NOT** contain the variables that have
 // been optimized away. For instance if the formula contains the [clause](./Clause.html) *(x &or; &not;x &or; y)* 
 // and *x* appears nowhere in any other clause of the formula, then *x* is optimized away and therefore its value is
 // irrelevant - i.e. it could be **TRUE** or **FALSE**.

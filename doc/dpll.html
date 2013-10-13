@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
 <head>
   <title>DPLL Algorithm in JavaScript.</title>
@@ -9,29 +8,20 @@
 </head>
 <body>
 
-  <a href="https://github.com/ofmooseandmen/dpll">
-    <img style="position: absolute; top: 0; right: 0; border: 0;" 
-         src="public/images/forkme.png" 
-         alt="Fork me on GitHub">
-  </a>
-  <div class="container">
-    <div class="page">
-
-      <div class="header">
-        <a class="logo" href="index.html">dpll</a>
-        
-          
-          <h1>DPLL Algorithm in JavaScript.</h1>
-
-          
-        
-
-      </div>
+  <div class="header">
+    <a class="logo" href="index.html">dpll</a>
+    
       
-      <div class="content">
-        
-          
-          <p>An implementation of the Davis-Putnam-Logemann-Loveland (<a href="http://en.wikipedia.org/wiki/DPLL_algorithm">DPLL</a>)
+      <h1>DPLL Algorithm in JavaScript.</h1>
+
+      
+    
+  </div>
+
+  <div class="content">
+    
+      
+      <p>An implementation of the Davis-Putnam-Logemann-Loveland (<a href="http://en.wikipedia.org/wiki/DPLL_algorithm">DPLL</a>)
 algorithm
 for solving the <a href="http://en.wikipedia.org/wiki/Boolean_satisfiability_problem">CNF-SAT</a> problem that runs on
 <a href="http://nodejs.org">Node.js</a>.</p>
@@ -71,8 +61,8 @@ formula.openClause(a).or(b).close()
 <p>Finally, solve the formula and query the returned <a href="./Valuation.html">valuation</a> to get the thruth value of each variable:</p>
 <pre><code>var solution = solver.solve();
 console.log(solution.get(a));</code></pre>
-<p>If the formula could not be solved <code>Solver#solve()</code> will return <code>undefined</code>.</p>
-<p>If the formula has been solved the result will <strong>NOT</strong> contain the variables that have
+<p><code>Solver#solve()</code> returns <code>undefined</code> if the formula can not be solved.</p>
+<p>If the formula is satisfiable, the returned valuation will <strong>NOT</strong> contain the variables that have
 been optimized away. For instance if the formula contains the <a href="./Clause.html">clause</a> <em>(x &or; &not;x &or; y)</em> 
 and <em>x</em> appears nowhere in any other clause of the formula, then <em>x</em> is optimized away and therefore its value is
 irrelevant - i.e. it could be <strong>TRUE</strong> or <strong>FALSE</strong>.</p>
@@ -89,27 +79,25 @@ irrelevant - i.e. it could be <strong>TRUE</strong> or <strong>FALSE</strong>.</
 </ul>
 <h2>Public API</h2>
 
-          
-            <div class='highlight'><pre>(<span class="keyword">function</span>() {</pre></div>
-          
-        
-          
-          <p>make <code>CnfFormula</code> available</p>
+      
+        <div class='highlight'><pre>(<span class="keyword">function</span>() {</pre></div>
+      
+    
+      
+      <p>make <code>CnfFormula</code> available</p>
 
-          
-            <div class='highlight'><pre>    exports.CnfFormula = require(<span class="string">'./CnfFormula'</span>);</pre></div>
-          
-        
-          
-          <p>make <code>Solver</code> available</p>
+      
+        <div class='highlight'><pre>    exports.CnfFormula = require(<span class="string">'./CnfFormula'</span>);</pre></div>
+      
+    
+      
+      <p>make <code>Solver</code> available</p>
 
-          
-            <div class='highlight'><pre>    exports.Solver = require(<span class="string">'./Solver'</span>);
+      
+        <div class='highlight'><pre>    exports.Solver = require(<span class="string">'./Solver'</span>);
 })();</pre></div>
-          
-        
-      </div>
-    </div>
+      
+    
   </div>
 </body>
 </html>

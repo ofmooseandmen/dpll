@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
 <head>
   <title>Map.js</title>
@@ -9,26 +8,17 @@
 </head>
 <body>
 
-  <a href="https://github.com/ofmooseandmen/dpll">
-    <img style="position: absolute; top: 0; right: 0; border: 0;" 
-         src="public/images/forkme.png" 
-         alt="Fork me on GitHub">
-  </a>
-  <div class="container">
-    <div class="page">
+  <div class="header">
+    <a class="logo" href="index.html">dpll</a>
+    
+      <h1>Map.js</h1>
+    
+  </div>
 
-      <div class="header">
-        <a class="logo" href="index.html">dpll</a>
-        
-          <h1>Map.js</h1>
-        
-
-      </div>
+  <div class="content">
+    
       
-      <div class="content">
-        
-          
-          <p>An object that maps keys to values.
+      <p>An object that maps keys to values.
 A map cannot contain duplicate keys; each key can map to at most one value.</p>
 <p>API is based on java Map interface and most of the documentation actually
 comes from the <code>Map.java</code> javadoc.</p>
@@ -42,32 +32,32 @@ a specified key relies:</p>
 <h2>Source code</h2>
 <p>Constructor - no argument.</p>
 
-          
-            <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Map</span><span class="params">()</span> {</span>
+      
+        <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Map</span><span class="params">()</span> {</span>
 	
     <span class="string">'use strict'</span>;</pre></div>
-          
-        
-          
-          <p>the array in which all keys are stored.</p>
+      
+    
+      
+      <p>the <code>array</code> in which all keys are stored.</p>
 
-          
-            <div class='highlight'><pre>    <span class="keyword">var</span> keys = [];</pre></div>
-          
-        
-          
-          <p>the array in which all values are stored.</p>
+      
+        <div class='highlight'><pre>    <span class="keyword">var</span> keys = [];</pre></div>
+      
+    
+      
+      <p>the <code>array</code> in which all values are stored.</p>
 
-          
-            <div class='highlight'><pre>    <span class="keyword">var</span> values = [];</pre></div>
-          
-        
-          
-          <p>Returns the index of the specified <code>key</code> in the <code>array</code> of keys of this <code>map</code> or
-<code>-1</code> if this <code>map</code> does not contain the specified <code>key</code>.</p>
+      
+        <div class='highlight'><pre>    <span class="keyword">var</span> values = [];</pre></div>
+      
+    
+      
+      <p>Returns the index of the specified key in the <code>array</code> of keys of this map or
+<code>-1</code> if this map does not contain the specified key.</p>
 
-          
-            <div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">indexOfKey</span><span class="params">(key)</span> {</span>
+      
+        <div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">indexOfKey</span><span class="params">(key)</span> {</span>
         <span class="keyword">var</span> result = -<span class="number">1</span>;
         <span class="keyword">if</span> ( <span class="keyword">typeof</span> key.equals === <span class="string">'function'</span>) {
             <span class="keyword">var</span> keysLength = keys.length;
@@ -81,15 +71,15 @@ a specified key relies:</p>
         }
         <span class="keyword">return</span> result;
     }</pre></div>
-          
-        
-          
-          <p>Associates the specified <code>value</code> with the specified <code>key</code> in this <code>map</code>. If the map previously
+      
+    
+      
+      <p>Associates the specified value with the specified key in this map. If the map previously
 contained a mapping for the key, the old value is replaced by the specified value.
-Returns the previous <code>value</code> associated with key, or <code>undefined</code> if there was no mapping for key.</p>
+Returns the previous value associated with key, or <code>undefined</code> if there was no mapping for key.</p>
 
-          
-            <div class='highlight'><pre>    <span class="keyword">this</span>.put = <span class="keyword">function</span>(key, value) {
+      
+        <div class='highlight'><pre>    <span class="keyword">this</span>.put = <span class="keyword">function</span>(key, value) {
         <span class="keyword">var</span> keyIndex = indexOfKey(key);
         <span class="keyword">var</span> result = <span class="literal">undefined</span>;
         <span class="keyword">if</span> (keyIndex === -<span class="number">1</span>) {
@@ -101,14 +91,14 @@ Returns the previous <code>value</code> associated with key, or <code>undefined<
         }
         <span class="keyword">return</span> result;
     };</pre></div>
-          
-        
-          
-          <p>Returns the value to which the specified <code>key</code> is mapped, or <code>undefined</code> if this <code>map</code>
+      
+    
+      
+      <p>Returns the value to which the specified key is mapped, or <code>undefined</code> if this map
 contains no mapping for the key.</p>
 
-          
-            <div class='highlight'><pre>    <span class="keyword">this</span>.get = <span class="keyword">function</span>(key) {
+      
+        <div class='highlight'><pre>    <span class="keyword">this</span>.get = <span class="keyword">function</span>(key) {
         <span class="keyword">var</span> keyIndex = indexOfKey(key);
         <span class="keyword">var</span> result = <span class="literal">undefined</span>;
         <span class="keyword">if</span> (keyIndex !== -<span class="number">1</span>) {
@@ -116,24 +106,24 @@ contains no mapping for the key.</p>
         }
         <span class="keyword">return</span> result;
     };</pre></div>
-          
-        
-          
-          <p>Returns <code>true</code> if this <code>map</code> contains the specified <code>key</code>.</p>
+      
+    
+      
+      <p>Returns <code>true</code> if this map contains the specified key.</p>
 
-          
-            <div class='highlight'><pre>    <span class="keyword">this</span>.containsKey = <span class="keyword">function</span>(key) {
+      
+        <div class='highlight'><pre>    <span class="keyword">this</span>.containsKey = <span class="keyword">function</span>(key) {
         <span class="keyword">return</span> indexOfKey(key) !== -<span class="number">1</span>;
     };</pre></div>
-          
-        
-          
-          <p>Removes the mapping for the specified <code>key</code> from this <code>map</code> if it is present.
-Return the previous <code>value</code> value associated with the specified <code>key</code>, or <code>undefined</code> if there was no mapping for
+      
+    
+      
+      <p>Removes the mapping for the specified key from this map if it is present.
+Return the previous value value associated with the specified key, or <code>undefined</code> if there was no mapping for
 key</p>
 
-          
-            <div class='highlight'><pre>    <span class="keyword">this</span>.remove = <span class="keyword">function</span>(key) {
+      
+        <div class='highlight'><pre>    <span class="keyword">this</span>.remove = <span class="keyword">function</span>(key) {
         <span class="keyword">var</span> keyIndex = indexOfKey(key);
         <span class="keyword">var</span> result = <span class="literal">undefined</span>;
         <span class="keyword">if</span> (keyIndex !== -<span class="number">1</span>) {
@@ -143,45 +133,45 @@ key</p>
         }
         <span class="keyword">return</span> result;
     };</pre></div>
-          
-        
-          
-          <p>Returns <code>true</code> if this <code>map</code> contains no key-value mappings.</p>
+      
+    
+      
+      <p>Returns <code>true</code> if this map contains no key-value mappings.</p>
 
-          
-            <div class='highlight'><pre>    <span class="keyword">this</span>.isEmpty = <span class="keyword">function</span>() {
+      
+        <div class='highlight'><pre>    <span class="keyword">this</span>.isEmpty = <span class="keyword">function</span>() {
         <span class="keyword">return</span> keys.length === <span class="number">0</span>;
     };</pre></div>
-          
-        
-          
-          <p>Returns the number of key-value mappings in this <code>map</code>.</p>
+      
+    
+      
+      <p>Returns the number of key-value mappings in this map.</p>
 
-          
-            <div class='highlight'><pre>    <span class="keyword">this</span>.size = <span class="keyword">function</span>() {
+      
+        <div class='highlight'><pre>    <span class="keyword">this</span>.size = <span class="keyword">function</span>() {
         <span class="keyword">return</span> keys.length;
     };</pre></div>
-          
-        
-          
-          <p>Returns an array of the keys contained in this <code>map</code>.</p>
+      
+    
+      
+      <p>Returns an array of the keys contained in this map.</p>
 
-          
-            <div class='highlight'><pre>    <span class="keyword">this</span>.keyArray = <span class="keyword">function</span>() {
+      
+        <div class='highlight'><pre>    <span class="keyword">this</span>.keyArray = <span class="keyword">function</span>() {
         <span class="keyword">return</span> keys.slice(<span class="number">0</span>);
     };</pre></div>
-          
-        
-          
-          <p>Returns an array of <code>object</code> containing all the entries of this <code>map</code>.
+      
+    
+      
+      <p>Returns an array of <code>object</code> containing all the entries of this map.
 Each object has 2 properties:</p>
 <ul>
 <li>key: the entry key</li>
 <li>value: the entry value</li>
 </ul>
 
-          
-            <div class='highlight'><pre>    <span class="keyword">this</span>.entries = <span class="keyword">function</span>() {
+      
+        <div class='highlight'><pre>    <span class="keyword">this</span>.entries = <span class="keyword">function</span>() {
         <span class="keyword">var</span> result = [];
         <span class="keyword">var</span> keysLength = keys.length;
         <span class="keyword">for</span> (<span class="keyword">var</span> index = <span class="number">0</span>; index &lt; keysLength; index++) {
@@ -195,17 +185,15 @@ Each object has 2 properties:</p>
     };
 
 }</pre></div>
-          
-        
-          
-          <p>expose API to Node.js</p>
+      
+    
+      
+      <p>expose API to Node.js</p>
 
-          
-            <div class='highlight'><pre>module.exports = Map;</pre></div>
-          
-        
-      </div>
-    </div>
+      
+        <div class='highlight'><pre>module.exports = Map;</pre></div>
+      
+    
   </div>
 </body>
 </html>

@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
 <head>
   <title>Clause.js</title>
@@ -9,26 +8,17 @@
 </head>
 <body>
 
-  <a href="https://github.com/ofmooseandmen/dpll">
-    <img style="position: absolute; top: 0; right: 0; border: 0;" 
-         src="public/images/forkme.png" 
-         alt="Fork me on GitHub">
-  </a>
-  <div class="container">
-    <div class="page">
+  <div class="header">
+    <a class="logo" href="index.html">dpll</a>
+    
+      <h1>Clause.js</h1>
+    
+  </div>
 
-      <div class="header">
-        <a class="logo" href="index.html">dpll</a>
-        
-          <h1>Clause.js</h1>
-        
-
-      </div>
+  <div class="content">
+    
       
-      <div class="content">
-        
-          
-          <p>A clause is a disjunction of <a href="./Literal.html">literals</a> (or a single literal) or more simply put:</p>
+      <p>A clause is a disjunction of <a href="./Literal.html">literals</a> (or a single literal) or more simply put:</p>
 <blockquote>
 <p>it is a <em>OR</em> of literals.</p>
 </blockquote>
@@ -49,113 +39,113 @@ i.e. removed from the clause, since the value of this variable is irrelevant; <e
 <p>Constructor - takes the first <code>variable</code>, its negation (a <code>boolean</code>) and the enclosing <code>CnfFormula</code> as input.
 It is not intented to be used anywhere but <code>CnfFormula#openClause</code> and <code>CnfFormula#openClauseNot</code>.</p>
 
-          
-            <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Clause</span><span class="params">(variable, negation, aFormula)</span> {</span>
+      
+        <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Clause</span><span class="params">(variable, negation, aFormula)</span> {</span>
 	
     <span class="string">'use strict'</span>;
 
     <span class="keyword">var</span> Set = require(<span class="string">'./Set'</span>);
 
     <span class="keyword">var</span> Literal = require(<span class="string">'./Literal'</span>);</pre></div>
-          
-        
-          
-          <p>the set of variables - holds variable that have not been optimized away.</p>
+      
+    
+      
+      <p>the set of variables - holds variable that have not been optimized away.</p>
 
-          
-            <div class='highlight'><pre>    <span class="keyword">var</span> vars = <span class="keyword">new</span> Set();</pre></div>
-          
-        
-          
-          <p>the set of literals corresponding to the variables.</p>
+      
+        <div class='highlight'><pre>    <span class="keyword">var</span> vars = <span class="keyword">new</span> Set();</pre></div>
+      
+    
+      
+      <p>the set of literals corresponding to the variables.</p>
 
-          
-            <div class='highlight'><pre>    <span class="keyword">var</span> literals = <span class="keyword">new</span> Set();
+      
+        <div class='highlight'><pre>    <span class="keyword">var</span> literals = <span class="keyword">new</span> Set();
     vars.add(variable);
     literals.add(<span class="keyword">new</span> Literal(variable, negation));
     <span class="keyword">var</span> formula = aFormula;</pre></div>
-          
-        
-          
-          <p>the set of variables that have been optimized away</p>
+      
+    
+      
+      <p>the set of variables that have been optimized away</p>
 
-          
-            <div class='highlight'><pre>    <span class="keyword">var</span> irrelevant = <span class="keyword">new</span> Set();</pre></div>
-          
-        
-          
-          <p>Add the specified <code>variable</code> / <code>literal</code> to this clause.</p>
+      
+        <div class='highlight'><pre>    <span class="keyword">var</span> irrelevant = <span class="keyword">new</span> Set();</pre></div>
+      
+    
+      
+      <p>Add the specified <code>variable</code> / <code>literal</code> to this clause.</p>
 
-          
-            <div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">(variable, literal)</span> {</span>
+      
+        <div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">(variable, literal)</span> {</span>
         <span class="keyword">if</span> (vars.contains(variable) &amp;&amp; !literals.contains(literal)) {</pre></div>
-          
-        
-          
-          <p>trying to add <code>x | -x</code>
+      
+    
+      
+      <p>trying to add <code>x | -x</code>
 remove var and previous literal</p>
 
-          
-            <div class='highlight'><pre>            <span class="keyword">var</span> succes = vars.remove(variable);
+      
+        <div class='highlight'><pre>            <span class="keyword">var</span> succes = vars.remove(variable);
             <span class="keyword">if</span> (!succes) {
                 <span class="keyword">throw</span> <span class="keyword">new</span> Error();
             }</pre></div>
-          
-        
-          
-          <p>if this literal is positive it means that a negative literal exists
+      
+    
+      
+      <p>if this literal is positive it means that a negative literal exists
 remove it</p>
 
-          
-            <div class='highlight'><pre>            <span class="keyword">var</span> wasNegated = literal.isPositive();
+      
+        <div class='highlight'><pre>            <span class="keyword">var</span> wasNegated = literal.isPositive();
             literals.remove(<span class="keyword">new</span> Literal(variable, wasNegated));
             irrelevant.add(variable);
         } <span class="keyword">else</span> {</pre></div>
-          
-        
-          
-          <p>since Set are used adding <code>x | x</code> will have no effect - only one <code>x</code> is kept.</p>
+      
+    
+      
+      <p>since Set are used adding <code>x | x</code> will have no effect - only one <code>x</code> is kept.</p>
 
-          
-            <div class='highlight'><pre>            vars.add(variable);
+      
+        <div class='highlight'><pre>            vars.add(variable);
             literals.add(literal);
         }
     };</pre></div>
-          
-        
-          
-          <p>Add the specified <code>variable</code> as a positive literal to this clause and returns this instance.</p>
+      
+    
+      
+      <p>Add the specified <code>variable</code> as a positive literal to this clause and returns this instance.</p>
 
-          
-            <div class='highlight'><pre>    <span class="keyword">this</span>.or = <span class="keyword">function</span>(variable) {
+      
+        <div class='highlight'><pre>    <span class="keyword">this</span>.or = <span class="keyword">function</span>(variable) {
         <span class="keyword">var</span> literal = <span class="keyword">new</span> Literal(variable, <span class="literal">false</span>);
         add(variable, literal);
         <span class="keyword">return</span> <span class="keyword">this</span>;
     };</pre></div>
-          
-        
-          
-          <p>Add the specified <code>variable</code> as a negative literal to this clause and returns this instance.</p>
+      
+    
+      
+      <p>Add the specified <code>variable</code> as a negative literal to this clause and returns this instance.</p>
 
-          
-            <div class='highlight'><pre>    <span class="keyword">this</span>.orNot = <span class="keyword">function</span>(variable) {
+      
+        <div class='highlight'><pre>    <span class="keyword">this</span>.orNot = <span class="keyword">function</span>(variable) {
         <span class="keyword">var</span> literal = <span class="keyword">new</span> Literal(variable, <span class="literal">true</span>);
         add(variable, literal);
         <span class="keyword">return</span> <span class="keyword">this</span>;
     };</pre></div>
-          
-        
-          
-          <p>Terminates this clause, adds it to the enclosing <code>CnfFormula</code> and returns the enclosing <code>CnfFormula</code>.</p>
+      
+    
+      
+      <p>Terminates this clause, adds it to the enclosing <code>CnfFormula</code> and returns the enclosing <code>CnfFormula</code>.</p>
 
-          
-            <div class='highlight'><pre>    <span class="keyword">this</span>.close = <span class="keyword">function</span>() {
+      
+        <div class='highlight'><pre>    <span class="keyword">this</span>.close = <span class="keyword">function</span>() {
         <span class="keyword">return</span> formula.addClause(<span class="keyword">this</span>, vars, literals, irrelevant);
     };</pre></div>
-          
-        
-          
-          <p>Evaluate this clause against the specified <code>valuation</code> and returns</p>
+      
+    
+      
+      <p>Evaluate this clause against the specified <code>valuation</code> and returns</p>
 <ul>
 <li><code>true</code> if this clause is satisfied under the specified <code>valudation</code></li>
 <li><code>false</code> if this clause is not satisfied under the specified <code>valudation</code></li>
@@ -163,8 +153,8 @@ remove it</p>
 still unassigned</li>
 </ul>
 
-          
-            <div class='highlight'><pre>    <span class="keyword">this</span>.evaluate = <span class="keyword">function</span>(valuation) {
+      
+        <div class='highlight'><pre>    <span class="keyword">this</span>.evaluate = <span class="keyword">function</span>(valuation) {
         <span class="keyword">var</span> size = literals.size();
         <span class="keyword">var</span> result;
         <span class="keyword">if</span> (size &gt; <span class="number">0</span>) {
@@ -180,27 +170,27 @@ still unassigned</li>
                 }
             }
         } <span class="keyword">else</span> {</pre></div>
-          
-        
-          
-          <p>no literal it means that clause was something like x | -x</p>
+      
+    
+      
+      <p>no literal it means that clause was something like x | -x</p>
 
-          
-            <div class='highlight'><pre>            result = <span class="literal">true</span>;
+      
+        <div class='highlight'><pre>            result = <span class="literal">true</span>;
         }
         <span class="keyword">return</span> result;
     };</pre></div>
-          
-        
-          
-          <p>Performs the <em>unit propagation</em> step. If a clause is a unit clause, i.e. it contains only a single unassigned
+      
+    
+      
+      <p>Performs the <em>unit propagation</em> step. If a clause is a unit clause, i.e. it contains only a single unassigned
 literal, this clause can only be satisfied by assigning the necessary value to make this literal true. Thus, no
 choice is necessary. In practice, this often leads to deterministic cascades of units, thus avoiding a large part
 of the naive search space.</p>
 <p>The specified <code>valuation</code> will be filled with computed variable truth assignments upon return.</p>
 
-          
-            <div class='highlight'><pre>    <span class="keyword">this</span>.unitPropagate = <span class="keyword">function</span>(valuation) {
+      
+        <div class='highlight'><pre>    <span class="keyword">this</span>.unitPropagate = <span class="keyword">function</span>(valuation) {
         <span class="keyword">var</span> size = literals.size();
         <span class="keyword">if</span> (size &gt; <span class="number">0</span>) {
             <span class="keyword">var</span> literalsArray = literals.toArray();
@@ -213,46 +203,44 @@ of the naive search space.</p>
                 }
             }
             <span class="keyword">if</span> (count === <span class="number">1</span>) {</pre></div>
-          
-        
-          
-          <p>this is a unit clause</p>
+      
+    
+      
+      <p>this is a unit clause</p>
 
-          
-            <div class='highlight'><pre>                <span class="keyword">var</span> l = literalsArray[unitIndex];
+      
+        <div class='highlight'><pre>                <span class="keyword">var</span> l = literalsArray[unitIndex];
                 <span class="keyword">if</span> (l.isPositive()) {</pre></div>
-          
-        
-          
-          <p>assign variable to true</p>
+      
+    
+      
+      <p>assign variable to true</p>
 
-          
-            <div class='highlight'><pre>                    valuation.putSolution(l.variable(), <span class="literal">true</span>);
+      
+        <div class='highlight'><pre>                    valuation.putSolution(l.variable(), <span class="literal">true</span>);
                 } <span class="keyword">else</span> {</pre></div>
-          
-        
-          
-          <p>assign variable to false</p>
+      
+    
+      
+      <p>assign variable to false</p>
 
-          
-            <div class='highlight'><pre>                    valuation.putSolution(l.variable(), <span class="literal">false</span>);
+      
+        <div class='highlight'><pre>                    valuation.putSolution(l.variable(), <span class="literal">false</span>);
                 }
             }
         }
     };
 
 };</pre></div>
-          
-        
-          
-          <p>expose API to Node.js</p>
+      
+    
+      
+      <p>expose API to Node.js</p>
 
-          
-            <div class='highlight'><pre>module.exports = Clause;</pre></div>
-          
-        
-      </div>
-    </div>
+      
+        <div class='highlight'><pre>module.exports = Clause;</pre></div>
+      
+    
   </div>
 </body>
 </html>

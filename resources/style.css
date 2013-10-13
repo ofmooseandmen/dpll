@@ -50,14 +50,6 @@ h1, h2, h3, h4, h5, h6 {
 	margin-top: 50px;
 }
 
-h1 {
-	margin: 0;
-	padding: 0;
-	text-align: left;
-	width: 800px;
-	line-height: 2;
-}
-
 h2 {
 	font-size: 1.3em;
 }
@@ -100,7 +92,7 @@ pre, tt, code {
 	line-height: 28px;
 	background-color: #f8f8f8;
 }
-.page pre {
+.content pre {
 	margin: 0;
 	width: 690px;
 	margin-left: 20px;
@@ -109,7 +101,7 @@ pre, tt, code {
 	background: #fcfcfc;
 	overflow-x: auto;
 }
-.page pre code {
+.content pre code {
 	color: #555;
 	border: 0;
 	padding: 0;
@@ -117,26 +109,6 @@ pre, tt, code {
 }
 
 /*--------------------- Layout ----------------------------*/
-
-.container {
-	width: 950px;
-	margin: 0 auto;
-	padding: 0;
-	background: #fff;
-	overflow: hidden;
-}
-
-.page {
-	width: 830px;
-	padding: 30px;
-	margin: 30px;
-	margin-top: 0px;
-	background: white;
-	font-size: 24px;
-	line-height: 1.5;
-	text-align: justify;
-}
-
 .header {
 	position: fixed;
 	top: 0;
@@ -147,33 +119,20 @@ pre, tt, code {
     -webkit-box-shadow: 0 4px 2px -2px rgba(0,0,0,0.1);
     box-shadow: 0 4px 2px -2px rgba(0,0,0,0.1);
 	background: white;
-	width: 830px;
+	width: 100%;
+    padding: 20px 0;
+    opacity: 0.95;
 }
 
-.content {
-	float: left;
-	padding: 0 15px;
-	margin-top: 120px;
-	margin-bottom: 50px;
-	width: 800px;
+.header h1 {
+    float: left;
+	display: inline;
+    margin: 0;
+    padding: 0;
+    font-size: 44px;
+    line-height: 100px;
 }
 
-.page p {
-	color: black;
-	margin: 26px 0;
-}
-
-ul.sections {
-	list-style: none;
-	padding: 0 0 5px 0;;
-	margin: 0;
-}
-
-.page li p {
-	margin: 12px 0;
-}
-
-/*----------------------------- Logo -------------------------------------*/
 .logo {
 	float: left;
 	display: block;
@@ -185,16 +144,41 @@ ul.sections {
 	font-size: 45px;
 	line-height: 100px;
 	text-align: center;
-	margin-right: 20px;
 	transition-property: background;
 	transition-duration: 0.5s;
 	transition-timing-function: ease-in-out;
+    margin: 0px 2% 0px 5%;
+    padding: 0;
 }
 
 .logo:hover {
 	background: #ff3d00;
 }
 
+.content {
+	float: left;
+	padding: 0 15px;
+	margin: 130px 5% 50px 5%;
+	background: #ffffff;
+	font-size: 24px;
+	line-height: 1.5;
+	text-align: justify;
+}
+
+.content p {
+	color: black;
+	margin: 26px 0;
+}
+
+ul.sections {
+	list-style: none;
+	padding: 0 0 5px 0;;
+	margin: 0;
+}
+
+.content li p {
+	margin: 12px 0;
+}
 
 /*---------------------- Syntax Highlighting -----------------------------*/
 

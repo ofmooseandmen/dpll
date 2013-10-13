@@ -30,7 +30,9 @@
 // - just a variable - such as *x1*, it is then called a *positive literal*,
 // - the negation of a variable - such as *&not;x1*, it is then called a *negative literal*.
 //
-// Once built a `CNFFormula` is immutable and is therefore not modified by the execution of the DPLL algorithm.
+// ## Implementation notes
+//
+// The execution of the DPLL algorithm does not modify the `CNFFormula`. In other words: once built, a `CNFFormula` // is immutable.
 //
 // This implementation makes use of [maps](./Map.html) and [sets](./Set.html) to keep tracks of the clauses, variables and literals of this formula.
 // If a variable implements the `equals` function it will be used instead of the `===` operator to determine variable

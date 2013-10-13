@@ -21,15 +21,15 @@ function Map() {
 	
     'use strict';
 
-    // the array in which all keys are stored.
+    // the `array` in which all keys are stored.
     var keys = [];
 
-    // the array in which all values are stored.
+    // the `array` in which all values are stored.
     var values = [];
 
     //
-    // Returns the index of the specified `key` in the `array` of keys of this `map` or
-    // `-1` if this `map` does not contain the specified `key`.
+    // Returns the index of the specified key in the `array` of keys of this map or
+    // `-1` if this map does not contain the specified key.
     function indexOfKey(key) {
         var result = -1;
         if ( typeof key.equals === 'function') {
@@ -46,9 +46,9 @@ function Map() {
     }
 
     //
-    // Associates the specified `value` with the specified `key` in this `map`. If the map previously
+    // Associates the specified value with the specified key in this map. If the map previously
     // contained a mapping for the key, the old value is replaced by the specified value.
-    // Returns the previous `value` associated with key, or `undefined` if there was no mapping for key.
+    // Returns the previous value associated with key, or `undefined` if there was no mapping for key.
     //
     this.put = function(key, value) {
         var keyIndex = indexOfKey(key);
@@ -64,7 +64,7 @@ function Map() {
     };
 
     //
-    // Returns the value to which the specified `key` is mapped, or `undefined` if this `map`
+    // Returns the value to which the specified key is mapped, or `undefined` if this map
     // contains no mapping for the key.
     //
     this.get = function(key) {
@@ -77,14 +77,14 @@ function Map() {
     };
 
     //
-    // Returns `true` if this `map` contains the specified `key`.
+    // Returns `true` if this map contains the specified key.
     this.containsKey = function(key) {
         return indexOfKey(key) !== -1;
     };
 
     //
-    // Removes the mapping for the specified `key` from this `map` if it is present.
-    // Return the previous `value` value associated with the specified `key`, or `undefined` if there was no mapping for
+    // Removes the mapping for the specified key from this map if it is present.
+    // Return the previous value value associated with the specified key, or `undefined` if there was no mapping for
     // key
     //
     this.remove = function(key) {
@@ -99,28 +99,28 @@ function Map() {
     };
 
     //
-    // Returns `true` if this `map` contains no key-value mappings.
+    // Returns `true` if this map contains no key-value mappings.
     //
     this.isEmpty = function() {
         return keys.length === 0;
     };
 
     //
-    // Returns the number of key-value mappings in this `map`.
+    // Returns the number of key-value mappings in this map.
     //
     this.size = function() {
         return keys.length;
     };
 
     //
-    // Returns an array of the keys contained in this `map`.
+    // Returns an array of the keys contained in this map.
     //
     this.keyArray = function() {
         return keys.slice(0);
     };
 
     //
-    // Returns an array of `object` containing all the entries of this `map`.
+    // Returns an array of `object` containing all the entries of this map.
     // Each object has 2 properties:
     //
     // - key: the entry key
