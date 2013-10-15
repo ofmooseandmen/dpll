@@ -1,5 +1,5 @@
 //
-// A "Java-styled" iterator over an `array`.
+// A "Java-style" iterator over an `array`.
 //     
 //     var it = new Iterator([1, 2, 3]);
 //     while (it.hasNext()) {
