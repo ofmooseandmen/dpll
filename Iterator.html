@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Iterator.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
+  <link rel="stylesheet" media="all" href="style.css" />
+</head>
+<body>
+
+  <div class="header">
+    <a class="logo" href="index.html">dpll</a>
+    
+      <h1>Iterator.js</h1>
+    
+  </div>
+
+  <div class="content">
+    
+      
+      <p>A &quot;Java-styled&quot; iterator over an <code>array</code>.</p>
+<pre><code>var it = new Iterator([1, 2, 3]);
+while (it.hasNext()) {
+    console.log(it.next());
+}</code></pre>
+<h2>Source code</h2>
+<p>Constructor - takes the array to iterate over as input.</p>
+
+      
+        <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Iterator</span><span class="params">(arr)</span> {</span>
+
+    <span class="string">'use strict'</span>;</pre></div>
+      
+    
+      
+      <p>length of <code>array</code> to iterate on.</p>
+
+      
+        <div class='highlight'><pre>    <span class="keyword">var</span> length = arr.length;</pre></div>
+      
+    
+      
+      <p>current index of this iterator.</p>
+
+      
+        <div class='highlight'><pre>    <span class="keyword">var</span> current = <span class="number">0</span>;</pre></div>
+      
+    
+      
+      <p>Returns <code>true</code> if the iteration has more elements.</p>
+
+      
+        <div class='highlight'><pre>    <span class="keyword">this</span>.hasNext = <span class="keyword">function</span>() {
+        <span class="keyword">return</span> current &lt; length;
+    };</pre></div>
+      
+    
+      
+      <p>Returns the next element in the iteration or <code>undefined</code> if there is not more element.</p>
+
+      
+        <div class='highlight'><pre>    <span class="keyword">this</span>.next = <span class="keyword">function</span>() {
+        <span class="keyword">return</span> arr[current++];
+    };
+
+}</pre></div>
+      
+    
+      
+      <p>expose API to Node.js</p>
+
+      
+        <div class='highlight'><pre>module.exports = Iterator;</pre></div>
+      
+    
+  </div>
+</body>
+</html>

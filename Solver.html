@@ -19,7 +19,8 @@
     
       
       <p>Implementation of the Davis-Putnam-Logemann-Loveland (DPLL) algorithm.</p>
-<p>Everytime the <code>#solve()</code> method is called a new <a href="./Valuation.html">valuation</a> is created and passed to the successive steps of the
+<p>Everytime the <code>#solve()</code> method is called a new <a href="./Valuation.html">valuation</a> is created and passed to the successive
+steps of the
 algorithm.</p>
 <ol>
 <li>Evalutate the CNF formula with the current valuation by calling <code>CnfFormula#evaluate(Valuation)</code></li>
@@ -52,68 +53,31 @@ algorithm.</p>
 </li>
 <li><p>CNF formula: <a href="./CnfFormula.html">CnfFormula.js</a></p>
 </li>
-<li><p>Maps: <a href="./Map.html">Map.js</a></p>
+<li><p>Map: <a href="./Map.html">Map.js</a></p>
 </li>
 </ul>
 <h2>Source code</h2>
-<p>Constructor - takes a <code>CnfFormula</code> as input.</p>
+<p>import Valuation.js</p>
 
       
-        <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Solver</span><span class="params">(aFormula)</span> {</span>
-	
-    <span class="string">'use strict'</span>;
-
-    <span class="keyword">var</span> Valuation = require(<span class="string">'./Valuation'</span>);</pre></div>
+        <div class='highlight'><pre><span class="keyword">var</span> Valuation = require(<span class="string">'./Valuation'</span>);</pre></div>
       
     
       
-      <p>the formula to be solved in CnfFormula.</p>
+      <p>Constructor - takes the formula to be solved as an input.</p>
 
       
-        <div class='highlight'><pre>    <span class="keyword">var</span> formula = aFormula;</pre></div>
+        <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Solver</span><span class="params">(formula)</span> {</span>
+
+    <span class="string">'use strict'</span>;</pre></div>
       
     
       
-      <p><code>true</code> for selection of unassigned random variable, <code>false</code> for selection of unassigned variable with highest occurrence.</p>
+      <p><code>true</code> for selection of unassigned random variable, <code>false</code> for selection of unassigned variable with highest
+occurrence.</p>
 
       
         <div class='highlight'><pre>    <span class="keyword">var</span> useRandomSelection = <span class="literal">true</span>;</pre></div>
-      
-    
-      
-      <p>Sets the variable selection alogrithm to random selection mode and return <code>this</code>.</p>
-
-      
-        <div class='highlight'><pre>    <span class="keyword">this</span>.randomVariableSelection = <span class="keyword">function</span>() {
-        useRandomSelection = <span class="literal">true</span>;
-        <span class="keyword">return</span> <span class="keyword">this</span>;
-    };</pre></div>
-      
-    
-      
-      <p>Sets the variable selection alogrithm to highest occurrence selection mode and return <code>this</code>.</p>
-
-      
-        <div class='highlight'><pre>    <span class="keyword">this</span>.highestOccurrenceVariableSelection = <span class="keyword">function</span>() {
-        useRandomSelection = <span class="literal">false</span>;
-        <span class="keyword">return</span> <span class="keyword">this</span>;
-    };</pre></div>
-      
-    
-      
-      <p>Tries and solves the CNF. Returns either a <code>map</code> whose <code>keys</code> are the variables and <code>values</code> are
-either <code>true</code> or <code>false</code>.</p>
-<p>if the CNF formula has been solved the result will <strong>NOT</strong>
-contain the variables that have been optimized away. For instance
-if the formula contains the clause <code>(x | -x | y)</code> and <code>x</code> is not present
-in any other clause of the formula, then <code>x</code> is optimized away and therefore
-its value is irrelevant - i.e. it can be <code>true</code> or <code>false</code>.</p>
-
-      
-        <div class='highlight'><pre>    <span class="keyword">this</span>.solve = <span class="keyword">function</span>() {
-        <span class="keyword">var</span> valuation = <span class="keyword">new</span> Valuation(formula.variables());
-        <span class="keyword">return</span> run(valuation);
-    };</pre></div>
       
     
       
@@ -176,6 +140,42 @@ its value is irrelevant - i.e. it can be <code>true</code> or <code>false</code>
         } <span class="keyword">else</span> {
             <span class="keyword">return</span> <span class="literal">undefined</span>;
         }
+    }</pre></div>
+      
+    
+      
+      <p>Sets the variable selection alogrithm to random selection mode and return <code>this</code>.</p>
+
+      
+        <div class='highlight'><pre>    <span class="keyword">this</span>.randomVariableSelection = <span class="keyword">function</span>() {
+        useRandomSelection = <span class="literal">true</span>;
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+    };</pre></div>
+      
+    
+      
+      <p>Sets the variable selection alogrithm to highest occurrence selection mode and return <code>this</code>.</p>
+
+      
+        <div class='highlight'><pre>    <span class="keyword">this</span>.highestOccurrenceVariableSelection = <span class="keyword">function</span>() {
+        useRandomSelection = <span class="literal">false</span>;
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+    };</pre></div>
+      
+    
+      
+      <p>Tries and solves the CNF. Returns either a <code>map</code> whose <code>keys</code> are the variables and <code>values</code> are
+either <code>true</code> or <code>false</code>.</p>
+<p>if the CNF formula has been solved the result will <strong>NOT</strong>
+contain the variables that have been optimized away. For instance
+if the formula contains the clause <code>(x | -x | y)</code> and <code>x</code> is not present
+in any other clause of the formula, then <code>x</code> is optimized away and therefore
+its value is irrelevant - i.e. it can be <code>true</code> or <code>false</code>.</p>
+
+      
+        <div class='highlight'><pre>    <span class="keyword">this</span>.solve = <span class="keyword">function</span>() {
+        <span class="keyword">var</span> valuation = <span class="keyword">new</span> Valuation(formula.variables());
+        <span class="keyword">return</span> run(valuation);
     };
 
 };</pre></div>
