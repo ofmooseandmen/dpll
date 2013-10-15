@@ -37,30 +37,31 @@
 //
 // In other words we want to know the values of *a*, *b*, *c*, *d* and *e* that make this formula **TRUE**.
 //
-// First, create the [CNF formula](./CnfFormula.html):  
+// First, create the [CNF formula](./CnfFormula.html):
 //
 //     var dpll = require('*PATH_TO_DPLL.js*/dpll');
-//     
+//
 //     var formula = new dpll.CnfFormula();
-//     var a = {}, b = {}, c = {}, d = {} e = {};
+//     var a = {}, b = {}, c = {}, d = {}, e = {};
 //
 //     formula.openClause(a).or(b).close()
 //            .openClauseNot(b).or(c).orNot(d).close()
 //            .openClause(d).orNot(e).close();
 //
 // Then, create a [solver](./Solver.html) for this formula:
-//     
+//
 //     var solver = new dpll.Solver(formula);
 //
-// Finally, solve the formula and query the returned [valuation](./Valuation.html) to get the thruth value of each variable:
-//     
+// Finally, solve the formula and query the returned [valuation](./Valuation.html) to get the thruth value of each
+// variable:
+//
 //     var solution = solver.solve();
 //     console.log(solution.get(a));
 //
 // `Solver#solve()` returns `undefined` if the formula can not be solved.
 //
 // If the formula is satisfiable, the returned valuation will **NOT** contain the variables that have
-// been optimized away. For instance if the formula contains the [clause](./Clause.html) *(x &or; &not;x &or; y)* 
+// been optimized away. For instance if the formula contains the [clause](./Clause.html) *(x &or; &not;x &or; y)*
 // and *x* appears nowhere in any other clause of the formula, then *x* is optimized away and therefore its value is
 // irrelevant - i.e. it could be **TRUE** or **FALSE**.
 //
@@ -68,18 +69,16 @@
 //
 // - the DPLL algorithm itself: [Solver.js](./Solver.html)
 //
-// - CNF Formulas: [CnfFormula.js](./CnfFormula.html)
+// - CNF Formula: [CnfFormula.js](./CnfFormula.html)
 //
-// - Valuations: [Valuation.js](./Valuation.html)
+// - Valuation: [Valuation.js](./Valuation.html)
 //
-// - Clauses: [Clause.js](./Clause.html)
+// - Clause: [Clause.js](./Clause.html)
 //
 // ## Public API
 //
-(function() {
-    // make `CnfFormula` available
-    exports.CnfFormula = require('./CnfFormula');
+// make `CnfFormula` available
+exports.CnfFormula = require('./CnfFormula');
 
-    // make `Solver` available
-    exports.Solver = require('./Solver');
-})();
+// make `Solver` available
+exports.Solver = require('./Solver');

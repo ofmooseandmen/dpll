@@ -33,7 +33,6 @@
 body {
 	font-family: "source-sans-pro-light";
 	margin: 0;
-    padding: 0;
 	background-color: white;
 }
 
@@ -158,7 +157,8 @@ pre, tt, code {
 
 .content {
 	float: left;
-	margin: 140px 5% 50px 5%;
+	padding: 0 15px;
+	margin: 130px 5% 50px 5%;
 	background: #ffffff;
 	font-size: 24px;
 	line-height: 1.5;
@@ -167,7 +167,7 @@ pre, tt, code {
 
 .content p {
 	color: black;
-	margin: 20px 0;
+	margin: 26px 0;
 }
 
 ul.sections {

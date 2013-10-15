@@ -1,7 +1,8 @@
 //
 // Implementation of the Davis-Putnam-Logemann-Loveland (DPLL) algorithm.
 //
-// Everytime the `#solve()` method is called a new [valuation](./Valuation.html) is created and passed to the successive steps of the
+// Everytime the `#solve()` method is called a new [valuation](./Valuation.html) is created and passed to the successive
+// steps of the
 // algorithm.
 //
 // 1. Evalutate the CNF formula with the current valuation by calling `CnfFormula#evaluate(Valuation)`
@@ -35,56 +36,25 @@
 //
 // - CNF formula: [CnfFormula.js](./CnfFormula.html)
 //
-// - Maps: [Map.js](./Map.html)
+// - Map: [Map.js](./Map.html)
 //
 // ## Source code
 //
-// Constructor - takes a `CnfFormula` as input.
+// import Valuation.js
+var Valuation = require('./Valuation');
+
 //
-function Solver(aFormula) {
-	
+// Constructor - takes the formula to be solved as an input.
+//
+function Solver(formula) {
+
     'use strict';
 
-    var Valuation = require('./Valuation');
-
-    // the formula to be solved in CnfFormula.
-    var formula = aFormula;
-
-	//
-	// `true` for selection of unassigned random variable, `false` for selection of unassigned variable with highest occurrence.
-	//
+    //
+    // `true` for selection of unassigned random variable, `false` for selection of unassigned variable with highest
+    // occurrence.
+    //
     var useRandomSelection = true;
-
-    //
-    // Sets the variable selection alogrithm to random selection mode and return `this`.
-    //
-    this.randomVariableSelection = function() {
-        useRandomSelection = true;
-        return this;
-    };
-
-    //
-    // Sets the variable selection alogrithm to highest occurrence selection mode and return `this`.
-    //
-    this.highestOccurrenceVariableSelection = function() {
-        useRandomSelection = false;
-        return this;
-    };
-
-    //
-    // Tries and solves the CNF. Returns either a `map` whose `keys` are the variables and `values` are
-    // either `true` or `false`.
-    //
-    // if the CNF formula has been solved the result will **NOT**
-    // contain the variables that have been optimized away. For instance
-    // if the formula contains the clause ` (x | -x | y) ` and `x` is not present
-    // in any other clause of the formula, then `x` is optimized away and therefore
-    // its value is irrelevant - i.e. it can be `true` or `false`.
-    //
-    this.solve = function() {
-        var valuation = new Valuation(formula.variables());
-        return run(valuation);
-    };
 
     //
     // Runs all steps of the algorithm eventually calling itself back if need be. Fills the specified
@@ -127,6 +97,37 @@ function Solver(aFormula) {
         } else {
             return undefined;
         }
+    }
+
+    //
+    // Sets the variable selection alogrithm to random selection mode and return `this`.
+    //
+    this.randomVariableSelection = function() {
+        useRandomSelection = true;
+        return this;
+    };
+
+    //
+    // Sets the variable selection alogrithm to highest occurrence selection mode and return `this`.
+    //
+    this.highestOccurrenceVariableSelection = function() {
+        useRandomSelection = false;
+        return this;
+    };
+
+    //
+    // Tries and solves the CNF. Returns either a `map` whose `keys` are the variables and `values` are
+    // either `true` or `false`.
+    //
+    // if the CNF formula has been solved the result will **NOT**
+    // contain the variables that have been optimized away. For instance
+    // if the formula contains the clause ` (x | -x | y) ` and `x` is not present
+    // in any other clause of the formula, then `x` is optimized away and therefore
+    // its value is irrelevant - i.e. it can be `true` or `false`.
+    //
+    this.solve = function() {
+        var valuation = new Valuation(formula.variables());
+        return run(valuation);
     };
 
 };

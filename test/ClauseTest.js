@@ -22,11 +22,10 @@ describe('Clause', function() {
             c.or(v2).or(v3);
             // we don't need the whole set of variables here.
             var valuation = new Valuation(new Map());
-            // in the clause it is not(v1)
+            // in the clause it is "not(v1)"
             valuation.putSolution(v1, false);
             valuation.putSolution(v2, false);
             valuation.putSolution(v3, false);
-            assert.equal(true, c.evaluate(valuation));
             assert.equal(true, c.evaluate(valuation));
         });
 

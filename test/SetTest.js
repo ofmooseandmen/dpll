@@ -109,7 +109,28 @@ describe('Set', function() {
             assert.equal(false, set.contains(e));
         });
     });
+    
+    describe('#iterator()', function() {
+        it('should return an iterator over the elements of this set.', function() {
+            var set = new Set();
+            var e = {};
+            set.add(e);
+            var o = {};
+            set.add(o);
+            var it = set.iterator();
+            assert.equal(e, it.next());
+            assert.equal(o, it.next());
+            assert.equal(false, it.hasNext());
+            
+            // call iterator again to make sure it's a new one.
+            var it2 = set.iterator();
+            assert.equal(e, it2.next());
+            assert.equal(o, it2.next());
+            assert.equal(false, it2.hasNext());
+        });
 
+    });
+    
     describe('#toArray()', function() {
         it('should return a copy of the values of this set.', function() {
             var set = new Set();
@@ -127,5 +148,6 @@ describe('Set', function() {
         });
 
     });
+
 
 });

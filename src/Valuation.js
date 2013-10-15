@@ -15,27 +15,30 @@
 //
 // ## More about...
 //
-// - Maps: [Map.js](./Map.html)
+// - Map: [Map.js](./Map.html)
 //
 // ## Source code
+//
+// import Map.js
+var Map = require('./Map');
+
 //
 // Constructor - takes `map` whose `keys` are the variable and `values` the number of occurrences in the formula.
 //
 function Valuation(variables) {
-    
+
     'use strict';
 
-    var Map = require('./Map');
-
-    // contains all the unassigned variables - initialized with whole the variables.
-    var unassigned = variables;
+    // contains all the unassigned variables - initialized with all the variables.
+    var unassigned = new Map();
+    unassigned.putAll(variables);
 
     // a map whose key is a variable and value is either true or false.
     var solution = new Map();
 
-	//
-	// Assign the specified `variable` to the specified `boolean` value.
-	// 
+    //
+    // Assign the specified `variable` to the specified `boolean` value.
+    //
     this.putSolution = function(variable, value) {
         // new solution
         solution.put(variable, value);
@@ -43,59 +46,58 @@ function Valuation(variables) {
         unassigned.remove(variable);
     };
 
-	//
-	// Returns the current value of the specified `variable`: `true`, `false` or `undefined`.
-	//
+    //
+    // Returns the current value of the specified `variable`: `true`, `false` or `undefined`.
+    //
     this.getSolution = function(variable) {
         return solution.get(variable);
     };
 
-	//
-	// Returns `true` if the specified `variable` is currently assigned to `true`.
-	//
+    //
+    // Returns `true` if the specified `variable` is currently assigned to `true`.
+    //
     this.isAssigned = function(variable) {
         return solution.containsKey(variable);
     };
 
-	//
-	// Returns an `array` containing all the variables currently unassigned.
-	//
+    //
+    // Returns a `Set` containing all the variables currently unassigned.
+    //
     this.unassigned = function() {
-        return unassigned.keyArray();
+        return unassigned.keySet();
     };
 
-	// 
-	// Returns the `map` of solutions: `key` is variable, value is `true` or `false`.
-	// Variables that have been optimized away are not assigned with a truth value.
-	// See [CnfFormula.js](./CnfFormula.html)
-	//
+    //
+    // Returns the `map` of solutions: `key` is variable, value is `true` or `false`.
+    // Variables that have been optimized away are not assigned with a truth value.
+    // See [CnfFormula.js](./CnfFormula.html)
+    //
     this.solution = function() {
         return solution;
     };
 
-	//
-	// Returns a `variable` at random amongst the currently unassigned variables.
-	//
+    //
+    // Returns a `variable` at random amongst the currently unassigned variables.
+    //
     this.randomUnassignedVariable = function() {
-        var unassignedArr = unassigned.keyArray();
-        var random = Math.floor(Math.random() * (unassignedArr.length));
+        var unassignedArr = unassigned.keySet().toArray();
+        var random = Math.floor(Math.random() * (unassigned.size()));
         return unassignedArr[random];
     };
 
-	//
-	// Returns the `variable` with highest occurrences in the formula amongst the currently unassigned variables.
-	//
+    //
+    // Returns the `variable` with highest occurrences in the formula amongst the currently unassigned variables.
+    //
     this.highestOccurrenceVariable = function() {
-        var entries = unassigned.entries();
-        var entriesLength = entries.length;
+        var it = unassigned.iterator();
         var maxOcc = 0;
         var result = undefined;
-        for (var index = 0; index < entriesLength; index++) {
-			var entry = entries[index];
-			if (entry.value > maxOcc) {
-				maxOcc = entry.value;
-				result = entry.key;
-			}
+        while (it.hasNext()) {
+            var entry = it.next();
+            if (entry.value > maxOcc) {
+                maxOcc = entry.value;
+                result = entry.key;
+            }
         }
         return result;
     };

@@ -170,17 +170,19 @@ describe('Map', function() {
         });
     });
 
-    describe('#keyArray()', function() {
-        it('should return an array with 2 elements.', function() {
+    describe('#keySet()', function() {
+        it('should return a set with 2 elements.', function() {
             var map = new Map();
             var a = {};
             var b = {};
             map.put(a, {});
             map.put(b, {});
-            var keyArray = map.keyArray();
-            assert.equal(2, keyArray.length);
-            assert.equal(true, a === keyArray[0]);
-            assert.equal(true, b === keyArray[1]);
+            var keySet = map.keySet();
+            assert.equal(2, keySet.size());
+            var it = keySet.iterator();
+            assert.equal(true, a === it.next());
+            assert.equal(true, b === it.next());
+            assert.equal(false, it.hasNext());
         });
     });
 
@@ -200,6 +202,70 @@ describe('Map', function() {
             assert.equal(true, key2 === entries[1].key);
             assert.equal(true, val2 === entries[1].value);
         });
+    });
+
+    describe('#putAll()', function() {
+        it('should copy all entries of arg map into new map.', function() {
+            var map = new Map();
+            var key1 = {};
+            var key2 = {};
+            var val1 = {};
+            var val2 = {};
+            map.put(key1, val1);
+            map.put(key2, val2);
+
+            var newMap = new Map();
+            newMap.putAll(map);
+
+            var entries = newMap.entries();
+            assert.equal(2, entries.length);
+            assert.equal(true, key1 === entries[0].key);
+            assert.equal(true, val1 === entries[0].value);
+            assert.equal(true, key2 === entries[1].key);
+            assert.equal(true, val2 === entries[1].value);
+
+            var key3 = {};
+            map.put(key3, {});
+            // check that new map is not affected.
+            assert.equal(undefined, newMap.get(key3));
+        });
+    });
+
+    describe('#iterator()', function() {
+        it('should return an iterator over the entries of this map.', function() {
+            var map = new Map();
+            var key1 = {};
+            var key2 = {};
+            var val1 = {};
+            var val2 = {};
+            map.put(key1, val1);
+            map.put(key2, val2);
+            var it = map.iterator();
+
+            var next = it.next();
+            assert.equal(key1, next.key);
+            assert.equal(val1, next.value);
+
+            next = it.next();
+            assert.equal(key2, next.key);
+            assert.equal(val2, next.value);
+
+            assert.equal(false, it.hasNext());
+
+            // call iterator again to make sure it's a new one.
+            var it2 = map.iterator();
+
+            var next = it2.next();
+            assert.equal(key1, next.key);
+            assert.equal(val1, next.value);
+
+            next = it2.next();
+            assert.equal(key2, next.key);
+            assert.equal(val2, next.value);
+
+            assert.equal(false, it2.hasNext());
+        });
+
     });
 
 });

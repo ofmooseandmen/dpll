@@ -12,34 +12,29 @@
 //
 // The methods `add`, `addAll`, `contains` and `remove` rely on this logic.
 //
+// ## More about...
+//
+// - Collections : [Collections.js](./Collections.html)
+//
+// - Iterator: [Iterator.js](./Iterator.html)
+//
 // ## Source code
+//
+// import Collections.js
+var Collections = require('./Collections');
+
+// import Iterator.js
+var Iterator = require('./Iterator');
+
 //
 // Constructor - no argument.
 //
 function Set() {
-	
+
     'use strict';
 
     // the `array` in which all elements are stored.
     var elements = [];
-
-    //
-    // Returns the index of the specified element in the `array` of elements or
-    // `-1` if this set does not contain the specified element.
-    function indexOf(e) {
-        var result = -1;
-        if ( typeof e.equals === 'function') {
-            var length = elements.length;
-            for (var index = 0; index < length && result == -1; index++) {
-                if (e.equals(elements[index])) {
-                    result = index;
-                }
-            }
-        } else {
-            result = elements.indexOf(e);
-        }
-        return result;
-    };
 
     //
     // Adds the specified element to this set if it is not already present.
@@ -78,7 +73,7 @@ function Set() {
     // Returns `true` if this set contains the specified element.
     //
     this.contains = function(e) {
-        return indexOf(e) !== -1;
+        return Collections.indexOf(e, elements) !== -1;
     };
 
     //
@@ -93,7 +88,7 @@ function Set() {
     // Returns `true` if this set contained the specified element.
     //
     this.remove = function(e) {
-        var index = indexOf(e);
+        var index = Collections.indexOf(e, elements);
         if (index !== 1) {
             elements.splice(index, 1);
             return true;
@@ -106,6 +101,13 @@ function Set() {
     //
     this.size = function() {
         return elements.length;
+    };
+
+    //
+    // Returns an iterator over the elements in this set.
+    //
+    this.iterator = function() {
+        return new Iterator(elements);
     };
 
     //

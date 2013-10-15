@@ -47,55 +47,49 @@ head to the <em>test</em> directory and execute <em>mocha *Test.js</em>.</p>
 <p>Or in plain english:</p>
 <p><em>(a or b) and (not b or c or not d) and (d or not e)</em></p>
 <p>In other words we want to know the values of <em>a</em>, <em>b</em>, <em>c</em>, <em>d</em> and <em>e</em> that make this formula <strong>TRUE</strong>.</p>
-<p>First, create the <a href="./CnfFormula.html">CNF formula</a>:  </p>
+<p>First, create the <a href="./CnfFormula.html">CNF formula</a>:</p>
 <pre><code>var dpll = require(&#39;*PATH_TO_DPLL.js*/dpll&#39;);
 
 var formula = new dpll.CnfFormula();
-var a = {}, b = {}, c = {}, d = {} e = {};
+var a = {}, b = {}, c = {}, d = {}, e = {};
 
 formula.openClause(a).or(b).close()
        .openClauseNot(b).or(c).orNot(d).close()
        .openClause(d).orNot(e).close();</code></pre>
 <p>Then, create a <a href="./Solver.html">solver</a> for this formula:</p>
 <pre><code>var solver = new dpll.Solver(formula);</code></pre>
-<p>Finally, solve the formula and query the returned <a href="./Valuation.html">valuation</a> to get the thruth value of each variable:</p>
+<p>Finally, solve the formula and query the returned <a href="./Valuation.html">valuation</a> to get the thruth value of each
+variable:</p>
 <pre><code>var solution = solver.solve();
 console.log(solution.get(a));</code></pre>
 <p><code>Solver#solve()</code> returns <code>undefined</code> if the formula can not be solved.</p>
 <p>If the formula is satisfiable, the returned valuation will <strong>NOT</strong> contain the variables that have
-been optimized away. For instance if the formula contains the <a href="./Clause.html">clause</a> <em>(x &or; &not;x &or; y)</em> 
+been optimized away. For instance if the formula contains the <a href="./Clause.html">clause</a> <em>(x &or; &not;x &or; y)</em>
 and <em>x</em> appears nowhere in any other clause of the formula, then <em>x</em> is optimized away and therefore its value is
 irrelevant - i.e. it could be <strong>TRUE</strong> or <strong>FALSE</strong>.</p>
 <h2>More about...</h2>
 <ul>
 <li><p>the DPLL algorithm itself: <a href="./Solver.html">Solver.js</a></p>
 </li>
-<li><p>CNF Formulas: <a href="./CnfFormula.html">CnfFormula.js</a></p>
+<li><p>CNF Formula: <a href="./CnfFormula.html">CnfFormula.js</a></p>
 </li>
-<li><p>Valuations: <a href="./Valuation.html">Valuation.js</a></p>
+<li><p>Valuation: <a href="./Valuation.html">Valuation.js</a></p>
 </li>
-<li><p>Clauses: <a href="./Clause.html">Clause.js</a></p>
+<li><p>Clause: <a href="./Clause.html">Clause.js</a></p>
 </li>
 </ul>
 <h2>Public API</h2>
+<p>make <code>CnfFormula</code> available</p>
 
       
-        <div class='highlight'><pre>(<span class="keyword">function</span>() {</pre></div>
-      
-    
-      
-      <p>make <code>CnfFormula</code> available</p>
-
-      
-        <div class='highlight'><pre>    exports.CnfFormula = require(<span class="string">'./CnfFormula'</span>);</pre></div>
+        <div class='highlight'><pre>exports.CnfFormula = require(<span class="string">'./CnfFormula'</span>);</pre></div>
       
     
       
       <p>make <code>Solver</code> available</p>
 
       
-        <div class='highlight'><pre>    exports.Solver = require(<span class="string">'./Solver'</span>);
-})();</pre></div>
+        <div class='highlight'><pre>exports.Solver = require(<span class="string">'./Solver'</span>);</pre></div>
       
     
   </div>

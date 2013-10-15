@@ -35,24 +35,30 @@
 </ul>
 <h2>More about...</h2>
 <ul>
-<li>Maps: <a href="./Map.html">Map.js</a></li>
+<li>Map: <a href="./Map.html">Map.js</a></li>
 </ul>
 <h2>Source code</h2>
-<p>Constructor - takes <code>map</code> whose <code>keys</code> are the variable and <code>values</code> the number of occurrences in the formula.</p>
+<p>import Map.js</p>
+
+      
+        <div class='highlight'><pre><span class="keyword">var</span> Map = require(<span class="string">'./Map'</span>);</pre></div>
+      
+    
+      
+      <p>Constructor - takes <code>map</code> whose <code>keys</code> are the variable and <code>values</code> the number of occurrences in the formula.</p>
 
       
         <div class='highlight'><pre><span class="function"><span class="keyword">function</span> <span class="title">Valuation</span><span class="params">(variables)</span> {</span>
-    
-    <span class="string">'use strict'</span>;
 
-    <span class="keyword">var</span> Map = require(<span class="string">'./Map'</span>);</pre></div>
+    <span class="string">'use strict'</span>;</pre></div>
       
     
       
-      <p>contains all the unassigned variables - initialized with whole the variables.</p>
+      <p>contains all the unassigned variables - initialized with all the variables.</p>
 
       
-        <div class='highlight'><pre>    <span class="keyword">var</span> unassigned = variables;</pre></div>
+        <div class='highlight'><pre>    <span class="keyword">var</span> unassigned = <span class="keyword">new</span> Map();
+    unassigned.putAll(variables);</pre></div>
       
     
       
@@ -103,11 +109,11 @@
       
     
       
-      <p>Returns an <code>array</code> containing all the variables currently unassigned.</p>
+      <p>Returns a <code>Set</code> containing all the variables currently unassigned.</p>
 
       
         <div class='highlight'><pre>    <span class="keyword">this</span>.unassigned = <span class="keyword">function</span>() {
-        <span class="keyword">return</span> unassigned.keyArray();
+        <span class="keyword">return</span> unassigned.keySet();
     };</pre></div>
       
     
@@ -127,8 +133,8 @@ See <a href="./CnfFormula.html">CnfFormula.js</a></p>
 
       
         <div class='highlight'><pre>    <span class="keyword">this</span>.randomUnassignedVariable = <span class="keyword">function</span>() {
-        <span class="keyword">var</span> unassignedArr = unassigned.keyArray();
-        <span class="keyword">var</span> random = Math.floor(Math.random() * (unassignedArr.length));
+        <span class="keyword">var</span> unassignedArr = unassigned.keySet().toArray();
+        <span class="keyword">var</span> random = Math.floor(Math.random() * (unassigned.size()));
         <span class="keyword">return</span> unassignedArr[random];
     };</pre></div>
       
@@ -138,16 +144,15 @@ See <a href="./CnfFormula.html">CnfFormula.js</a></p>
 
       
         <div class='highlight'><pre>    <span class="keyword">this</span>.highestOccurrenceVariable = <span class="keyword">function</span>() {
-        <span class="keyword">var</span> entries = unassigned.entries();
-        <span class="keyword">var</span> entriesLength = entries.length;
+        <span class="keyword">var</span> it = unassigned.iterator();
         <span class="keyword">var</span> maxOcc = <span class="number">0</span>;
         <span class="keyword">var</span> result = <span class="literal">undefined</span>;
-        <span class="keyword">for</span> (<span class="keyword">var</span> index = <span class="number">0</span>; index &lt; entriesLength; index++) {
-			<span class="keyword">var</span> entry = entries[index];
-			<span class="keyword">if</span> (entry.value &gt; maxOcc) {
-				maxOcc = entry.value;
-				result = entry.key;
-			}
+        <span class="keyword">while</span> (it.hasNext()) {
+            <span class="keyword">var</span> entry = it.next();
+            <span class="keyword">if</span> (entry.value &gt; maxOcc) {
+                maxOcc = entry.value;
+                result = entry.key;
+            }
         }
         <span class="keyword">return</span> result;
     };

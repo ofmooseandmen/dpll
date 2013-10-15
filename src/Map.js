@@ -13,12 +13,30 @@
 //
 // The methods `put`, `get`, `containsKey` and `remove` rely on this logic.
 //
+// ## More about...
+//
+// - Collections : [Collections.js](./Collections.html)
+//
+// - Iterator: [Iterator.js](./Iterator.html)
+//
+// - Set: [Set.js](./Set.html)
+//
 // ## Source code
+//
+// import Collections.js
+var Collections = require('./Collections');
+
+// import Iterator.js
+var Iterator = require('./Iterator');
+
+// import Set.js
+var Set = require('./Set');
+
 //
 // Constructor - no argument.
 //
 function Map() {
-	
+
     'use strict';
 
     // the `array` in which all keys are stored.
@@ -28,30 +46,12 @@ function Map() {
     var values = [];
 
     //
-    // Returns the index of the specified key in the `array` of keys of this map or
-    // `-1` if this map does not contain the specified key.
-    function indexOfKey(key) {
-        var result = -1;
-        if ( typeof key.equals === 'function') {
-            var keysLength = keys.length;
-            for (var index = 0; index < keysLength && result == -1; index++) {
-                if (key.equals(keys[index])) {
-                    result = index;
-                }
-            }
-        } else {
-            result = keys.indexOf(key);
-        }
-        return result;
-    }
-
-    //
     // Associates the specified value with the specified key in this map. If the map previously
     // contained a mapping for the key, the old value is replaced by the specified value.
     // Returns the previous value associated with key, or `undefined` if there was no mapping for key.
     //
     this.put = function(key, value) {
-        var keyIndex = indexOfKey(key);
+        var keyIndex = Collections.indexOf(key, keys);
         var result = undefined;
         if (keyIndex === -1) {
             keys.push(key);
@@ -68,7 +68,7 @@ function Map() {
     // contains no mapping for the key.
     //
     this.get = function(key) {
-        var keyIndex = indexOfKey(key);
+        var keyIndex = Collections.indexOf(key, keys);
         var result = undefined;
         if (keyIndex !== -1) {
             result = values[keyIndex];
@@ -79,7 +79,7 @@ function Map() {
     //
     // Returns `true` if this map contains the specified key.
     this.containsKey = function(key) {
-        return indexOfKey(key) !== -1;
+        return Collections.indexOf(key, keys) !== -1;
     };
 
     //
@@ -88,7 +88,7 @@ function Map() {
     // key
     //
     this.remove = function(key) {
-        var keyIndex = indexOfKey(key);
+        var keyIndex = Collections.indexOf(key, keys);
         var result = undefined;
         if (keyIndex !== -1) {
             keys.splice(keyIndex, 1);
@@ -113,10 +113,12 @@ function Map() {
     };
 
     //
-    // Returns an array of the keys contained in this map.
+    // Returns a `Set` view of the keys contained in this map .
     //
-    this.keyArray = function() {
-        return keys.slice(0);
+    this.keySet = function() {
+        var result = new Set();
+        result.addAll(keys);
+        return result;
     };
 
     //
@@ -137,6 +139,25 @@ function Map() {
             result.push(entry);
         }
         return result;
+    };
+
+    //
+    // Returns an iterator over the entries of this map.
+    //
+    this.iterator = function() {
+        return new Iterator(this.entries());
+    };
+    
+    //
+    // Copies all of the mappings from the specified map to this map
+    //
+    this.putAll = function(other) {
+    	var entries = other.entries();
+    	var length = entries.length;
+    	for (var index = 0; index < length; index++) {
+    		var entry = entries[index];
+    		this.put(entry.key, entry.value);
+    	}
     };
 
 }

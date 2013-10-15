@@ -10,11 +10,11 @@
 //
 // *(x1 or not x2) and (not x1 or x2 or x3) and (not x1)*
 //
-//     
+//
 //     var CnfFormula = require('./CnfFormula');
 //     var cnf = new CnfFormula();
 //     var x1 = {}, x2 = {}, x3 = {};
-//     
+//
 //     cnf.openClause(x1).orNot(x2).close()
 //        .openClauseNot(x1).or(x2).or(x3).close()
 //        .openClauseNot(x1).close();
@@ -32,35 +32,41 @@
 //
 // ## Implementation notes
 //
-// The execution of the DPLL algorithm does not modify the `CNFFormula`. In other words: once built, a `CNFFormula` // is immutable.
+// The execution of the DPLL algorithm does not modify the `CNFFormula`. In other words: once built, a `CNFFormula` is
+// immutable.
 //
-// This implementation makes use of [maps](./Map.html) and [sets](./Set.html) to keep tracks of the clauses, variables and literals of this formula.
+// This implementation makes use of [maps](./Map.html) and [sets](./Set.html) to keep tracks of the clauses, variables
+// and literals of this formula.
 // If a variable implements the `equals` function it will be used instead of the `===` operator to determine variable
 // equality.
 //
 // ## More about...
 //
-// - Clauses: [Clause.js](./Clause.html)
+// - Clause: [Clause.js](./Clause.html)
 //
-// - Literals: [Literal.js](./Literal.html)
+// - Literal: [Literal.js](./Literal.html)
 //
-// - Maps: [Map.js](./Map.html)
+// - Map: [Map.js](./Map.html)
 //
-// - Sets: [Set.js](./Set.html)
+// - Set: [Set.js](./Set.html)
 //
 // ## Source code
+//
+// import Map.js
+var Map = require('./Map');
+
+// import Set.js
+var Set = require('./Set');
+
+// import Clause.js
+var Clause = require('./Clause');
+
 //
 // Constructor - no argument.
 //
 function CnfFormula() {
-	
+    
     'use strict';
-
-    var Map = require('./Map');
-
-    var Set = require('./Set');
-
-    var Clause = require('./Clause');
 
     // the `array` of Clauses of this formula.
     var clauses = [];
@@ -78,9 +84,9 @@ function CnfFormula() {
     // adds all the variables of the specified `array` to this formula. This fills the `variables` attribute.
     //
     function addVariables(someVars) {
-        var length = someVars.length;
-        for (var index = 0; index < length; index++) {
-            var someVar = someVars[index];
+        var it = someVars.iterator();
+        while (it.hasNext()) {
+            var someVar = it.next();
             var occ = variables.get(someVar);
             if (occ === undefined) {
                 variables.put(someVar, 1);
@@ -108,13 +114,12 @@ function CnfFormula() {
     //
     // Adds the specified `clause` to this formula.
     //
-    this.addClause = function(clause, vars, literals, irrelevant) {
+    this.addClause = function(clause, vars, literals) {
         clauses.push(clause);
-        addVariables(vars.toArray());
-        var literalsArr = literals.toArray();
-        var length = literalsArr.length;
-        for (var index = 0; index < length; index++) {
-            var l = literalsArr[index];
+        addVariables(vars);
+        var it = literals.iterator();
+        while (it.hasNext()) {
+            var l = it.next();
             if (l.isPositive()) {
                 positiveLiterals.put(l.variable(), l);
             } else {
@@ -166,17 +171,17 @@ function CnfFormula() {
     };
 
     //
-    // Performs the *pure literal elimination* step. If a propositional variable occurs with only one polarity in the formula,
+    // Performs the *pure literal elimination* step. If a propositional variable occurs with only one polarity in the
+    // formula,
     // it is called pure. Pure literals can always be assigned in a way that makes all clauses containing them `true`.
     // Thus, these clauses do not constrain the search anymore and can be deleted.
     //
     // The specified `valuation` will be filled with computed variable truth assignments upon return.
     //
     this.pureLiteralAssign = function(valuation) {
-        var unassigned = valuation.unassigned();
-        var length = unassigned.length;
-        for (var index = 0; index < length; index++) {
-            var variable = unassigned[index];
+        var it = valuation.unassigned().iterator();
+        while (it.hasNext()) {
+            var variable = it.next();
             // variable not assign, check if pure literal.
             var pLiteral = positiveLiterals.containsKey(variable);
             var nLiteral = negativeLiterals.containsKey(variable);
