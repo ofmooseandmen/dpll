@@ -116,21 +116,20 @@ pre, tt, code {
 	padding-bottom: 20px;
 	border-bottom: 1px solid #cccccc;
 	-moz-box-shadow: 0 4px 2px -2px rgba(0,0,0,0.1);
-    -webkit-box-shadow: 0 4px 2px -2px rgba(0,0,0,0.1);
-    box-shadow: 0 4px 2px -2px rgba(0,0,0,0.1);
+	-webkit-box-shadow: 0 4px 2px -2px rgba(0,0,0,0.1);
+	box-shadow: 0 4px 2px -2px rgba(0,0,0,0.1);
 	background: white;
 	width: 100%;
-    padding: 20px 0;
-    opacity: 0.95;
+	padding: 20px 0;
 }
 
 .header h1 {
-    float: left;
+	float: left;
 	display: inline;
-    margin: 0;
-    padding: 0;
-    font-size: 44px;
-    line-height: 100px;
+	margin: 0;
+	padding: 0;
+	font-size: 44px;
+	line-height: 100px;
 }
 
 .logo {
@@ -147,8 +146,8 @@ pre, tt, code {
 	transition-property: background;
 	transition-duration: 0.5s;
 	transition-timing-function: ease-in-out;
-    margin: 0px 2% 0px 5%;
-    padding: 0;
+	margin: 0px 2% 0px 5%;
+	padding: 0;
 }
 
 .logo:hover {
@@ -196,21 +195,21 @@ span.lineno {
 /* Original theme - http://noahfrederick.com/vim-color-scheme-hemisu/ */
 /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
 .hemisu-comment, pre .comment, pre .xml .doctype, pre .html .doctype {
-  color: #999999;
+	color: #999999;
 }
 
 .hemisu-accent1, pre .number, pre .ruby .keyword {
-  color: #538192;
+	color: #538192;
 }
 
 .hemisu-accent2, pre .string, pre .regexp, pre .xml .value, pre .html .value {
-  color: #739200;
+	color: #739200;
 }
 
 .hemisu-accent3, pre .keyword, pre .title, pre .constant, pre .xml .tag, pre .html .tag, pre .css .rules .attribute {
-  color: #ff0055;
+	color: #ff0055;
 }
 
 .hemisu-accent4 {
-  color: #503d15;
+	color: #503d15;
 }
